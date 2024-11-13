@@ -10,9 +10,9 @@ Lost & Found: A dedicated space for reporting lost or found items, increasing ch
 Boarding Accommodation: Lists affordable boarding options near campus, making it easier for students to find safe housing.
 
 Built with React Native, Node.js, and MongoDB, Campus Cart streamlines item exchanges, lost item recovery, and housing searches in a single app.
-## Installation
+## Installation (Front-End)
 
-This project uses npm for dependency management. To install the required dependencies for both Frontend and Backend, run the following command in terminal:
+This project uses npm for dependency management. To install the required dependencies for Frontend , run the following command in terminal:
 
 ```bash
 npm install
