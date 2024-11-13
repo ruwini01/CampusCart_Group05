@@ -4,8 +4,11 @@
 Campus Cart is a mobile app designed to help University of Vavuniya students manage essential needs in a centralized, user-friendly platform. The app offers three main features:
 
 Buy & Sell: Students can list and buy gently-used items like furniture, electronics, and study materials, promoting sustainability and affordability.
+
 Lost & Found: A dedicated space for reporting lost or found items, increasing chances of recovery for valuable belongings.
+
 Boarding Accommodation: Lists affordable boarding options near campus, making it easier for students to find safe housing.
+
 Built with React Native, Node.js, and MongoDB, Campus Cart streamlines item exchanges, lost item recovery, and housing searches in a single app.
 ## Installation
 
