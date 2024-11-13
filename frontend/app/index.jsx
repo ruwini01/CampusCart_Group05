@@ -1,19 +1,17 @@
-import {Text, View } from 'react-native'
-import React from 'react'
+import { Text, View } from 'react-native';
+import React from 'react';
 import { Image } from 'expo-image';
-import logo from '../assets/images/logo.png'
 
-const index = () => {
+const Index = () => {
   return (
     <View className='flex-1 items-center justify-center bg-[#0D7C66]'>
-      
       <Image
-        source={logo}
+        source={require('../assets/images/logo.png')}
+        style={{ width: 200, height: 200 }}
         transition={1000}
-        />
-      <Text className='text-white'>Welcome to CampusCart</Text>
+      />
     </View>
-  )
-}
+  );
+};
 
-export default index
+export default Index;
