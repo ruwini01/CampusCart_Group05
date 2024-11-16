@@ -39,7 +39,7 @@ npm install
 #### Select frontend folder and open in Integrated Terminal. Run code below.
 
 ```bash
-1. npx expo start -c
+npx expo start -c
 ```
 
 #### Install 'Expo Go' app to your mobile device, scan the QR code displayed in the terminal.
