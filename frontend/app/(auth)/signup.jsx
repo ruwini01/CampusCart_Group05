@@ -1,12 +1,19 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Link } from 'expo-router'
 
 const SignUp = () => {
   return (
-    <View>
-      <Text>SignUp</Text>
-      <Text>Hello I am nifra</Text>
-    </View>
+    <SafeAreaView>
+      <ScrollView>
+        <View>
+          <Text>SignUp Page</Text>
+          <Link href='/login' className='text-lime-800'>Click here to Login</Link>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+
   )
 }
 

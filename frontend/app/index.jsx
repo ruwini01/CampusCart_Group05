@@ -13,7 +13,7 @@ const Index = () => {
 
     const startRedirectTimer = () => {
       const timer = setTimeout(() => {
-        router.push('/home'); 
+        router.push('/login'); 
       }, 1500);
 
       return timer; 
