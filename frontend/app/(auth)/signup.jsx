@@ -5,6 +5,7 @@ const SignUp = () => {
   return (
     <View>
       <Text>SignUp</Text>
+      <Text>Hello I am nifra</Text>
     </View>
   )
 }
