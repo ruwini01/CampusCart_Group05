@@ -9,7 +9,11 @@ const Login = () => {
       <ScrollView>
         <View>
           <Text>Login Page</Text>
+          {/* Successfully login=>Redirect to home page */}
+          <Link href='/home' className='text-red-600'>Go to Home</Link>
+          
           <Link href='/signup' className='text-lime-800'>Click here to SignUp</Link>
+          
         </View>
       </ScrollView>
     </SafeAreaView>

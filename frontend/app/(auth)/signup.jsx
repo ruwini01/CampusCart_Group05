@@ -9,7 +9,7 @@ const SignUp = () => {
       <ScrollView>
         <View>
           <Text>SignUp Page</Text>
-          <Link href='/login' className='text-lime-800'>Click here to SignUp</Link>
+          <Link href='/login' className='text-lime-800'>Click here to Login</Link>
         </View>
       </ScrollView>
     </SafeAreaView>
