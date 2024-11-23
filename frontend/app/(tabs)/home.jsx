@@ -1,10 +1,14 @@
+import { View, Text, ScrollView , TouchableOpacity} from 'react-native'
 import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import IconButton from '../../components/IconButton'
 import { Link } from 'expo-router'
+import { useRouter } from 'expo-router';
+
 
 const Home = () => {
+
   return (
     <SafeAreaView>
       <ScrollView>
