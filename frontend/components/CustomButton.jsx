@@ -3,7 +3,7 @@ import React from 'react'
 function CustomButton() {
   return (
    <p>
-    button
+    button 1
    </p>
   )
 }
