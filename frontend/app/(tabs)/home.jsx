@@ -9,7 +9,7 @@ const Home = () => {
     <SafeAreaView>
       <ScrollView>
         <View>
-          <Text >Home</Text>
+          <Text className='text-3xl text-center'>Home</Text>
           {/* 3 navigation icon */}
           <Link href='/buy_and_sell_home' className='text-blue-700'><IconButton /></Link>
           <Link href='/lost_and_found_home' className='text-blue-700'><IconButton /></Link>

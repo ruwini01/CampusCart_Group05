@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const TitlePriceSection = ({ title, price }) => {
     return (
-        <View style={styles.container}>
+        <View>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.price}>Rs. {price}</Text>
         </View>

@@ -4,22 +4,22 @@ import { View, Text, TouchableOpacity } from 'react-native';
 const ContactButtons = ({ onMessagePress, onCallPress }) => {
     return (
         <View className="mt-8 space-y-4">
-            {/* Message Button */}
+            {/* Message Seller Button */}
             <TouchableOpacity
-                className="w-full py-4 rounded-lg bg-blue-800 shadow-lg"
+                className="w-full bg-blue-600 py-4 rounded-lg shadow-md shadow-blue-300"
                 onPress={onMessagePress}
             >
-                <Text className="text-white text-lg font-semibold text-center tracking-wide">
+                <Text className="text-white text-center font-semibold text-lg tracking-wide">
                     Message Seller
                 </Text>
             </TouchableOpacity>
 
-            {/* Call Button */}
+            {/* Call Seller Button */}
             <TouchableOpacity
-                className="w-full py-4 rounded-lg border border-blue-900 bg-white shadow-sm"
+                className="w-full bg-white py-4 rounded-lg border border-blue-600 shadow-sm"
                 onPress={onCallPress}
             >
-                <Text className="text-blue-900 text-lg font-semibold text-center tracking-wide">
+                <Text className="text-blue-600 text-center font-semibold text-lg tracking-wide">
                     Call Seller
                 </Text>
             </TouchableOpacity>
