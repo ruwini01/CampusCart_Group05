@@ -6,6 +6,7 @@ function SearchInput() {
     <div>
       <TouchableOpacity>
         <Image source={icons.search} className='w-5 h-5' resizeMode='contain'/>
+        <p>Hi</p>
       </TouchableOpacity>
     </div>
   )
