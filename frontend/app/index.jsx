@@ -1,37 +1,35 @@
+// index.jsx
 import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Image } from 'react-native';
-import { useRouter, useNavigation } from 'expo-router'; 
+import { useRouter, useNavigation } from 'expo-router'; // Using expo-router's hooks
 
 const Index = () => {
-  const router = useRouter(); 
-  const navigation = useNavigation(); 
+  const router = useRouter();
+  const navigation = useNavigation();
 
   useEffect(() => {
-
     const startRedirectTimer = () => {
       const timer = setTimeout(() => {
-        router.push('/login'); 
+        router.push('/login'); // Redirect after 1.5 seconds
       }, 1500);
 
-      return timer; 
+      return timer;
     };
 
-
-    let timer = startRedirectTimer(); 
+    let timer = startRedirectTimer();
     const unsubscribe = navigation.addListener('focus', () => {
-      clearTimeout(timer); 
-      timer = startRedirectTimer(); 
+      clearTimeout(timer);
+      timer = startRedirectTimer();
     });
 
     return () => {
-      clearTimeout(timer); 
-      unsubscribe(); 
+      clearTimeout(timer);
+      unsubscribe();
     };
   }, [router, navigation]);
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#0D7C66' }}>
