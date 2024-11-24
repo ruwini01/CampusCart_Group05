@@ -1,7 +1,7 @@
 import { View, Text, ScrollView } from 'react-native';
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProductPost from '../../components/productCard/ProductPost'; // Import the ProductPost component
+// import ProductPost from '../../components/productCard/ProductPost'; // Import the ProductPost component
 
 // Image for the post
 const imgebed = require('../../assets/images/bed.jpg');
