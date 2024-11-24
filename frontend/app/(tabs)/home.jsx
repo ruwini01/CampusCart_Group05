@@ -11,7 +11,7 @@ const Home = () => {
         <View>
           <Text>Home</Text>
           {/* 3 navigation icon */}
-          <Link href='/buy_and_sell_' className='text-blue-700'><IconButton/></Link>
+          <Link href='./features/buy_and_sell.jsx' className='text-blue-700'><IconButton/></Link>
           <Link href='/lost_and_found_home' className='text-blue-700'><IconButton/></Link>
           <Link href='/bording_home' className='text-blue-700'><IconButton/></Link>
         </View>
