@@ -3,6 +3,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import IconButton from '../../components/IconButton'
 import { Link } from 'expo-router'
+import SearchInput from '../../components/SearchInput'
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
           <Link href='./features/buy_and_sell.jsx' className='text-blue-700'><IconButton/></Link>
           <Link href='/lost_and_found_home' className='text-blue-700'><IconButton/></Link>
           <Link href='/bording_home' className='text-blue-700'><IconButton/></Link>
+          <SearchInput/>
         </View>
       </ScrollView>
     </SafeAreaView>

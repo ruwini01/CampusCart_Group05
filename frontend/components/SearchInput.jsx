@@ -1,15 +1,15 @@
 import React from 'react'
-import { icons } from '../constants'
+import { TouchableOpacity } from 'react-native'
+import { Text } from 'react-native'
+
 
 function SearchInput() {
   return (
-    <div>
+    <>
       <TouchableOpacity>
-        <Image source={icons.search} className='w-5 h-5' resizeMode='contain'/>
-        <p>Hi</p>
-        <p>HEllo Ruwini</p>
+        <Text>Hello</Text>
       </TouchableOpacity>
-    </div>
+    </>
   )
 }
 
