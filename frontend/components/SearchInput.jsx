@@ -6,9 +6,7 @@ import { Text } from 'react-native'
 function SearchInput() {
   return (
     <>
-      <TouchableOpacity>
-        <Text>Hello</Text>
-      </TouchableOpacity>
+      
     </>
   )
 }

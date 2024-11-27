@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import IconButton from '../../components/IconButton'
 import { Link } from 'expo-router'
 import SearchInput from '../../components/SearchInput'
-const Buy_and_sell =() =>{
+const Boarding_accommodation =() =>{
     return(
         <SafeAreaView>
       <ScrollView>
         <View>
-          <Text>Buy_and_sell</Text>
+          <Text>boarding_accommodation</Text>
           
         </View>
       </ScrollView>
@@ -17,4 +17,4 @@ const Buy_and_sell =() =>{
     );
 }
 
-export default Buy_and_sell
+export default Boarding_accommodation
