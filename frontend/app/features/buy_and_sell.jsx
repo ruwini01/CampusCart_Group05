@@ -1,17 +1,33 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Share, Alert, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Share, Alert, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Link } from 'expo-router'
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { ListItem, SearchBar } from 'react-native-elements';
+import filter from 'lodash.filter';
+
 const { height } = Dimensions.get('window');
 
 const Buy_and_sell = () => {
+
+    const SearchBar = ({ placeholder, onSearch }) => {
+        return (
+          <View style={styles.container}>
+            <Icon name="search" size={20} color="#888" style={styles.icon} />
+            <TextInput
+              style={styles.input}
+              placeholder={placeholder}
+              onChangeText={onSearch}
+              placeholderTextColor="#888"
+            />
+          </View>
+        );
+      };
+
     const onBackPress = () => {
         // Navigate back to the previous screen
         // You can use navigation.goBack() if you're using react-navigation
-        navigation.navigate('home'); // Navigate to the home page
-       // Alert.alert("Back Button Pressed");
+       
+        Alert.alert("Back Button Pressed");
     };
 
     const onSharePress = async () => {
@@ -30,7 +46,7 @@ const Buy_and_sell = () => {
                 <TouchableOpacity onPress={onBackPress} style={styles.button}>
                     <Icon name="arrow-back" size={24} color="#fff" />
                 </TouchableOpacity>
-                <Text style={styles.title}>Buy & Sell</Text>
+                
                 <TouchableOpacity onPress={onSharePress} style={styles.button}>
                     <Icon name="share-social" size={24} color="#fff" />
                 </TouchableOpacity>
@@ -38,11 +54,21 @@ const Buy_and_sell = () => {
         );
     };
 
+    
+
+    const Body = () => {
+        return (
+            <ScrollView style={styles.bodyContainer}>
+                <SearchBar />
+            </ScrollView>
+        );
+    }
+
     return (
         <SafeAreaView style={styles.overall}>
             <Header />
             <ScrollView contentContainerStyle={styles.body}>
-                <Text style={styles.texts}>Welcome to the Buy & Sell section!</Text>
+                <Text style={styles.texts}>Items to Sell</Text>
                 {/* Add more content here as needed */}
             </ScrollView>
         </SafeAreaView>
