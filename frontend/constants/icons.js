@@ -11,8 +11,14 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
+import notification from "../assets/icons/bell-ring.png"
+import house from "../assets/icons/house.png"
+import found from "../assets/icons/found.png"
+import sell from "../assets/icons/sell.png"
+import lost from "../assets/icons/lost.png"
 
 export default {
+  lost,
   play,
   bookmark,
   home,
@@ -26,4 +32,8 @@ export default {
   logout,
   eyeHide,
   eye,
+  notification,
+  house,
+  found, 
+  sell
 };

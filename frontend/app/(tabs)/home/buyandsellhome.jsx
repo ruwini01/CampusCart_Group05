@@ -1,19 +1,17 @@
 import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Link } from 'expo-router'
 
-function SignUpVerify() {
+function Page1() {
   return (
     <SafeAreaView>
       <ScrollView>
         <View>
-          <Text>Verify Email Page</Text>
+          <Text>Buy and sell Home</Text>
         </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default SignUpVerify
-
+export default Page1

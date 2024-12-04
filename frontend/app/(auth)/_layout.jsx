@@ -9,17 +9,53 @@ const AuthLayout = () => {
       <Stack.Screen
         name='login'
         options={{
-          headerShown:false
+          headerShown: true,
+          headerStyle:{
+            backgroundColor:'#0D7C66', 
+          },
+          headerTitle:'',
+          
         }}
       />
 
     <Stack.Screen
         name='signup'
         options={{
-          headerShown:false
+          headerShown:true,
+          headerStyle:{
+            backgroundColor:'#0D7C66', 
+          },
+          headerTitle:'',
+        }}
+      />
+
+      
+    <Stack.Screen
+        name='signupverify'
+        options={{
+          headerShown:true,
+          headerStyle:{
+            backgroundColor:'#0D7C66', 
+          },
+          headerTitle:'',
+        }}
+      />
+
+
+      
+    <Stack.Screen
+        name='resetpassword'
+        options={{
+          headerShown:true,
+          headerStyle:{
+            backgroundColor:'#0D7C66', 
+          },
+          headerTitle:'',
         }}
       />
     </Stack>
+
+    <StatusBar backgroundColor='#0D7C66' style='dark'/>
     </>
     
   )

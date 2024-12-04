@@ -1,13 +1,26 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { Stack } from 'expo-router'
+import { Stack } from 'expo-router';
 
-const HomeLayout = () => {
+export default function HomeLayout() {
   return (
-    <Stack>
-        <Stack.Screen name='index' options={{headerShown:false}}/>
-    </Stack>
-  )
-}
+    <Stack
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: '#0D7C66' },
+      }}
+    >
+      <Stack.Screen name="index" options={{ title: '' }} />
+      <Stack.Screen name="buyandsellhome" options={{ title: '' }} />
+      <Stack.Screen name="lostandfoundhome" options={{ title: '' }} />
+      <Stack.Screen name="bordinghouseshome" options={{ title: '' }} />
 
-export default HomeLayout
+  
+      <Stack.Screen
+        name="addpost"
+        options={{
+          title: '',
+          headerShown: false, 
+        }}
+      />
+    </Stack>
+  );
+}

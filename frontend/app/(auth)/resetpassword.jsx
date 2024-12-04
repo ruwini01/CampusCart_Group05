@@ -6,18 +6,19 @@ import FromField from '../../components/FromField'
 import { useState } from 'react'
 import CustomButton from '../../components/CustomButton'
 
-const Login = () => {
+const ResetPassword = () => {
 
   const [form, setForm] = useState({
     email:'',
     password:'',
+    confirmpassword:''
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = ()=>{
-    if(form.email === 'test@gmail.com' && form.password === '123'){
-      router.replace('/home')
+    if(form.email === 'test@gmail.com' && form.password === '123' && form.confirmpassword === '123'){
+      router.replace('/login')
     }
   }
 
@@ -25,34 +26,51 @@ const Login = () => {
     
     <SafeAreaView className='h-full'>
         <View className='w-full h-full px-4'>
-          <Text className='text-4xl font-semibold' style={{fontFamily: 'Montserrat_700Bold'}}>Welcome{'\n'}Back!</Text>
+          <Text className='text-4xl font-semibold' style={{fontFamily: 'Montserrat_700Bold'}}>Reset{'\n'}Password</Text>
           <View className='py-20 items-center'>
+          
+
           <FromField
-            title='Email'
             value={form.email}
-            handleChangeText={(e)=> setForm({...form,
-              email:e
-            })}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                email: e,
+              })
+            }
             otherStyles="mt-7"
-            keyboardType="email-address"
             placeholder="Email"
           />
 
+          
           <FromField
-            title='Password'
             value={form.password}
-            handleChangeText={(e)=> setForm({...form,
-              password:e
-            })}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                password: e,
+              })
+            }
             otherStyles="mt-7"
             placeholder="Password"
-            secureTextEntry={true}
+            secureTextEntry={true} 
           />
 
-          <Link href='/resetpassword' className='text-[#0D7C66] text-sm mt-2 mb-10' style={{fontFamily: 'Montserrat_400Regular'}}>Fogot Password?</Link>
+          <FromField
+            value={form.confirmpassword}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                confirmpassword: e,
+              })
+            }
+            otherStyles="mt-7"
+            placeholder="Confirm Password"
+            secureTextEntry={true} 
+          />
 
           <CustomButton
-            title="Login"
+            title="Reset Password"
             handlePress={submit}
             containerStyles="mt-7"
             fontStyle="Montserrat_600SemiBold"
@@ -70,4 +88,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default ResetPassword
