@@ -1,14 +1,40 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { icons } from '../constants';
 
-//Create form name and input bar insert to necessary places like login(username, password), signup(email, phoneno, pass, confirm pass)
-const FromField = () => {
+const FromField = ({ value, placeholder, handleChangeText, otherStyles, secureTextEntry, ...props }) => {
+  const [showPassword, setShowPassword] = useState(false); 
+  const [isFocused, setIsFocused] = useState(false); 
+
   return (
-    <View>
-      <Text>FromField</Text>
-      
+    <View
+      className={`flex-row items-center border-2 w-11/12 h-14 px-4 rounded-2xl bg-[#e4e4e4] 
+      ${isFocused ? 'border-[#0D7C66]' : 'border-[#bababa]'} ${otherStyles}`}
+    >
+      <TextInput
+        className="flex-1 font-semibold text-base"
+        style={{ fontFamily: 'Montserrat_500Medium' }}
+        value={value}
+        placeholder={placeholder}
+        placeholderTextColor="#7b7b8b"
+        onChangeText={handleChangeText}
+        secureTextEntry={secureTextEntry && !showPassword} // Toggles visibility for secure text fields
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        {...props}
+      />
+      {/* Display eye icon for secure text fields */}
+      {secureTextEntry && (
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Image
+            source={!showPassword ? icons.eye : icons.eyeHide}
+            className="w-6 h-6"
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      )}
     </View>
-  )
-}
+  );
+};
 
-export default FromField
+export default FromField;
