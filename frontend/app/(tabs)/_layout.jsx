@@ -69,7 +69,11 @@ const TabsLayout = () => {
                 name='notification'
                 options={{
                     title:'Notification',
-                    headerShown:false,
+                    headerShown:true,
+                    headerStyle:{
+                        backgroundColor:'#0D7C66', 
+                    },
+                    headerTitle:'',
                     tabBarIcon: ({color, focused})=>(
                         <TabIcon
                             icon={icons.notification}
