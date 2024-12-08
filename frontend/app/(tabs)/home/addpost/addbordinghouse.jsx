@@ -81,6 +81,9 @@ const AddBordingHouse = () => {
             </RadioButtonGroup>
           </View>
 
+          <Text className="font-normal text-base mt-6 pb-1">Brand</Text>
+          <FromField otherStyles="w-full" />
+
         <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
         </View>
       </ScrollView>
