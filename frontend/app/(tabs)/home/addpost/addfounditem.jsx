@@ -7,7 +7,7 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
-import ImageUploadBox from '../../../../components/ImageUploadBox'; // Import the new component
+import ImageUploadBox from '../../../../components/ImageUploadBox';  // Import the new component
 
 const AddFoundItem = () => {
   const [checkedItems, setCheckedItems] = useState({});
@@ -15,7 +15,7 @@ const AddFoundItem = () => {
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
   const [hidephoneno , setHidephoneno] = useState(false);
-
+  const [images, setImages] = useState(Array(3).fill(null)); // Array to hold up to 3 images
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -29,6 +29,12 @@ const AddFoundItem = () => {
       ...prev,
       [item]: !prev[item],
     }));
+  };
+
+  const handleImageSelect = (index, uri) => {
+    const newImages = [...images];
+    newImages[index] = uri; // Set the selected image URI at the specific index
+    setImages(newImages);
   };
 
   const categories = [
@@ -106,8 +112,17 @@ const AddFoundItem = () => {
             />
             <Text>Negotiable</Text>
           </View>
-          <Text className="font-normal text-base mt-6 pb-1">Add upto 3 Photos</Text>
-          <Divider className='my-8'/>
+          <Text className="font-normal text-base mt-6 pb-1">Add up to 3 Photos</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
+            {images.map((imageUri, index) => (
+              <ImageUploadBox
+                key={index}
+                index={index}
+                imageUri={imageUri}
+                onImageSelect={handleImageSelect}
+              />
+            ))}
+          </View>
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
          
