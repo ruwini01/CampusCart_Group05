@@ -1,17 +1,15 @@
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Text } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import BuyAndSellPosts from '../../../components/BuyAndSellPosts';
 
-function Page1() {
+const BuyAndSellHome = () => {
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View>
-          <Text>Buy and sell Home</Text>
-        </View>
-      </ScrollView>
+    <SafeAreaView className="flex-1">
+      <Text className="font-semibold text-xl mb-6 px-6">Items to Sell</Text>
+      <BuyAndSellPosts />
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default Page1
+export default BuyAndSellHome;

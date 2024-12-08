@@ -1,12 +1,13 @@
+require('dotenv').config({path: '.env'});
+
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const port = 8080;
+const multer = require('multer');
+const port = process.env.PORT;
 
 
-const DB_PATH = "mongodb+srv://campuscart05:hCvRp64pRLfIrgfi@cluster0.j4rvj.mongodb.net/campuscart"; 
-
-mongoose.connect(DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("DB Connected Successfully");
 
