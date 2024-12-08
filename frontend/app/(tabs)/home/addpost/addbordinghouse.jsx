@@ -125,6 +125,9 @@ const AddBordingHouse = () => {
           <Text className="font-normal text-base mt-6 pb-1">Email</Text>
           <FromField otherStyles="w-full" />
 
+          <Text className="font-normal text-base mt-6 pb-1">Telephone</Text>
+          <FromField otherStyles="w-full" />
+
         
         </View>
       </ScrollView>
