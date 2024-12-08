@@ -47,6 +47,24 @@ const AddBordingHouse = () => {
       <ScrollView>
         <View className="mx-6">
         <Text className="font-normal text-base mt-6">Select a category</Text>
+        <View className="flex-row flex-wrap justify-between mt-6 pl-6">
+        {categories.map((category, index) => (
+              <View
+                key={index}
+                className="w-[48%] flex-row items-center gap-5 mb-4"
+              >
+                <Checkbox
+                  value={checkedItems[category] || false}
+                  onValueChange={() => toggleCheckbox(category)}
+                  color={checkedItems[category] ? '#0D7C66' : '#0D7C66'}
+                />
+                <Text>{category}</Text>
+        </View>
+        ))}
+        </View>
+
+        <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
+        
         </View>
       </ScrollView>
     </SafeAreaView>
