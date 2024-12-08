@@ -17,7 +17,8 @@ const AddBordingHouse = () => {
   const [hidephoneno , setHidephoneno] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [images, setImages] = useState([]); // State to hold selected images
+  
   const submit = ()=>{
     router.replace('/home')
   }
