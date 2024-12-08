@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
 import FromField from '../../../../components/FromField';
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 
 const AddBordingHouse = () => {
   return (
