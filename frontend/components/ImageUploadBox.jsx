@@ -15,7 +15,7 @@ const ImageUploadBox = ({ index, imageUri, onImageSelect }) => {
 
     // Launch the image picker
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Use the new MediaType
       aspect: [4, 3],
       quality: 1,
     });

@@ -17,7 +17,7 @@ const AddBordingHouse = () => {
   const [hidephoneno , setHidephoneno] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [images, setImages] = useState([]); // State to hold selected images
+  const [images, setImages] = useState(Array(6).fill(null)); // Array to hold up to 6 images
 
   const submit = ()=>{
     router.replace('/home')
@@ -30,27 +30,10 @@ const AddBordingHouse = () => {
     }));
   };
 
-  const handleImagePicker = async () => {
-    // Request permission to access the media library
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    // Launch the image picker
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsMultipleSelection: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      // Update the images state with the selected images
-      setImages((prevImages) => [...prevImages, ...result.assets.map(asset => asset.uri)]);
-    }
+  const handleImageSelect = (index, uri) => {
+    const newImages = [...images];
+    newImages[index] = uri; // Set the selected image URI at the specific index
+    setImages(newImages);
   };
 
   const facilities = [
@@ -114,16 +97,17 @@ const AddBordingHouse = () => {
           
 
           <Text className="font-normal text-base mt-6 pb-1">Add up to 6 Photos</Text>
-          <Button title="Upload Images" onPress={handleImagePicker} />
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
             {images.map((imageUri, index) => (
-              <Image
+              <ImageUploadBox
                 key={index}
-                source={{ uri: imageUri }}
-                style={{ width: 100, height: 100, margin: 5 }}
+                index={index}
+                imageUri={imageUri}
+                onImageSelect={handleImageSelect}
               />
             ))}
           </View>
+
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
 
