@@ -7,7 +7,7 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
+import ImageUploadBox from '../../../../components/ImageUploadBox'; // Import the new component
 
 const AddBordingHouse = () => {
   const [checkedItems, setCheckedItems] = useState({});
