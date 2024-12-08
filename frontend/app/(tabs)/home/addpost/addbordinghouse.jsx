@@ -7,6 +7,7 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
+import * as ImagePicker from 'expo-image-picker';
 
 const AddBordingHouse = () => {
   const [checkedItems, setCheckedItems] = useState({});
@@ -88,29 +89,7 @@ const AddBordingHouse = () => {
           </View>
           
 
-        <View className="flex-row items-center gap-5">
-            <RadioButtonGroup
-              selected={current}
-              onSelected={(value) => setCurrent(value)}
-              radioBackground="#0D7C66"
-              size={16}
-            >
-              <RadioButtonItem value="used" label="Used" />
-              <RadioButtonItem value="brandnew" label="Brand New" />
-            </RadioButtonGroup>
-          </View>
-
-          <Text className="font-normal text-base mt-6 pb-1">Brand</Text>
-          <FromField otherStyles="w-full" />
-
-          
-
-          <Text className="font-normal text-base mt-6 pb-1">Price</Text>
-          <FromField otherStyles="w-full" />
-
-          
-
-          <Text className="font-normal text-base mt-6 pb-1">Add upto 3 Photos</Text>
+          <Text className="font-normal text-base mt-6 pb-1">Add upto 6 Photos</Text>
           <Divider className='my-8'/>
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
