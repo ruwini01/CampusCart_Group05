@@ -40,11 +40,12 @@ const AddBordingHouse = () => {
     'Clothing',
     'Other',
   ];
-  
+
   return (
-    <View>
-      <Text>AddBordingHouse</Text>
-    </View>
+    <SafeAreaView>
+      <Text className="mx-6 font-semibold text-xl">Find Boarding House</Text>
+
+    </SafeAreaView>
   )
 }
 
