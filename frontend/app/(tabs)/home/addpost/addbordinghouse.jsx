@@ -137,6 +137,13 @@ const AddBordingHouse = () => {
             <Text>Hide Phone Number</Text>
           </View>
 
+          <AddButton
+            handlePress={submit}
+            containerStyles="mt-7"
+            fontStyle="Montserrat_600SemiBold"
+            isLoading={isSubmitting}
+          />
+
         
         </View>
       </ScrollView>
