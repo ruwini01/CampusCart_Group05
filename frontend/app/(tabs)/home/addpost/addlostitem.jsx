@@ -7,6 +7,7 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
+import ImageUploadBox from '../../../../components/ImageUploadBox'; // Import the new component
 
 const AddLostItem = () => {
   const [checkedItems, setCheckedItems] = useState({});

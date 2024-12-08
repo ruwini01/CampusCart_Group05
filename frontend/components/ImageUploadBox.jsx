@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import cameraIcon from '../assets/icons/cameraIcon.jpg'; // Adjust the path to your camera icon image
 
 const ImageUploadBox = ({ index, imageUri, onImageSelect }) => {
   const handleImagePicker = async () => {
@@ -15,7 +16,7 @@ const ImageUploadBox = ({ index, imageUri, onImageSelect }) => {
 
     // Launch the image picker
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images, // Use the new MediaType
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       aspect: [4, 3],
       quality: 1,
     });
@@ -37,15 +38,21 @@ const ImageUploadBox = ({ index, imageUri, onImageSelect }) => {
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#ccc',
+        borderRadius: 15, // Adjusted border radius for a more rounded look
       }}
     >
       {imageUri ? (
         <Image
           source={{ uri: imageUri }}
-          style={{ width: '100%', height: '100%', borderRadius: 5 }}
+          style={{ width: '100%', height: '100%', borderRadius: 15 }} // Match border radius
         />
       ) : (
-        <Text>Select Image</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Image
+            source={cameraIcon} // Use the imported camera icon image
+            style={{ width: 24, height: 24 }} // Adjust size as needed
+          />
+        </View>
       )}
     </TouchableOpacity>
   );
