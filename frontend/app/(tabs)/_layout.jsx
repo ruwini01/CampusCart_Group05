@@ -49,9 +49,9 @@ const TabsLayout = () => {
             />
 
             <Tabs.Screen
-                name='savedItems'
+                name='bookmark'
                 options={{
-                    title:'Saved',
+                    title:'Bookmark',
                     headerShown:false,
                     tabBarIcon: ({color, focused})=>(
                         <TabIcon
