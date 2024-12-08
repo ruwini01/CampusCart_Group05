@@ -103,6 +103,9 @@ const AddBordingHouse = () => {
             <Text>Negotiable</Text>
           </View>
 
+          <Text className="font-normal text-base mt-6 pb-1">Add upto 3 Photos</Text>
+          <Divider className='my-8'/>
+
         <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
         </View>
       </ScrollView>
