@@ -69,6 +69,8 @@ const AddBordingHouse = () => {
         <Text className="font-normal text-base mt-6 pb-1">Item Name</Text>
         <FromField otherStyles="w-full" />
 
+        <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
+
         <View className="flex-row items-center gap-5">
             <RadioButtonGroup
               selected={current}
@@ -117,7 +119,10 @@ const AddBordingHouse = () => {
             <Text>Same as My Profile</Text>
           </View>
 
-        <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
+          <Text className="font-normal text-base mt-6 pb-1">Name</Text>
+          <FromField otherStyles="w-full" />
+
+        
         </View>
       </ScrollView>
     </SafeAreaView>
