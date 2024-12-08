@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const SavedItems = () => {
+const MyPosts = () => {
   return (
     <View>
-      <Text>SavedItems</Text>
+      <Text>MyPosts</Text>
     </View>
   )
 }
 
-export default SavedItems
+export default MyPosts
