@@ -15,7 +15,7 @@ const AddLostItem = () => {
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
   const [hidephoneno , setHidephoneno] = useState(false);
-
+  const [images, setImages] = useState(Array(3).fill(null)); // Array to hold up to 6 images
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
