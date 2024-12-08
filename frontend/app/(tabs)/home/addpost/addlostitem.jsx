@@ -8,6 +8,7 @@ import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
 import ImageUploadBox from '../../../../components/ImageUploadBox';  // Import the new component
+import DatePickerField from '../../../../components/DatePickerField'; // Import the new component
 
 const AddLostItem = () => {
   const [checkedItems, setCheckedItems] = useState({});
@@ -16,7 +17,7 @@ const AddLostItem = () => {
   const [sap, setSap] = useState(false);
   const [hidephoneno , setHidephoneno] = useState(false);
   const [images, setImages] = useState(Array(2).fill(null)); // Array to hold up to 2 images
-  
+  const [dateLost, setDateLost] = useState(new Date()); // State for the lost date
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = ()=>{
@@ -47,6 +48,13 @@ const AddLostItem = () => {
         <FromField otherStyles="w-full" />
 
         <Text className="font-normal text-base mt-6 pb-1">Date Lost</Text>
+          <DatePickerField
+            value={dateLost}
+            handleChange={setDateLost} // Update the dateLost state
+            placeholder="Select Date"
+            otherStyles="w-full" // Additional styles if needed
+          />
+
 
           <Text className="font-normal text-base mt-6 pb-1">Location</Text>
           <FromField otherStyles="w-full" />

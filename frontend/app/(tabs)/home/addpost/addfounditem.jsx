@@ -8,6 +8,7 @@ import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
 import ImageUploadBox from '../../../../components/ImageUploadBox';  // Import the new component
+import DatePickerField from '../../../../components/DatePickerField'; // Import the new component
 
 const AddFoundItem = () => {
   const [checkedItems, setCheckedItems] = useState({});
@@ -15,8 +16,8 @@ const AddFoundItem = () => {
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
   const [hidephoneno , setHidephoneno] = useState(false);
-  const [images, setImages] = useState(Array(3).fill(null)); // Array to hold up to 3 images
-  
+  const [images, setImages] = useState(Array(2).fill(null)); // Array to hold up to 2 images
+  const [dateLost, setDateLost] = useState(new Date()); // State for the lost date
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = ()=>{
@@ -55,64 +56,26 @@ const AddFoundItem = () => {
       <Text className="mx-6 font-semibold text-xl">Post an Found Item</Text>
       <ScrollView>
         <View className="mx-6">
-          <Text className="font-normal text-base mt-6">Select a category</Text>
-          <View className="flex-row flex-wrap justify-between mt-6 pl-6">
-            {categories.map((category, index) => (
-              <View
-                key={index}
-                className="w-[48%] flex-row items-center gap-5 mb-4"
-              >
-                <Checkbox
-                  value={checkedItems[category] || false}
-                  onValueChange={() => toggleCheckbox(category)}
-                  color={checkedItems[category] ? '#0D7C66' : '#0D7C66'}
-                />
-                <Text>{category}</Text>
-              </View>
-            ))}
-          </View>
 
-          <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
-          <FromField otherStyles="w-full" />
+        <Text className="font-normal text-base mt-6 pb-1">Item</Text>
+        <FromField otherStyles="w-full" />
 
-          <Text className="font-normal text-base mt-6 pb-1">Item Name</Text>
-          <FromField otherStyles="w-full" />
+        <Text className="font-normal text-base mt-6 pb-1">Date Found</Text>
+          <DatePickerField
+            value={dateLost}
+            handleChange={setDateLost} // Update the dateLost state
+            placeholder="Select Date"
+            otherStyles="w-full" // Additional styles if needed
+          />
 
-          <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
-          <View className="flex-row items-center gap-5">
-            <RadioButtonGroup
-              selected={current}
-              onSelected={(value) => setCurrent(value)}
-              radioBackground="#0D7C66"
-              size={16}
-            >
-              <RadioButtonItem value="used" label="Used" />
-              <RadioButtonItem value="brandnew" label="Brand New" />
-            </RadioButtonGroup>
-          </View>
-
-          <Text className="font-normal text-base mt-6 pb-1">Brand</Text>
+          <Text className="font-normal text-base mt-6 pb-1">Location</Text>
           <FromField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Description</Text>
           {/* Change This field to a description box (text area) */}
           <FromField otherStyles="w-full h-[100]" />
 
-          <Text className="font-normal text-base mt-6 pb-1">Price</Text>
-          <FromField otherStyles="w-full" />
-
-          <Text className="font-normal text-base mt-6 pb-1">Original Price (If used)</Text>
-          <FromField otherStyles="w-full" />
-
-          <View className="flex-row items-center gap-5 mt-2 mx-1">
-            <Checkbox
-              value={negotiable}
-              onValueChange={() => setNegotiable(!negotiable)}
-              color={negotiable ? '#0D7C66' : '#0D7C66'}
-            />
-            <Text>Negotiable</Text>
-          </View>
-          <Text className="font-normal text-base mt-6 pb-1">Add up to 3 Photos</Text>
+          <Text className="font-normal text-base mt-6 pb-1">Add up to 2 Photos</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
             {images.map((imageUri, index) => (
               <ImageUploadBox
