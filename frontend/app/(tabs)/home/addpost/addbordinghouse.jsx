@@ -28,16 +28,12 @@ const AddBordingHouse = () => {
     }));
   };
 
-  const categories = [
+  const facilities = [
+    'Water',
     'Furniture',
-    'Electronics',
-    'Fashion',
-    'Education',
-    'Appliances',
-    'Essentials',
-    'Vehicles',
-    'Sports Equipment',
-    'Clothing',
+    'Kitchen Appliance',
+    'Electricity',
+    'Wifi',
     'Other',
   ];
 
