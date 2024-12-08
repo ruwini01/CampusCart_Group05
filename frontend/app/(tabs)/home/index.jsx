@@ -17,33 +17,39 @@ const Home = () => {
           <View className='px-6'>
           <SearchInput/>
           </View>
-          <View className='px-6'>
-          <View className='flex-row gap-24 justify-center py-10'>
-          <IconButton 
+          
+          
+          {/* handlePress={() => router.push('/(tabs)/home/bordinghouseshome')} */}
+          {/* Flex container for the grid */}
+        <View className="flex-1 flex-row flex-wrap gap-12 py-10 mb-6 items-center justify-center">
+          <IconButton
             image={icons.sell}
-            title='Buy & Sell'
+            title="Buy an Item"
             handlePress={() => router.push('/(tabs)/home/buyandsellhome')}
-            otherStyle='w-36'
+            otherStyle="w-36"
+          />
+          <IconButton
+            image={icons.lost}
+            title="Lost Items"
+            handlePress={() => router.push('/(tabs)/home/losthome')}
+            otherStyle="w-36"
           />
 
-          <IconButton 
+          <IconButton
             image={icons.found}
-            title='Lost & Found'
-            width='36'
-            handlePress={() => router.push('/(tabs)/home/lostandfoundhome')}
-            otherStyle='w-36'
-           
+            title="Found Items"
+            handlePress={() => router.push('/(tabs)/home/foundhome')}
+            otherStyle="w-36"
           />
-          </View>
-          <IconButton 
+
+          <IconButton
             image={icons.house}
-            title='Boarding Accommodation'
-            otherStyle={'flex-row gap-9 w-full'}
+            title="Bording Accommocation"
             handlePress={() => router.push('/(tabs)/home/bordinghouseshome')}
+            otherStyle="w-36"
           />
-          </View>
-
-
+        </View>
+ 
           <Text className='font-semibold text-xl ml-6 mt-6'>Recent Posts</Text>
           <RecentPosts/>
         </View>

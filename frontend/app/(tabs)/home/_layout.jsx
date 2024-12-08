@@ -10,7 +10,8 @@ export default function HomeLayout() {
     >
       <Stack.Screen name="index" options={{ title: '' }} />
       <Stack.Screen name="buyandsellhome" options={{ title: '' }} />
-      <Stack.Screen name="lostandfoundhome" options={{ title: '' }} />
+      <Stack.Screen name="losthome" options={{ title: '' }} />
+      <Stack.Screen name="foundhome" options={{ title: '' }} />
       <Stack.Screen name="bordinghouseshome" options={{ title: '' }} />
 
   
