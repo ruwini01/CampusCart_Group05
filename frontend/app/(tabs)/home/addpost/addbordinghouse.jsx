@@ -143,8 +143,6 @@ const AddBordingHouse = () => {
             fontStyle="Montserrat_600SemiBold"
             isLoading={isSubmitting}
           />
-
-        
         </View>
       </ScrollView>
     </SafeAreaView>
