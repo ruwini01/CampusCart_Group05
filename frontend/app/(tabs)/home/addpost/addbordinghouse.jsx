@@ -44,7 +44,11 @@ const AddBordingHouse = () => {
   return (
     <SafeAreaView>
       <Text className="mx-6 font-semibold text-xl">Find Boarding House</Text>
-
+      <ScrollView>
+        <View className="mx-6">
+        <Text className="font-normal text-base mt-6">Select a category</Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
