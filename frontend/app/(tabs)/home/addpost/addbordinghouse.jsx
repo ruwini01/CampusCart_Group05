@@ -91,6 +91,9 @@ const AddBordingHouse = () => {
           <Text className="font-normal text-base mt-6 pb-1">Price</Text>
           <FromField otherStyles="w-full" />
 
+          <Text className="font-normal text-base mt-6 pb-1">Original Price (If used)</Text>
+          <FromField otherStyles="w-full" />
+
         <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
         </View>
       </ScrollView>
