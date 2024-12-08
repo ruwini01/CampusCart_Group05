@@ -18,7 +18,7 @@ const AddBordingHouse = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [images, setImages] = useState([]); // State to hold selected images
-  
+
   const submit = ()=>{
     router.replace('/home')
   }
@@ -28,6 +28,29 @@ const AddBordingHouse = () => {
       ...prev,
       [item]: !prev[item],
     }));
+  };
+
+  const handleImagePicker = async () => {
+    // Request permission to access the media library
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      alert("Permission to access camera roll is required!");
+      return;
+    }
+
+    // Launch the image picker
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      // Update the images state with the selected images
+      setImages((prevImages) => [...prevImages, ...result.assets.map(asset => asset.uri)]);
+    }
   };
 
   const facilities = [
