@@ -94,6 +94,15 @@ const AddBordingHouse = () => {
           <Text className="font-normal text-base mt-6 pb-1">Original Price (If used)</Text>
           <FromField otherStyles="w-full" />
 
+          <View className="flex-row items-center gap-5 mt-2 mx-1">
+            <Checkbox
+              value={negotiable}
+              onValueChange={() => setNegotiable(!negotiable)}
+              color={negotiable ? '#0D7C66' : '#0D7C66'}
+            />
+            <Text>Negotiable</Text>
+          </View>
+
         <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
         </View>
       </ScrollView>
