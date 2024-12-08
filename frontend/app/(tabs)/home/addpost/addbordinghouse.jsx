@@ -20,6 +20,13 @@ const AddBordingHouse = () => {
   const submit = ()=>{
     router.replace('/home')
   }
+
+  const toggleCheckbox = (item) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [item]: !prev[item],
+    }));
+  };
   return (
     <View>
       <Text>AddBordingHouse</Text>
