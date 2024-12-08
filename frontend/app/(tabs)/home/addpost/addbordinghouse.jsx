@@ -30,21 +30,25 @@ const AddBordingHouse = () => {
 
   const facilities = [
     'Water',
-    'Furniture',
-    'Kitchen Appliance',
     'Electricity',
+    'Furniture',
     'Wifi',
+    'Kitchen Appliance',
     'Other',
   ];
 
   return (
     <SafeAreaView>
-      <Text className="mx-6 font-semibold text-xl">Find Boarding House</Text>
+      <Text className="mx-6 font-semibold text-xl">Post about a Boarding House</Text>
       <ScrollView>
         <View className="mx-6">
-        <Text className="font-normal text-base mt-6">Select a category</Text>
+
+        <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
+        <FromField otherStyles="w-full" />
+
+        <Text className="font-normal text-base mt-6">Facilities</Text>
         <View className="flex-row flex-wrap justify-between mt-6 pl-6">
-        {categories.map((category, index) => (
+        {facilities.map((category, index) => (
               <View
                 key={index}
                 className="w-[48%] flex-row items-center gap-5 mb-4"
@@ -59,13 +63,30 @@ const AddBordingHouse = () => {
         ))}
         </View>
 
-        <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
+        
+
+        <Text className="font-normal text-base mt-6 pb-1">Capacity</Text>
         <FromField otherStyles="w-full" />
 
-        <Text className="font-normal text-base mt-6 pb-1">Item Name</Text>
+        <Text className="font-normal text-base mt-6 pb-1">Distance to Vavuniya University</Text>
         <FromField otherStyles="w-full" />
 
-        <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
+        <Text className="font-normal text-base mt-6 pb-1">Description</Text>
+          {/* Change This field to a description box (text area) */}
+          <FromField otherStyles="w-full h-[100]" />
+
+          <Text className="font-normal text-base mt-6 pb-1">Rent Price</Text>
+          <FromField otherStyles="w-full" />
+
+          <View className="flex-row items-center gap-5 mt-2 mx-1">
+            <Checkbox
+              value={negotiable}
+              onValueChange={() => setNegotiable(!negotiable)}
+              color={negotiable ? '#0D7C66' : '#0D7C66'}
+            />
+            <Text>Negotiable</Text>
+          </View>
+          
 
         <View className="flex-row items-center gap-5">
             <RadioButtonGroup
@@ -82,24 +103,12 @@ const AddBordingHouse = () => {
           <Text className="font-normal text-base mt-6 pb-1">Brand</Text>
           <FromField otherStyles="w-full" />
 
-          <Text className="font-normal text-base mt-6 pb-1">Description</Text>
-          {/* Change This field to a description box (text area) */}
-          <FromField otherStyles="w-full h-[100]" />
+          
 
           <Text className="font-normal text-base mt-6 pb-1">Price</Text>
           <FromField otherStyles="w-full" />
 
-          <Text className="font-normal text-base mt-6 pb-1">Original Price (If used)</Text>
-          <FromField otherStyles="w-full" />
-
-          <View className="flex-row items-center gap-5 mt-2 mx-1">
-            <Checkbox
-              value={negotiable}
-              onValueChange={() => setNegotiable(!negotiable)}
-              color={negotiable ? '#0D7C66' : '#0D7C66'}
-            />
-            <Text>Negotiable</Text>
-          </View>
+          
 
           <Text className="font-normal text-base mt-6 pb-1">Add upto 3 Photos</Text>
           <Divider className='my-8'/>
