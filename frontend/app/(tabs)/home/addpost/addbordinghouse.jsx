@@ -64,7 +64,10 @@ const AddBordingHouse = () => {
         </View>
 
         <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
-        
+        <FromField otherStyles="w-full" />
+
+        <Text className="font-normal text-base mt-6 pb-1">Item Name</Text>
+        <FromField otherStyles="w-full" />
         </View>
       </ScrollView>
     </SafeAreaView>
