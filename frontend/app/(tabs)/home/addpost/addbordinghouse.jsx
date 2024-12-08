@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Image, Button } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
@@ -113,8 +113,17 @@ const AddBordingHouse = () => {
           </View>
           
 
-          <Text className="font-normal text-base mt-6 pb-1">Add upto 6 Photos</Text>
-          <Divider className='my-8'/>
+          <Text className="font-normal text-base mt-6 pb-1">Add up to 6 Photos</Text>
+          <Button title="Upload Images" onPress={handleImagePicker} />
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
+            {images.map((imageUri, index) => (
+              <Image
+                key={index}
+                source={{ uri: imageUri }}
+                style={{ width: 100, height: 100, margin: 5 }}
+              />
+            ))}
+          </View>
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
 
