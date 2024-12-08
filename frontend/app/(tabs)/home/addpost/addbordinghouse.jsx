@@ -108,6 +108,15 @@ const AddBordingHouse = () => {
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
 
+          <View className="flex-row items-center gap-5 mt-2 mx-1">
+            <Checkbox
+              value={sap}
+              onValueChange={() => setSap(!sap)}
+              color={sap ? '#0D7C66' : '#0D7C66'}
+            />
+            <Text>Same as My Profile</Text>
+          </View>
+
         <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
         </View>
       </ScrollView>
