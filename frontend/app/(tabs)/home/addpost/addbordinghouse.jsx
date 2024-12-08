@@ -84,6 +84,10 @@ const AddBordingHouse = () => {
           <Text className="font-normal text-base mt-6 pb-1">Brand</Text>
           <FromField otherStyles="w-full" />
 
+          <Text className="font-normal text-base mt-6 pb-1">Description</Text>
+          {/* Change This field to a description box (text area) */}
+          <FromField otherStyles="w-full h-[100]" />
+
         <Text className="font-normal text-base mt-6 pb-1">Condition</Text>
         </View>
       </ScrollView>
