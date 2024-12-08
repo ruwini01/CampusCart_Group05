@@ -128,6 +128,15 @@ const AddBordingHouse = () => {
           <Text className="font-normal text-base mt-6 pb-1">Telephone</Text>
           <FromField otherStyles="w-full" />
 
+          <View className="flex-row items-center gap-5 mt-2 mx-1">
+            <Checkbox
+              value={hidephoneno}
+              onValueChange={() => setHidephoneno(!hidephoneno)}
+              color={hidephoneno ? '#0D7C66' : '#0D7C66'}
+            />
+            <Text>Hide Phone Number</Text>
+          </View>
+
         
         </View>
       </ScrollView>
