@@ -27,6 +27,20 @@ const AddBordingHouse = () => {
       [item]: !prev[item],
     }));
   };
+
+  const categories = [
+    'Furniture',
+    'Electronics',
+    'Fashion',
+    'Education',
+    'Appliances',
+    'Essentials',
+    'Vehicles',
+    'Sports Equipment',
+    'Clothing',
+    'Other',
+  ];
+  
   return (
     <View>
       <Text>AddBordingHouse</Text>
