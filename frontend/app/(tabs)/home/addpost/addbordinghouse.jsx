@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
 import FromField from '../../../../components/FromField';
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
+import {Divider} from 'react-native-paper'
 
 const AddBordingHouse = () => {
   return (
