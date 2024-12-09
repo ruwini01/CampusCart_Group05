@@ -7,7 +7,8 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
-import ImageUploadBox from '../../../../components/ImageUploadBox'; 
+import ImageUploadBox from '../../../../components/ImageUploadBox';
+import TextAreaField from '../../../../components/TextAreaField'; 
 
 
 const AddSellItem = () => {
@@ -95,8 +96,7 @@ const AddSellItem = () => {
           <FromField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Description</Text>
-          {/* Change This field to a description box (text area) */}
-          <FromField otherStyles="w-full h-[100]" />
+          <TextAreaField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Price</Text>
           <FromField otherStyles="w-full" />
