@@ -8,6 +8,7 @@ import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
 import ImageUploadBox from '../../../../components/ImageUploadBox'; // Import the new component
+import TextAreaField from '../../../../components/TextAreaField'; 
 
 const AddBordingHouse = () => {
   const [checkedItems, setCheckedItems] = useState({});
@@ -80,8 +81,7 @@ const AddBordingHouse = () => {
         <FromField otherStyles="w-full" />
 
         <Text className="font-normal text-base mt-6 pb-1">Description</Text>
-          {/* Change This field to a description box (text area) */}
-          <FromField otherStyles="w-full h-[100]" />
+        <TextAreaField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Rent Price</Text>
           <FromField otherStyles="w-full" />
