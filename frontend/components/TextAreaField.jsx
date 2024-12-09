@@ -11,7 +11,7 @@ const TextAreaField = ({ value, placeholder, handleChangeText, otherStyles, ...p
     >
       <TextInput
         className="flex-1 font-semibold text-base"
-        style={{ fontFamily: 'Montserrat_500Medium' }}
+        style={{ fontFamily: 'Montserrat_500Medium', textAlignVertical: 'top' }} // Ensure text starts at the top
         value={value}
         placeholder={placeholder}
         placeholderTextColor="#7b7b8b"
