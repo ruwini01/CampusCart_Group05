@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const bordingPostsSchema = new Schema({
     postId:{
-        type:String,
+        type:String, // test
         required:true
     },
     location: {
