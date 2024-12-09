@@ -52,7 +52,7 @@ const Home = () => {
  
           <Text className='font-semibold text-xl ml-6 mt-6'>Recent Posts</Text>
           <RecentPosts/>
-        </View>
+        
 
         <View className='justify-center items-center'>
         <TouchableOpacity 
@@ -65,6 +65,7 @@ const Home = () => {
               resizeMode='contain'
             />
           </TouchableOpacity>
+          </View>
           </View>
     </SafeAreaView>
   )

@@ -7,6 +7,8 @@ import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
+import ImageUploadBox from '../../../../components/ImageUploadBox';
+import TextAreaField from '../../../../components/TextAreaField'; 
 
 
 const AddSellItem = () => {
@@ -15,6 +17,8 @@ const AddSellItem = () => {
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
   const [hidephoneno , setHidephoneno] = useState(false);
+
+  const [images, setImages] = useState(Array(3).fill(null));
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = ()=>{
@@ -29,6 +33,11 @@ const AddSellItem = () => {
     }));
   };
 
+  const handleImageSelect = (index, uri) => {
+    const newImages = [...images];
+    newImages[index] = uri; // Set the selected image URI at the specific index
+    setImages(newImages);
+  };
   const categories = [
     'Furniture',
     'Electronics',
@@ -87,8 +96,7 @@ const AddSellItem = () => {
           <FromField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Description</Text>
-          {/* Change This field to a description box (text area) */}
-          <FromField otherStyles="w-full h-[100]" />
+          <TextAreaField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Price</Text>
           <FromField otherStyles="w-full" />
@@ -104,8 +112,17 @@ const AddSellItem = () => {
             />
             <Text>Negotiable</Text>
           </View>
-          <Text className="font-normal text-base mt-6 pb-1">Add upto 3 Photos</Text>
-          <Divider className='my-8'/>
+          <Text className="font-normal text-base mt-6 pb-1">Add up to 3 Photos</Text>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
+            {images.map((imageUri, index) => (
+              <ImageUploadBox
+                key={index}
+                index={index}
+                imageUri={imageUri}
+                onImageSelect={handleImageSelect}
+              />
+            ))}
+          </View>
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
          

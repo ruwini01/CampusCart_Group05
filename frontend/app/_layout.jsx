@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
-import { SplashScreen, Stack } from 'expo-router'
+import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { SplashScreen, Stack } from 'expo-router';
 import '../global.css';
-import AppLoading from 'expo-app-loading';
 import {
   useFonts,
   Montserrat_100Thin,
@@ -25,12 +24,9 @@ import {
   Montserrat_900Black_Italic,
 } from '@expo-google-fonts/montserrat';
 
-
 SplashScreen.preventAutoHideAsync();
 
-
 const RootLayout = () => {
-
   let [fontsLoaded] = useFonts({
     Montserrat_100Thin,
     Montserrat_200ExtraLight,
@@ -52,27 +48,31 @@ const RootLayout = () => {
     Montserrat_900Black_Italic,
   });
 
+  useEffect(() => {
+    const hideSplashScreen = async () => {
+      if (fontsLoaded) {
+        await SplashScreen.hideAsync(); // Hide the splash screen when fonts are loaded
+      }
+    };
+
+    hideSplashScreen();
+  }, [fontsLoaded]);
+
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return null; // Return null while fonts are loading
+  } else {
+    return (
+      <>
+        <Stack>
+          <Stack.Screen name='index' options={{ headerShown: false }} />
+          <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+          <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+        </Stack>
+      </>
+    );
   }
-  else{
+};
 
-  return (
-    <>
-    <Stack>
-      <Stack.Screen name='index' options={{headerShown:false}}/>
-      <Stack.Screen name='(auth)' options={{headerShown:false}}/>
-      <Stack.Screen name='(tabs)' options={{headerShown:false}}/>
-    </Stack>
+export default RootLayout;
 
-    
-
-  
-    </>
-  )
-}
-}
-
-export default RootLayout
-
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
