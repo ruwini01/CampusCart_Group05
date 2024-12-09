@@ -11,6 +11,10 @@ const ItemDetail = () => {
     '2': { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
     '3': { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
     '4': { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
+    '5': { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
+    '6': { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
+    '7': { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
+    '8': { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
   };
 
   const item = posts[id] || {};

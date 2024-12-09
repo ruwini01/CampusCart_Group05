@@ -2,16 +2,17 @@ import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-const SavedItems = () => {
+const TrackPost = () => {
   return (
     <SafeAreaView>
+        <Text className="mx-6 font-semibold text-xl mb-6">Track Post</Text>
       <ScrollView>
         <View>
-          <Text>Saved Items</Text>
+          
         </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
-export default SavedItems
+export default TrackPost

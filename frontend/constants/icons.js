@@ -16,6 +16,9 @@ import house from "../assets/icons/house.png"
 import found from "../assets/icons/found.png"
 import sell from "../assets/icons/sell.png"
 import lost from "../assets/icons/lost.png"
+import user from  '../assets/icons/user-avatar.png'
+import settings from '../assets/icons/settings.png'
+import posts from '../assets/icons/poster.png'
 
 export default {
   lost,
@@ -35,5 +38,8 @@ export default {
   notification,
   house,
   found, 
-  sell
+  sell,
+  user,
+  settings,
+  posts
 };

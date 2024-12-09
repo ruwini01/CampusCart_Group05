@@ -17,8 +17,8 @@ const AddSellItem = () => {
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
   const [hidephoneno , setHidephoneno] = useState(false);
+
   const [images, setImages] = useState(Array(3).fill(null));
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = ()=>{
@@ -52,11 +52,11 @@ const AddSellItem = () => {
   ];
 
   return (
-    <SafeAreaView>
-      <Text className="mx-6 font-semibold text-xl">Sell an Item</Text>
+    <SafeAreaView className='mb-10'>
+      <Text className="mx-6 font-semibold text-xl mb-6">Sell an Item</Text>
       <ScrollView>
         <View className="mx-6">
-          <Text className="font-normal text-base mt-6">Select a category</Text>
+          <Text className="font-normal text-base">Select a category</Text>
           <View className="flex-row flex-wrap justify-between mt-6 pl-6">
             {categories.map((category, index) => (
               <View
@@ -151,12 +151,14 @@ const AddSellItem = () => {
             />
             <Text>Hide Phone Number</Text>
           </View>
+          <View className='items-center'>
           <AddButton
             handlePress={submit}
-            containerStyles="mt-7"
+            containerStyles="mt-15"
             fontStyle="Montserrat_600SemiBold"
             isLoading={isSubmitting}
           />
+        </View>
         </View>
       </ScrollView>
     </SafeAreaView>
