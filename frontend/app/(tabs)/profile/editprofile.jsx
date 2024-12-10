@@ -6,6 +6,7 @@ import ImageUploadBox from '../../../components/ImageUploadBox';
 import AddButton from '../../../components/AddButton';
 import SaveButton from '../../../components/SaveButton';
 import EditButton from '../../../components/EditButton';
+import ProfileImageUpload from '../../../components/ProfileImageUpload';
 import { router } from 'expo-router';
 const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -28,19 +29,12 @@ const EditProfile = () => {
     <SafeAreaView>
       <ScrollView>
         <View className="mx-6">
-          <Text className="font-semibold text-xl mt-6">Edit Profile</Text>
-
-          <View style={{ 
-            borderRadius: 50, // Make it round
-            //overflow: 'hidden', // Ensure the image fits within the round shape
-            marginBottom: 10 
-          }}>
-            <ImageUploadBox
-              index={0}
-              imageUri={profileImage}
-              onImageSelect={handleImageSelect}
-            />
-          </View>
+        <Text className="font-semibold text-xl mt-6">Edit Profile</Text>
+        
+        <ProfileImageUpload
+            imageUri={profileImage} // Pass the current image URI
+            onImageSelect={handleImageSelect} // Callback to update the image
+          />
 
           <Text className="font-normal text-base mt-6 pb-1">Name</Text>
           <FromField
