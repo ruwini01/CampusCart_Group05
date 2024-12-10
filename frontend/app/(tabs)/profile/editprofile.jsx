@@ -11,6 +11,11 @@ const EditProfile = () => {
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
   const [address, setAddress] = useState('');
+
+  const handleImageSelect = (uri) => {
+    setProfileImage(uri);
+  };
+  
   return (
     <View>
       <Text>EditProfile</Text>
