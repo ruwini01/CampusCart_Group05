@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FromField from '../../../components/FromField';
 import ImageUploadBox from '../../../components/ImageUploadBox';
 import AddButton from '../../../components/AddButton';
+import SaveButton from '../../../components/SaveButton';
+import EditButton from '../../../components/EditButton';
 import { router } from 'expo-router';
 const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -29,7 +31,6 @@ const EditProfile = () => {
           <Text className="font-semibold text-xl mt-6">Edit Profile</Text>
 
           <View style={{ 
-
             borderRadius: 50, // Make it round
             //overflow: 'hidden', // Ensure the image fits within the round shape
             marginBottom: 10 
@@ -69,13 +70,13 @@ const EditProfile = () => {
           />
 
           <View className="flex-row justify-between mt-6">
-            <AddButton
+            <SaveButton
               handlePress={() => console.log('Edit button pressed')}
               containerStyles="bg-gray-400"
               fontStyle="Montserrat_600SemiBold"
               textStyles="text-white"
             />
-            <AddButton
+            <EditButton
               handlePress={handleSave}
               containerStyles="bg-[#0D7C66]"
               fontStyle="Montserrat_600SemiBold"
