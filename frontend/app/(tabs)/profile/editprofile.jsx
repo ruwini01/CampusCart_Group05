@@ -9,6 +9,7 @@ const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [telephone, setTelephone] = useState('');
   return (
     <View>
       <Text>EditProfile</Text>
