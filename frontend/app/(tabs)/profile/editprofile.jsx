@@ -15,7 +15,13 @@ const EditProfile = () => {
   const handleImageSelect = (uri) => {
     setProfileImage(uri);
   };
-  
+
+  const handleSave = () => {
+    // Logic to save the updated profile information
+    console.log('Profile updated:', { name, email, telephone, profileImage });
+    router.replace('/profile'); // Navigate back to profile after saving
+  };
+
   return (
     <View>
       <Text>EditProfile</Text>
