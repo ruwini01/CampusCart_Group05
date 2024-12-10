@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const usersSchema = new Schema({
+    userId:{
+        type:Number,
+        required:true
+    },
     email: {
         type: String,
-        required: true
+        unique: true
     },
     password: {
         type: String,
@@ -13,6 +17,9 @@ const userSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    profilepic:{
+        type:String,
     },
     regno: {
         type: String,
@@ -26,8 +33,24 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    savedposts:{
+        type:Array,
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+    }
 });
 
-const User = mongoose.model('users', userSchema);
+const Users = mongoose.model('users', usersSchema);
 
-module.exports = User;
+
+usersSchema.pre('save', async function(next) {
+    if (this.isNew) {
+        const lastUser = await Users.findOne().sort({ userId: -1 });
+        this.userId = lastUser ? lastUser.userId + 1 : 1;
+    }
+    next();
+});
+
+module.exports = Users;
