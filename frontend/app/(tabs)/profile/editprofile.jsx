@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import FromField from '../../../components/FromField';
 import ImageUploadBox from '../../../components/ImageUploadBox';
 import AddButton from '../../../components/AddButton';
+import { router } from 'expo-router';
 const EditProfile = () => {
   return (
     <View>
