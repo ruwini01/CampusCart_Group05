@@ -7,6 +7,7 @@ import AddButton from '../../../components/AddButton';
 import { router } from 'expo-router';
 const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
+  const [name, setName] = useState('');
   return (
     <View>
       <Text>EditProfile</Text>
