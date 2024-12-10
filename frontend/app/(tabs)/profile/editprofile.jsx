@@ -10,6 +10,7 @@ const EditProfile = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [telephone, setTelephone] = useState('');
+  const [address, setAddress] = useState('');
   return (
     <View>
       <Text>EditProfile</Text>
