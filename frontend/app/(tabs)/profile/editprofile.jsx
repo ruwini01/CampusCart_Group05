@@ -8,6 +8,7 @@ import { router } from 'expo-router';
 const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   return (
     <View>
       <Text>EditProfile</Text>
