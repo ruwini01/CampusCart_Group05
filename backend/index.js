@@ -4,10 +4,13 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const multer = require('multer');
-const port = process.env.PORT;
+const port = process.env.PORT || 5001;
+const boardingPost = require('./routes/boardingPost');
+const bodyParser = require('body-parser');
 
 
-mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
+
+mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
     .then(() => {
         console.log("DB Connected to MongoBD Successfully");
     })
@@ -15,6 +18,10 @@ mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopolog
         console.error("Error connecting to mongoDB: ", err.message);
         process.exit(1); 
     });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));   
+app.use('/api/boardingPost', boardingPost);
 
 
 app.listen(port, () => {

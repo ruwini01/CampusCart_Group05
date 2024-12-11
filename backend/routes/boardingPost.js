@@ -3,7 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 
-const { addBoardingPost, listBoardingPosts } = require('../controllers/bordingPostsController');
+const { addBoardingPost, listBoardingPosts } = require('../controllers/boardingPostcontroller');
 
 // Multer configuration for image uploads
 const storage = multer.diskStorage({
