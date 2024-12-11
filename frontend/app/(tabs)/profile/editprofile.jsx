@@ -64,13 +64,13 @@ const EditProfile = () => {
           />
 
           <View className="flex-row justify-between mt-6">
-            <SaveButton
+            <EditButton
               handlePress={() => console.log('Edit button pressed')}
               containerStyles="bg-gray-400"
               fontStyle="Montserrat_600SemiBold"
               textStyles="text-white"
             />
-            <EditButton
+            <SaveButton
               handlePress={handleSave}
               containerStyles="bg-[#0D7C66]"
               fontStyle="Montserrat_600SemiBold"

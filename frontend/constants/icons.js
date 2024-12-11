@@ -19,9 +19,6 @@ import lost from "../assets/icons/lost.png"
 import user from  '../assets/icons/user-avatar.png'
 import settings from '../assets/icons/settings.png'
 import posts from '../assets/icons/poster.png'
-import language from '../assets/languages/language.png'// Add your language icon path
-import theme from '../assets/languages/theme.png' // Add your theme icon path
-
 
 export default {
   lost,
@@ -44,7 +41,5 @@ export default {
   sell,
   user,
   settings,
-  posts,
-  language,
-  theme,
+  posts
 };

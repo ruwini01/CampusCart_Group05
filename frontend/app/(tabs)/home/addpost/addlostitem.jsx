@@ -103,7 +103,7 @@ const AddLostItem = () => {
             />
             <Text>Hide Phone Number</Text>
           </View>
-          <AddButton
+          <AddButton 
             handlePress={submit}
             containerStyles="mt-7"
             fontStyle="Montserrat_600SemiBold"
