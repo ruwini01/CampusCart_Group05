@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import LanguageSelector from '../components/LanguageSelector';
 
 const Settings = () => {
   return (
