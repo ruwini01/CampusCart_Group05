@@ -4,6 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const cors = require('cors');
 const port = process.env.PORT;
 const boardingPost = require('./routes/boardingPost');
 const bodyParser = require('body-parser');
@@ -19,6 +20,8 @@ mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopol
         process.exit(1); 
     });
 
+//boarding post middleware
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));   
 app.use('/api/boardingPost', boardingPost);
