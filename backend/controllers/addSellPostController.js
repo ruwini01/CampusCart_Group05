@@ -1,6 +1,6 @@
-const SellPosts = require('../models/SellPosts'); // Adjust the path based on your folder structure
+const SellPosts = require('../models/SellPosts'); 
 
-// Add a Sell Post
+
 const addSellPost = async (req, res) => {
     try {
         const {
@@ -18,11 +18,11 @@ const addSellPost = async (req, res) => {
             hidephoneno
         } = req.body;
 
-        // Auto-generate postId
+       
         const lastPost = await SellPosts.findOne().sort({ postId: -1 });
         const postId = lastPost ? lastPost.postId + 1 : 1;
 
-        // Create a new Sell Post
+        
         const newSellPost = new SellPosts({
             postId,
             category,
