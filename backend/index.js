@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const port = process.env.PORT;
 
+//sellpost
+const sellRoutes = require('./routes/sellRoutes');
+app.use(express.json());
 
 mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -40,3 +43,6 @@ app.post("/upload", upload.single('product'), (req, res) => {
         image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
 });
+
+//sellpost
+app.use('/api/sellposts', sellRoutes);
