@@ -46,3 +46,4 @@ app.post("/upload", upload.single('product'), (req, res) => {
 
 //sellpost
 app.use('/api/sellposts', sellRoutes);
+

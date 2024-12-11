@@ -59,13 +59,13 @@ const sellPostsSchema = new Schema({
 
 const SellPosts = mongoose.model('sellposts', sellPostsSchema);
 
-
+/* 
 usersSchema.pre('save', async function(next) {
     if (this.isNew) {
         const lastUser = await Users.findOne().sort({ userId: -1 });
         this.userId = lastUser ? lastUser.userId + 1 : 1;
     }
     next();
-});
+}); */
 
 module.exports = SellPosts;
