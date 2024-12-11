@@ -30,12 +30,12 @@ const EditProfile = () => {
       <ScrollView>
         <View className="mx-6">
         <Text className="font-semibold text-xl mt-6">Edit Profile</Text>
-        
+        <View className='items-center'>
         <ProfileImageUpload
             imageUri={profileImage} // Pass the current image URI
             onImageSelect={handleImageSelect} // Callback to update the image
           />
-
+        </View>
           <Text className="font-normal text-base mt-6 pb-1">Name</Text>
           <FromField
             value={name}
