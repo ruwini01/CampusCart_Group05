@@ -32,7 +32,6 @@ exports.addBoardingPost = async (req, res) => {
 exports.listBoardingPosts = async (req, res) => {
     try {
         const posts = await BordingPosts.find();
-        //console.log(posts)
         res.json({ success: true, posts });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
