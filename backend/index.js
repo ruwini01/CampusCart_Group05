@@ -4,10 +4,17 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const cors = require('cors');
 const port = process.env.PORT;
+const boardingPost = require('./routes/boardingPost');
+const bodyParser = require('body-parser');
+
+//sellpost
+const sellRoutes = require('./routes/sellRoutes');
+app.use(express.json());
 
 
-mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
     .then(() => {
         console.log("DB Connected to MongoBD Successfully");
     })
@@ -15,6 +22,12 @@ mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopolog
         console.error("Error connecting to mongoDB: ", err.message);
         process.exit(1); 
     });
+
+//boarding post middleware
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));   
+app.use('/api/boardingPost', boardingPost);
 
 
 app.listen(port, () => {
@@ -40,3 +53,7 @@ app.post("/upload", upload.single('product'), (req, res) => {
         image_url: `http://localhost:${port}/images/${req.file.filename}`
     });
 });
+
+//sellpost
+app.use('/api/sellposts', sellRoutes);
+
