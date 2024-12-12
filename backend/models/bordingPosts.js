@@ -53,6 +53,6 @@ const bordingPostsSchema = new Schema({
     }
 });
 
-const BordingPosts = mongoose.model('bordingPosts', bordingPostsSchema);
+const BordingPosts = mongoose.model('boardingPosts', bordingPostsSchema);
 
 module.exports = BordingPosts;

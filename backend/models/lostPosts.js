@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const lostPostsSchema = new Schema({
-    postId:{
-        type:String,
-        required:true
-    },
+    // postId:{
+    //     type:String,
+    //     required:true
+    // },
     itemname: {
         type: String,
         required: true
