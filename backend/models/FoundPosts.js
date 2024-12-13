@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const lostPostsSchema = new Schema({
+const foundPostsSchema = new Schema({
     postId:{
         type:String,
         required:true
@@ -10,7 +10,7 @@ const lostPostsSchema = new Schema({
         type: String,
         required: true
     },
-    lostdate: {
+    founddate: {
         type: Date,
         required: true
     },
@@ -42,6 +42,6 @@ const lostPostsSchema = new Schema({
     }
 });
 
-const LostPosts = mongoose.model('lostPosts', lostPostsSchema);
+const FoundPosts = mongoose.model('foundPosts', foundPostsSchema);
 
-module.exports = LostPosts;
+module.exports = FoundPosts;
