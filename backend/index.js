@@ -3,13 +3,20 @@ require('dotenv').config({path: '.env'});
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const path = require("path");
 const cors = require('cors');
 const port = process.env.PORT;
-const boardingPost = require('./routes/boardingPost');
 const bodyParser = require('body-parser');
 
+
+const userRoute = require('./routes/userRoute');
+
 app.use(express.json());
+app.use(cors());
+
+app.use('/users', userRoute);
 
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
@@ -21,15 +28,19 @@ mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopol
         process.exit(1); 
     });
 
-//boarding post middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));   
+
+app.get("/", (req,res) => {
+    res.send("Express App is Running");
+})
 
 
-
-app.listen(port, () => {
+app.listen(port, (error) => {
+    if(!error){
     console.log(`Server running at port:${port}`);
+    }
+    else{
+        console.log("Error: "+error);     
+    }
 });
 
 
@@ -45,7 +56,7 @@ const upload = multer({ storage: storage });
 // Creating upload endpoint for images
 app.use('/images', express.static('upload/images'));
 
-app.post("/upload", upload.single('product'), (req, res) => {
+app.post("/upload", upload.single('post'), (req, res) => {
     res.json({
         success: 1,
         image_url: `http://localhost:${port}/images/${req.file.filename}`
