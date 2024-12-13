@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const bordingPostsSchema = new Schema({
+const boardingPostsSchema = new Schema({
     location: {
         type: String,
         required: true
@@ -49,6 +49,6 @@ const bordingPostsSchema = new Schema({
     }
 });
 
-const BordingPosts = mongoose.model('bordingposts', bordingPostsSchema);
+const BoardingPosts = mongoose.model('boardingposts', boardingPostsSchema);
 
-module.exports = BordingPosts;
+module.exports = BoardingPosts;
