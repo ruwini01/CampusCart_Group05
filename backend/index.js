@@ -9,8 +9,6 @@ const port = process.env.PORT;
 const boardingPost = require('./routes/boardingPost');
 const bodyParser = require('body-parser');
 
-//sellpost
-const sellRoutes = require('./routes/sellRoutes');
 app.use(express.json());
 
 
@@ -27,7 +25,7 @@ mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopol
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));   
-app.use('/api/boardingPost', boardingPost);
+
 
 
 app.listen(port, () => {
@@ -54,6 +52,5 @@ app.post("/upload", upload.single('product'), (req, res) => {
     });
 });
 
-//sellpost
-app.use('/api/sellposts', sellRoutes);
+
 
