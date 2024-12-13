@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const bordingPostsSchema = new Schema({
-    postId:{
-        type:String,
-        required:true
-    },
     location: {
         type: String,
         required: true
@@ -53,6 +49,6 @@ const bordingPostsSchema = new Schema({
     }
 });
 
-const BordingPosts = mongoose.model('boardingPosts', bordingPostsSchema);
+const BordingPosts = mongoose.model('boardingposts', bordingPostsSchema);
 
 module.exports = BordingPosts;

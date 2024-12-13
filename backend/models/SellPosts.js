@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const sellPostsSchema = new Schema({
-  postId: {
-    type: Number,
-    required: true,
-  },
   category: {
     type: String,
     required: true,
