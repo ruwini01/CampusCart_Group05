@@ -12,11 +12,13 @@ const bodyParser = require('body-parser');
 
 
 const userRoute = require('./routes/userRoute');
+const verifyRoute = require('./routes/verifyRoute');
 
 app.use(express.json());
 app.use(cors());
 
 app.use('/users', userRoute);
+app.use('/verify', verifyRoute);
 
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
