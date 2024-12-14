@@ -11,4 +11,12 @@ router.post('/signup', async(req, res)=>{
 
 })
 
+
+router.post('signupverify', async (req, res) => {
+    
+})
+
+
+
+
 module.exports = router;
