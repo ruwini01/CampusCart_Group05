@@ -11,6 +11,8 @@ const upload = multer({ dest: 'uploads/' });
 
 router.post('/signupverify', upload.single('image'), async (req, res) => {
     const imageFile = req.file;
+    console.log(imageFile);
+    
   
     if (!imageFile) {
       return res
@@ -41,6 +43,7 @@ router.post('/signupverify', upload.single('image'), async (req, res) => {
       // Regex to find the first Enrollment No
       const enrollmentPattern = /\b20\d{2}\/[A-Z]{2,4}\/\d{1,3}\b/;
       const enrollmentMatch = extractedText.match(enrollmentPattern);
+      console.log(enrollmentMatch);
   
       if (enrollmentMatch) {
         res.status(200).send({
