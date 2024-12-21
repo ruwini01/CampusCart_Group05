@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 const usersSchema = new Schema({
     email: {
         type: String,
+        required: true
+    },
+    regno: {
+        type: String,
         unique: true
     },
     password: {
@@ -12,22 +16,15 @@ const usersSchema = new Schema({
     },
     name: {
         type: String,
-        required: true
     },
     profilepic:{
         type:String,
     },
-    regno: {
-        type: String,
-        required: true
-    },
     telephone: {
         type: Number,
-        required: true
     },
     address: {
         type: String,
-        required: true
     },
     savedposts:{
         type:Array,

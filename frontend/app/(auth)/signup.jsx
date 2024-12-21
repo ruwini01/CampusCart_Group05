@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router } from 'expo-router';
 import FromField from '../../components/FromField';
 import CustomButton from '../../components/CustomButton';
+import { Alert } from 'react-native';
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -16,8 +17,24 @@ const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submit = () => {
-    if(form.email === ''&& form.regno === '' && form.password === '' && form.confirmpassword === ''){
-      router.replace('/signupverify')
+    if (!form.email || !form.regno || !form.password || !form.confirmpassword) {
+      Alert.alert('Error', 'Please Fill All the Fields');
+      return;
+    }
+    else if (form.password !== form.confirmpassword) {
+      Alert.alert('Error','Password and Confirm Password Do Not Match');
+      return;
+    }
+    else {
+      // Pass form data when navigating
+      router.push({
+        pathname: '/signupverify',
+        params: { 
+          regno: form.regno,
+          email: form.email,
+          password: form.password
+        }
+      });
     }
   };
 
@@ -54,7 +71,7 @@ const SignUp = () => {
               })
             }
             otherStyles="mt-7"
-            placeholder="Registration No"
+            placeholder="Registration No (Ex: 2020/ICT/01)"
           />
 
           

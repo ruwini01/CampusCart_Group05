@@ -1,28 +1,26 @@
 // components/ImageUploadBox.jsx
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Image, TouchableOpacity, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import cameraIcon from '../assets/icons/cameraIcon.jpg'; // Adjust the path to your camera icon image
+import cameraIcon from '../assets/icons/upload.png'; // Adjust the path to your camera icon image
 
 const ImageUploadBox = ({ index, imageUri, onImageSelect }) => {
   const handleImagePicker = async () => {
-    // Request permission to access the media library
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    try {
+      // Launch the image picker
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaType, // Restrict to images only
+        aspect: [4, 3], // Optional aspect ratio for cropping
+        quality: 1, // High-quality images
+      });
 
-    if (permissionResult.granted === false) {
-      alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    // Launch the image picker
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      onImageSelect(index, result.assets[0].uri); // Call the callback with the selected image URI
+      if (!result.canceled) {
+        const selectedImage = result.assets[0]; // Get the first selected asset
+        onImageSelect(index, selectedImage); // Pass the URI to the parent
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+      Alert.alert("Error", "Something went wrong while selecting the image. Please try again.");
     }
   };
 
