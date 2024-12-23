@@ -86,6 +86,8 @@ const SignUpVerify = () => {
             console.log('Signup Response:', signupResponse.data);
 
             if (signupResponse.data.success) {
+
+              //set it to global state
               router.replace('/home');
             } else {
               Alert.alert('Error', signupResponse.data.errors || 'Signup failed. Please try again.');
