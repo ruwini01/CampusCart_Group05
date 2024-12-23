@@ -5,6 +5,7 @@ import { Link, router } from 'expo-router';
 import FromField from '../../components/FromField';
 import CustomButton from '../../components/CustomButton';
 import { Alert } from 'react-native';
+import axios from 'axios';
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -16,25 +17,52 @@ const SignUp = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const submit = () => {
-    if (!form.email || !form.regno || !form.password || !form.confirmpassword) {
-      Alert.alert('Error', 'Please Fill All the Fields');
-      return;
-    }
-    else if (form.password !== form.confirmpassword) {
-      Alert.alert('Error','Password and Confirm Password Do Not Match');
-      return;
-    }
-    else {
-      // Pass form data when navigating
-      router.push({
-        pathname: '/signupverify',
-        params: { 
+  const submit = async () => {
+    try {
+      // Input validation
+      if (!form.email || !form.regno || !form.password || !form.confirmpassword) {
+        Alert.alert('Error', 'Please Fill All the Fields');
+        return;
+      }
+      
+      if (form.password !== form.confirmpassword) {
+        Alert.alert('Error', 'Password and Confirm Password Do Not Match');
+        return;
+      }
+
+      setIsSubmitting(true);
+
+      // Check if registration number exists
+      const regnocheckResponse = await axios.post(
+        'http://192.168.1.4:8080/users/signup/regnocheck',
+        {
           regno: form.regno,
-          email: form.email,
-          password: form.password
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
         }
-      });
+      );
+
+      if (regnocheckResponse.data.success) {
+        // If regno check passes, proceed to verification page
+        router.push({
+          pathname: '/signupverify',
+          params: { 
+            regno: form.regno,
+            email: form.email,
+            password: form.password
+          }
+        });
+      } else {
+        Alert.alert('Error', regnocheckResponse.data.errors);
+      }
+    } catch (error) {
+      // Handle network or server errors
+      Alert.alert('Error', error.response?.data?.errors || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -48,20 +76,6 @@ const SignUp = () => {
           Create an{'\n'}Account
         </Text>
         <View className="py-8 items-center">
-          
-          <FromField
-            value={form.email}
-            handleChangeText={(e) =>
-              setForm({
-                ...form,
-                email: e,
-              })
-            }
-            otherStyles="mt-7"
-            placeholder="Email"
-          />
-
-          
           <FromField
             value={form.regno}
             handleChangeText={(e) =>
@@ -74,6 +88,17 @@ const SignUp = () => {
             placeholder="Registration No (Ex: 2020/ICT/01)"
           />
 
+          <FromField
+            value={form.email}
+            handleChangeText={(e) =>
+              setForm({
+                ...form,
+                email: e,
+              })
+            }
+            otherStyles="mt-7"
+            placeholder="Email"
+          />
           
           <FromField
             value={form.password}
@@ -110,7 +135,7 @@ const SignUp = () => {
             }}
           >
             By clicking the{' '}
-            <Text className="text-[#0D7C66]">Register</Text> button, you agree
+            <Text className="text-[#0D7C66]">Create Account</Text> button, you agree
             to the public offer
           </Text>
 
