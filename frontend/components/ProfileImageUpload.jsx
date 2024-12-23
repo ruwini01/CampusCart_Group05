@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import cameraIcon from '../assets/icons/cameraIcon.jpg'; // Adjust the path to your camera icon image
+import cameraIcon from '../assets/icons/upload.png'; // Adjust the path to your camera icon image
 
 const ProfileImageUpload = ({ imageUri, onImageSelect }) => {
   const handleImagePicker = async () => {
@@ -16,7 +16,7 @@ const ProfileImageUpload = ({ imageUri, onImageSelect }) => {
 
     // Launch the image picker
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ImagePicker.MediaType,
       aspect: [4, 3],
       quality: 1,
     });
@@ -30,13 +30,17 @@ const ProfileImageUpload = ({ imageUri, onImageSelect }) => {
     <TouchableOpacity
       onPress={handleImagePicker}
       style={{
-        width: 200, // Set width
-        height: 200, // Set height
-        borderRadius: 100, // Make it round
-        overflow: 'hidden', // Ensure the image fits within the round shape
+        width: 150,
+        height: 150,
+        borderRadius: 100,
+        overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#e4e4e4', // Background color when no image is selected
+        backgroundColor: '#e4e4e4',
+        borderWidth: 1.5,
+        borderColor:'#0D7C66',
+        boxShadow: '0px 0px 6px #0D7C66',
+        
       }}
     >
       {imageUri ? (
@@ -47,7 +51,7 @@ const ProfileImageUpload = ({ imageUri, onImageSelect }) => {
       ) : (
         <Image
           source={cameraIcon} // Use the imported camera icon image
-          style={{ width: 100, height: 100 }} // Adjust size as needed
+          style={{ width: 40, height: 40 }} // Adjust size as needed
         />
       )}
     </TouchableOpacity>
