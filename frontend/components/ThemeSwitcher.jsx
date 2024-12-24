@@ -11,7 +11,6 @@ const ThemeSwitcher = () => {
   const themes = [
     { name: 'Light' },
     { name: 'Dark' },
-    // Add more themes as needed
   ];
 
   const handleThemeChange = (theme) => {
@@ -24,7 +23,8 @@ const ThemeSwitcher = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.themeButton}>
-      <Image source={icons.theme} style={styles.icon} className='w-5 h-5 mr-1'
+      <Image source={icons.theme} style={styles.icon} 
+          className='w-10 h-10 mr-1'
           resizeMethod='contain'
           tintColor='#1d816ddc' />
         <Text style={styles.linkText}>Theme: {selectedTheme}</Text>
@@ -70,18 +70,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#e4e4e4',
     borderRadius: 5,
   },
   linkText: {
     fontSize: 16,
     color: '#0D7C66', // Color for the hyperlink
-    textDecorationLine: 'underline', // Underline to indicate it's a link
     marginRight: 5, // Space between text and icon
   },
   icon: {
-    width: 20, // Set a fixed width for the icon
-    height: 20, // Set a fixed height for the icon
+    width: 30, // Set a fixed width for the icon
+    height: 30, // Set a fixed height for the icon
     resizeMode: 'contain', // Ensure the icon maintains its aspect ratio
   },
   modalContainer: {
