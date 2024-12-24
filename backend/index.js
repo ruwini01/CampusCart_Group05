@@ -5,12 +5,17 @@ const app = express();
 const mongoose = require('mongoose');
 const multer = require('multer');
 const port = process.env.PORT;
-const boardingPost = require('./routes/boardingPost');
+//const boardingPost = require('./routes/boardingPost');
 const bodyParser = require('body-parser');
 
 //sellpost
-const sellRoutes = require('./routes/sellRoutes');
+const sellPostsRoute = require('./routes/sellPostsRoute');
+
 app.use(express.json());
+
+// Register route
+app.use('/api/sellposts', sellPostsRoute);
+
 
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
@@ -24,7 +29,7 @@ mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopol
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));   
-app.use('/api/boardingPost', boardingPost);
+//app.use('/api/boardingPost', boardingPost);
 
 
 app.listen(port, () => {
@@ -52,5 +57,5 @@ app.post("/upload", upload.single('product'), (req, res) => {
 });
 
 //sellpost
-app.use('/api/sellposts', sellRoutes);
+//app.use('/api/sellposts', sellRoutes);
 
