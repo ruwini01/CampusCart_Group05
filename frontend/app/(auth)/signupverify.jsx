@@ -52,7 +52,7 @@ const SignUpVerify = () => {
       });
 
       const response = await axios.post(
-        'http://192.168.1.4:8080/verify/signupverify',
+        'http://172.20.10.2:8080/verify/signupverify',
         formData1,
         {
           headers: {
@@ -70,7 +70,7 @@ const SignUpVerify = () => {
           // Second request - User signup
           try {
             const signupResponse = await axios.post(
-              'http://192.168.1.4:8080/users/signup',
+              'http://172.20.10.2:8080/users/signup',
               {
                 email: formData.email,
                 regno: formData.regno,
@@ -88,7 +88,8 @@ const SignUpVerify = () => {
             if (signupResponse.data.success) {
 
               //set it to global state
-              router.replace('/home');
+
+              router.replace('/login');
             } else {
               Alert.alert('Error', signupResponse.data.errors || 'Signup failed. Please try again.');
             }

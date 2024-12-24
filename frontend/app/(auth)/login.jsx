@@ -28,7 +28,7 @@ const Login = () => {
       setIsSubmitting(true);
 
       const response = await axios.post(
-        'http://192.168.1.4:8080/users/login',
+        'http://172.20.10.2:8080/users/login',
         {
           regno: form.regno,
           password: form.password

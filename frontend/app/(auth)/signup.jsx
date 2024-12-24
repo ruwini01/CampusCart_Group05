@@ -34,7 +34,7 @@ const SignUp = () => {
 
       // Check if registration number exists
       const regnocheckResponse = await axios.post(
-        'http://192.168.1.4:8080/users/signup/regnocheck',
+        'http://172.20.10.2:8080/users/signup/regnocheck',
         {
           regno: form.regno,
         },
