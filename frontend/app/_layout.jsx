@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { SplashScreen, Stack } from 'expo-router';
 import '../global.css';
+import GlobalProvider from '../context/GlobalProvider';
 import {
   useFonts,
   Montserrat_100Thin,
@@ -62,13 +63,13 @@ const RootLayout = () => {
     return null; // Return null while fonts are loading
   } else {
     return (
-      <>
+      <GlobalProvider>
         <Stack>
           <Stack.Screen name='index' options={{ headerShown: false }} />
           <Stack.Screen name='(auth)' options={{ headerShown: false }} />
           <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
         </Stack>
-      </>
+      </GlobalProvider>
     );
   }
 };
