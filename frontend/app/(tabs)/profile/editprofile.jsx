@@ -9,6 +9,8 @@ import ProfileImageUpload from '../../../components/ProfileImageUpload';
 import { router } from 'expo-router';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
+import CustomButton from '../../../components/CustomButton';
 
 
 const EditProfile = () => {
@@ -25,43 +27,132 @@ const EditProfile = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const token = await AsyncStorage.getItem('token');
+      try {
+        const token = await AsyncStorage.getItem('token');
+  
+        const response = await axios.post(
+          'http://172.20.10.2:8080/users/userdata',
+          { token },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+  
+        if (response.data.success) {
+          const { regno, email, name, telephone, address, profilepic } = response.data.data;
+  
+          setRegno(regno); // This will always be set
+          setEmail(email); // This will always be set
+  
+          // Conditionally update fields only if they exist in the response
+          if (name) setName(name);
+          if (telephone) setTelephone(String(telephone));
+          if (address) setAddress(address);
+          if (profilepic) setProfileImage(profilepic);
 
+        } else {
+          Alert.alert('Error', response.data.errors || 'Failed to fetch user data.');
+        }
+      } catch (error) {
+        Alert.alert('Error', 'An error occurred while fetching user data.');
+        console.error(error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+  
+
+  
+  const handleSave = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+  
+      // Ensure telephone is a valid number or null if not provided
+      const telephoneNumber = telephone ? Number(telephone) : null;
+  
+      if (telephoneNumber === null || isNaN(telephoneNumber)) {
+        Alert.alert('Error', 'Please enter a valid telephone number.');
+        return;
+      }
+  
       const response = await axios.post(
-        'http://192.168.1.4:8080/users/userdata',
+        'http://172.20.10.2:8080/users/updateuser',
         {
-          token: token,
+          token,
+          name,
+          telephone: telephoneNumber, // Pass as a number
+          address,
+          profilepic: '',
         },
         {
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
         }
       );
-
-      if (response.data.success) {
-        //Alert.alert('Success', response.data.message);
-        setRegno(response.data.data.regno);
-        setEmail(response.data.data.email);
-
-      } else {
-        // Show error message from server
-        Alert.alert('Error', response.data.errors);
-      }
-    
-    };
-    
-    fetchUserData();
-  }, []);
-
   
-  const handleSave = () => {
-    
-    //console.log('Token:', token);
-    console.log('Profile updated:', { name, email, telephone, profileImage, regno });
-    router.replace('/profile');
+      if (response.data.success) {
+        Alert.alert('Success', response.data.message);
+        router.replace('/profile');
+      } else {
+        Alert.alert('Error', response.data.errors || 'Failed to update profile.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred while updating the profile.');
+      console.error(error);
+    }
   };
 
+  const handledelete = async () => {
+    Alert.alert(
+      'Confirm Deletion',
+      'Are you sure you want to delete your CampusCart Account?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Deletion canceled'),
+          style: 'cancel', // Adds a distinct style for the Cancel button
+        },
+        {
+          text: 'Delete',
+          onPress: async () => {
+            try {
+              const token = await AsyncStorage.getItem('token');
+  
+              const response = await axios.post(
+                'http://172.20.10.2:8080/users/deleteuser',
+                { token },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }
+              );
+  
+              if (response.data.success) {
+                Alert.alert('Success', response.data.message);
+                // Remove token from AsyncStorage
+                await AsyncStorage.removeItem('token');
+                router.replace('/login');
+              } else {
+                Alert.alert('Error', response.data.errors || 'Failed to delete profile.');
+              }
+            } catch (error) {
+              Alert.alert('Error', 'An error occurred while deleting the profile.');
+              console.error(error);
+            }
+          },
+          style: 'destructive', // Adds a distinct style for the Delete button
+        },
+      ],
+      { cancelable: true } // Allows dismissal by tapping outside the alert
+    );
+  };
+  
+  
   return (
     <SafeAreaView>
       <ScrollView>
@@ -125,17 +216,16 @@ const EditProfile = () => {
 
           <View className="flex-row justify-between">
             <EditButton
-              handlePress={() => console.log('Edit button pressed')}
-              containerStyles="bg-gray-400"
+              handlePress={handledelete}
               fontStyle="Montserrat_600SemiBold"
               textStyles="text-white"
             />
             <SaveButton
               handlePress={handleSave}
-              containerStyles="bg-[#0D7C66]"
               fontStyle="Montserrat_600SemiBold"
               textStyles="text-white"
             />
+            
           </View>
         </View>
       </ScrollView>

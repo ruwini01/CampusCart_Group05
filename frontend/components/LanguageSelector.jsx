@@ -4,21 +4,15 @@ import { icons } from '../constants'; // Ensure you have the correct path to you
 import {  Text, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-//import FromField from '../../../components/FromField';
-//import ImageUploadBox from '../../../components/ImageUploadBox';
-//import AddButton from '../../../components/AddButton';
-//import SaveButton from '../../../components/SaveButton';
-//import EditButton from '../../../components/EditButton';
-//import ProfileImageUpload from '../../../components/ProfileImageUpload';
+
 const LanguageSelector = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('English'); // Default language
   const [modalVisible, setModalVisible] = useState(false);
 
   const languages = [
     { code: 'en', label: 'English' },
-    { code: 'es', label: 'Spanish' },
-    { code: 'fr', label: 'French' },
-    // Add more languages as needed
+    { code: 'sinhala', label: 'Sinhala' },
+    { code: 'tamil', label: 'Tamil' },
   ];
 
   const handleLanguageChange = (language) => {
@@ -29,15 +23,14 @@ const LanguageSelector = () => {
   };
 
   return (
-    <SafeAreaView>
-        <ScrollView>
+    
         <View className="mx-6">
         
         <View>
         <View className='flex-row items-center'>
         <Image
           source={icons.language}
-          className='w-5 h-5 mr-1'
+          className='w-8 h-8 mr-1'
           resizeMethod='contain'
           tintColor='#1d816ddc'
         />
@@ -76,8 +69,7 @@ const LanguageSelector = () => {
     </View>
     </View>
         </View>
-        </ScrollView>
-    </SafeAreaView>
+        
   );
 };
 
@@ -88,7 +80,6 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: 16,
     color: '#0D7C66', // Color for the hyperlink
-    textDecorationLine: 'underline', // Underline to indicate it's a link
   },
   modalContainer: {
     flex: 1,

@@ -61,8 +61,6 @@ router.post('/signup/regnocheck', async(req, res)=>{
                 errors: "Existing user found with same Registration Number"
             });
         }
-
-        // Send success response
         res.status(201).json({
             success: true,
             message: "No user found with same Registration Number"
@@ -84,14 +82,6 @@ router.post('/signup/regnocheck', async(req, res)=>{
 
 router.post('/signup', async (req, res) => {
     try {
-        // let check = await Users.findOne({regno: req.body.regno});
-        // if(check) {
-        //     return res.status(400).json({
-        //         success: false, 
-        //         errors: "Existing user found with same Registration Number"
-        //     });
-        // }
-
         const user = new Users({
             email: req.body.email,
             regno: req.body.regno,
@@ -116,11 +106,82 @@ router.post('/signup', async (req, res) => {
 });
 
 
-router.post('signupverify', async (req, res) => {
-    
-})
+
+router.post('/updateuser', async (req, res) => {
+    try {
+        const {token, name, telephone, address, profilepic} = req.body;
+  
+        // Verify token
+        const decodedToken = jwt.verify(token, JWT_SECRET);
+        
+        // Find user by regno since that's what we stored in token
+        const user = await Users.findOne({ regno: decodedToken.regno });
+        console.log(user);
+        
+        
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        // Update user document using the found user's _id
+        const updatedUser = await Users.findByIdAndUpdate(
+            user._id,
+            {
+                $set: {
+                    name: name,
+                    telephone: telephone,
+                    address: address,
+                    profilepic: profilepic
+                }
+            },
+            { new: true }
+        );
+
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            data: updatedUser
+        });
+  
+    } catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error updating profile',
+            error: error.message
+        });
+    }
+});
 
 
+router.post('/deleteuser', async (req, res) => {
+    try {
+        const {token} = req.body;
+        const decodedToken = jwt.verify(token, JWT_SECRET);
+        const user = await Users.findOne({ regno: decodedToken.regno });
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+        await Users.findByIdAndDelete(user._id);
+        res.json({
+            success: true,
+            message: 'User deleted successfully'
+        });
+    } catch (error) {
+        console.error('Delete user error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting user',
+            error: error.message
+        });
+    }
+});
 
 
 module.exports = router;
