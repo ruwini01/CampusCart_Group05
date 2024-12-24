@@ -10,10 +10,7 @@ const bodyParser = require('body-parser');
 
 //sellpost
 const sellPostsRoute = require('./routes/sellPostsRoute');
-
 app.use(express.json());
-
-// Register route
 app.use('/api/sellposts', sellPostsRoute);
 
 
@@ -56,6 +53,5 @@ app.post("/upload", upload.single('product'), (req, res) => {
     });
 });
 
-//sellpost
-//app.use('/api/sellposts', sellRoutes);
+
 
