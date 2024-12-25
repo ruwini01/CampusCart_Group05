@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
                 return res.status(401).json({ success: false, errors: "Incorrect Password" });
             }
         } else {
-            return res.status(404).json({ success: false, errors: "Incorrect Enrollment Number" });
+            return res.status(404).json({ success: false, errors: "User Doesn't Exist" });
         }
     } catch (error) {
         console.error(error);
