@@ -77,7 +77,7 @@ const SignUp = () => {
         </Text>
         <View className="py-8 items-center">
           <FromField
-            value={form.regno}
+            value={form.regno.toUpperCase()}
             handleChangeText={(e) =>
               setForm({
                 ...form,

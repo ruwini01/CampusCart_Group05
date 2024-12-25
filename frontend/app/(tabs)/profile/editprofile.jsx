@@ -240,7 +240,7 @@ const EditProfile = () => {
 
             <View>
               <Text className="font-normal text-base mt-6 pb-1">Telephone</Text>
-              <FromField value={telephone} handleChangeText={setTelephone} placeholder="Enter your telephone" />
+              <FromField value={telephone} handleChangeText={setTelephone} placeholder="Enter your telephone (xxxxxxxxxx)" />
             </View>
 
             <View>

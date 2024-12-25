@@ -74,7 +74,7 @@ const Login = () => {
         </Text>
         <View className='py-20 items-center'>
           <FromField
-            value={form.regno}
+            value={form.regno.toUpperCase()}
             handleChangeText={(e) =>
               setForm({
                 ...form,
