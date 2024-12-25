@@ -105,8 +105,8 @@ const SignUpVerify = () => {
       }
 
     } catch (error) {
-      console.error('Error uploading image:', error.response ? error.response.data : error.message);
-      Alert.alert('Error', 'Error uploading image. Please try again later.');
+      //console.error('Error uploading image:', error.response ? error.response.data : error.message);
+      Alert.alert('Error', error.response?.data?.message || 'Failed to upload image. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -136,7 +136,7 @@ const SignUpVerify = () => {
           </Text>
 
           <View className="flex-row my-20 gap-8">
-            <ImageUploadBox imageUri={imageUri} onImageSelect={handleImageSelect} />
+            <ImageUploadBox imageUri={imageUri} onImageSelect={handleImageSelect} width={300} height={150} />
           </View>
 
           <CustomButton
