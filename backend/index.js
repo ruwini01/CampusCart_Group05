@@ -57,7 +57,10 @@ const storage = multer.diskStorage({
         return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
     }
 });
-const upload = multer({ storage: storage });
+const upload = multer({ 
+    storage: storage,
+    //limits: { fileSize: 5 * 1024 * 1024 },
+ });
 
 // Creating upload endpoint for images
 app.use('/images', express.static('upload/images'));
@@ -65,7 +68,7 @@ app.use('/images', express.static('upload/images'));
 app.post('/upload', upload.single('post'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
+        image_url: `http://172.20.10.2:${port}/images/${req.file.filename}`
     });
 });
 
