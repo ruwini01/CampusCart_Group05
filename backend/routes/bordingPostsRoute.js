@@ -3,7 +3,7 @@ const router = express.Router();
 const {default: mongoose, Model} = require('mongoose');
 
 router.post('/addbordingpost', async(req, res)=>{
-
+   console.log("check")
 })
 
 
