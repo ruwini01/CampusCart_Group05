@@ -13,6 +13,7 @@ const bodyParser = require('body-parser');
 
 const userRoute = require('./routes/userRoute');
 const verifyRoute = require('./routes/verifyRoute');
+const boardingPostsRoute = require('./routes/bordingPostsRoute');
 
 app.use(express.json());
 app.use(cors({
@@ -23,6 +24,7 @@ app.use(cors({
 
 app.use('/users', userRoute);
 app.use('/verify', verifyRoute);
+app.use('/boardingposts',boardingPostsRoute);
 
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
