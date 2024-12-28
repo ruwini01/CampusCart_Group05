@@ -10,6 +10,8 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const EditProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [name, setName] = useState('');
@@ -28,7 +30,7 @@ const EditProfile = () => {
       });
 
       const uploadResponse = await axios.post(
-        'http://172.20.10.2:8080/upload',
+        `${apiUrl}/upload`,
         formData,
         {
           headers: {
@@ -63,7 +65,7 @@ const EditProfile = () => {
             try {
               const token = await AsyncStorage.getItem('token');
               const response = await axios.post(
-                'http://172.20.10.2:8080/users/updateuser',
+                `${apiUrl}/users/updateuser`,
                 {
                   token,
                   name,
@@ -98,7 +100,7 @@ const EditProfile = () => {
       try {
         const token = await AsyncStorage.getItem('token');
         const response = await axios.post(
-          'http://172.20.10.2:8080/users/userdata',
+          `${apiUrl}/users/userdata`,
           { token },
           {
             headers: {
@@ -138,7 +140,7 @@ const EditProfile = () => {
       }
 
       const response = await axios.post(
-        'http://172.20.10.2:8080/users/updateuser',
+        `${apiUrl}/users/updateuser`,
         {
           token,
           name,
@@ -181,7 +183,7 @@ const EditProfile = () => {
             try {
               const token = await AsyncStorage.getItem('token');
               const response = await axios.post(
-                'http://172.20.10.2:8080/users/deleteuser',
+                `${apiUrl}/users/deleteuser`,
                 { token },
                 {
                   headers: {
