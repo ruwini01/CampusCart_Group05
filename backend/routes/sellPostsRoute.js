@@ -62,6 +62,28 @@ router.post('/addsellpost', async(req, res)=>{
 
 
 router.get('/listsellposts', async(req, res)=>{
+    try {
+        const sellPosts = await SellPosts.find();
+        res.status(200).json({ success: true, sellPosts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching sell posts.' });
+    }
+
+})
+
+
+router.get('/listsellposts/:id', async(req, res)=>{
+    try {
+        const sellPost = await SellPosts.findById(req.params.id);
+        if (!sellPost) {
+            return res.status(404).json({ success: false, message: 'Sell post not found.' });
+        }
+        res.status(200).json({ success: true, post: sellPost });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching the sell post.' });
+    }
 
 })
 
