@@ -26,11 +26,11 @@ const sellPostsSchema = new Schema({
         required: true
     },
     price: {
-        type: Number,
+        type: String,
         required: true
     },
     originalprice: {
-        type: Number,
+        type: String,
     },
     isnagotiable:{
         type:Boolean,
