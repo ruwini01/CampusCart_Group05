@@ -13,7 +13,7 @@ export default function HomeLayout() {
       <Stack.Screen name="losthome" options={{ title: '' }} />
       <Stack.Screen name="foundhome" options={{ title: '' }} />
       <Stack.Screen name="bordinghouseshome" options={{ title: '' }} />
-
+      <Stack.Screen name="[id]" options={{ title: ''}} />
   
       <Stack.Screen
         name="addpost"

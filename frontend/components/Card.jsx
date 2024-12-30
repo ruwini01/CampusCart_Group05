@@ -8,7 +8,7 @@ const Card = ({image, name, price, days}) => {
 
         <View>
         <Image
-          source={image}
+          source={{ uri: image }}
           className='w-44 h-28 rounded-t-lg'
         />
         </View>
@@ -19,7 +19,7 @@ const Card = ({image, name, price, days}) => {
         </View>
 
         <View className='items-end p-1 pt-10'>
-          <Text className='font-extralight text-sm'>{days} days ago</Text>
+          <Text className='font-extralight text-sm'>{days}</Text>
         </View>
 
       </View>
