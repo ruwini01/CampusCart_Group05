@@ -3,26 +3,24 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
 import FromField from '../../../../components/FromField';
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
-import {Divider} from 'react-native-paper'
+import { Divider } from 'react-native-paper';
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
-import ImageUploadBox from '../../../../components/ImageUploadBox'; // Import the new component
-import TextAreaField from '../../../../components/TextAreaField'; 
+import ImageUploadBoxNew from '../../../../components/ImageUploadBoxNew';
+import TextAreaField from '../../../../components/TextAreaField';
 
 const AddBordingHouse = () => {
   const [checkedItems, setCheckedItems] = useState({});
-  const [current, setCurrent] = useState("used");
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
-  const [hidephoneno , setHidephoneno] = useState(false);
-
+  const [hidephoneno, setHidephoneno] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [images, setImages] = useState(Array(6).fill(null)); // Array to hold up to 6 images
+  const [images, setImages] = useState([]); // Array to hold valid image URIs
 
-  const submit = ()=>{
-    router.replace('/home')
-  }
+  const submit = () => {
+    console.log(images);
+    router.replace('/home');
+  };
 
   const toggleCheckbox = (item) => {
     setCheckedItems((prev) => ({
@@ -34,7 +32,11 @@ const AddBordingHouse = () => {
   const handleImageSelect = (index, uri) => {
     const newImages = [...images];
     newImages[index] = uri; // Set the selected image URI at the specific index
-    setImages(newImages);
+
+    // Filter out null values to keep only valid images
+    const filteredImages = newImages.filter((image) => image !== null);
+
+    setImages(filteredImages);
   };
 
   const facilities = [
@@ -51,13 +53,12 @@ const AddBordingHouse = () => {
       <Text className="mx-6 font-semibold text-xl">Post about a Boarding House</Text>
       <ScrollView>
         <View className="mx-6">
+          <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
+          <FromField otherStyles="w-full" />
 
-        <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
-        <FromField otherStyles="w-full" />
-
-        <Text className="font-normal text-base mt-6">Facilities</Text>
-        <View className="flex-row flex-wrap justify-between mt-6 pl-6">
-        {facilities.map((category, index) => (
+          <Text className="font-normal text-base mt-6">Facilities</Text>
+          <View className="flex-row flex-wrap justify-between mt-6 pl-6">
+            {facilities.map((category, index) => (
               <View
                 key={index}
                 className="w-[48%] flex-row items-center gap-5 mb-4"
@@ -68,20 +69,18 @@ const AddBordingHouse = () => {
                   color={checkedItems[category] ? '#0D7C66' : '#0D7C66'}
                 />
                 <Text>{category}</Text>
-        </View>
-        ))}
-        </View>
+              </View>
+            ))}
+          </View>
 
-        
+          <Text className="font-normal text-base mt-6 pb-1">Capacity</Text>
+          <FromField otherStyles="w-full" />
 
-        <Text className="font-normal text-base mt-6 pb-1">Capacity</Text>
-        <FromField otherStyles="w-full" />
+          <Text className="font-normal text-base mt-6 pb-1">Distance to Vavuniya University</Text>
+          <FromField otherStyles="w-full" />
 
-        <Text className="font-normal text-base mt-6 pb-1">Distance to Vavuniya University</Text>
-        <FromField otherStyles="w-full" />
-
-        <Text className="font-normal text-base mt-6 pb-1">Description</Text>
-        <TextAreaField otherStyles="w-full" />
+          <Text className="font-normal text-base mt-6 pb-1">Description</Text>
+          <TextAreaField otherStyles="w-full" />
 
           <Text className="font-normal text-base mt-6 pb-1">Rent Price</Text>
           <FromField otherStyles="w-full" />
@@ -94,20 +93,18 @@ const AddBordingHouse = () => {
             />
             <Text>Negotiable</Text>
           </View>
-          
 
           <Text className="font-normal text-base mt-6 pb-1">Add up to 6 Photos</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
-            {images.map((imageUri, index) => (
-              <ImageUploadBox
+            {Array.from({ length: 6 }).map((_, index) => (
+              <ImageUploadBoxNew
                 key={index}
                 index={index}
-                imageUri={imageUri}
+                imageUri={images[index] || null} // Show image if exists, otherwise null
                 onImageSelect={handleImageSelect}
               />
             ))}
           </View>
-
 
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
 
@@ -138,18 +135,18 @@ const AddBordingHouse = () => {
             <Text>Hide Phone Number</Text>
           </View>
 
-          <View className='items-center'>
-          <AddButton
-            handlePress={submit}
-            containerStyles="mt-15"
-            fontStyle="Montserrat_600SemiBold"
-            isLoading={isSubmitting}
-          />
-        </View>
+          <View className="items-center">
+            <AddButton
+              handlePress={submit}
+              containerStyles="mt-15"
+              fontStyle="Montserrat_600SemiBold"
+              isLoading={isSubmitting}
+            />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default AddBordingHouse
+export default AddBordingHouse;
