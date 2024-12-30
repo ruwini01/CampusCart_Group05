@@ -1,40 +1,118 @@
-import { View, Text, Image } from 'react-native';
-import React from 'react';
-import { useGlobalSearchParams } from 'expo-router';
-import { images } from '../../../../constants';
+import { View, Text, Image, ActivityIndicator, Alert, SafeAreaView, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import axios from 'axios';
+import {Divider, divider} from 'react-native-paper';
+import CallMessageButton from '../../../../components/CallMessageButton';
+import { icons } from '../../../../constants';
+import { Platform, Linking } from 'react-native';
 
-const ItemDetail = () => {
-  const { id } = useGlobalSearchParams();
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-  const posts = {
-    '1': { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    '2': { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    '3': { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    '4': { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-    '5': { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    '6': { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    '7': { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    '8': { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-  };
+const PostDetail = () => {
+  const { id } = useLocalSearchParams();
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const item = posts[id] || {};
+  useEffect(() => {
+    const fetchPostDetail = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/allposts/getAllPosts/${id}`);
+        if (response.data.success) {
+          setPost(response.data.post);
+        } else {
+          Alert.alert('Error', 'Failed to load post details');
+        }
+      } catch (error) {
+        Alert.alert('Error', error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPostDetail();
+  }, [id]);
 
-  if (!item.name) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Item not found</Text>
-      </View>
-    );
+  if (loading) {
+    return <ActivityIndicator size="large" color="#000" />;
+  }
+
+  if (!post) {
+    return <Text>Post not found.</Text>;
+  }
+
+  const makePhoneCall = () => {
+    Alert.alert('Are you sure you want to ', `Call ${post.contact.telephone}?`, [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Call',
+        onPress: () => {
+          Linking.openURL(`tel:${post.contact.telephone}`);
+        },
+      },
+    ]);
+  }
+
+  const sendMessage = () => {
+    Alert.alert('Are you sure you want to ', `Message ${post.contact.telephone}?`, [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Message',
+        onPress: () => {
+          let url = `sms:${post.contact.telephone}`;
+          if (Platform.OS === 'android') {
+            url = `sms:${post.contact.telephone}`;
+          } else if (Platform.OS === 'ios') {
+            url = `sms:${post.contact.telephone}`;
+          }
+          Linking.openURL(url);
+        },
+      },
+    ]);
   }
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Image source={item.image} style={{ width: '100%', height: 200, marginBottom: 16 }} />
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 8 }}>{item.name}</Text>
-      <Text style={{ fontSize: 18, color: 'gray', marginBottom: 8 }}>Price: {item.price}</Text>
-      <Text style={{ fontSize: 16 }}>Posted {item.days} days ago</Text>
+    <SafeAreaView>
+      <ScrollView>
+    <View className="flex-1 p-4">
+      <Image
+        source={{ uri: post.images[0] }}
+        className="w-full h-64 rounded-lg mb-5"
+        resizeMode="cover"
+      />
+      <Text className="text-2xl font-semibold mt-4">{post.itemname}</Text>
+      <Text className="text-lg text-gray-600 font-normal">Categoty: {post.category} | Condition: {post.condition}</Text>
+      <Divider className='mt-2'/>
+      <Text className="text-xl font-bold mt-4">Rs.{post.price}.00</Text>
+      <Text className="text-base italic font-thin">{(post.isnegotiable) ? 'Negotiable': ''}</Text>
+
+      <Text className="text-lg font-normal text-gray-700 mt-8">Description</Text>
+      <Text className="text-base text-gray-500 ">{post.description}</Text>
+      <Text className="text-sm text-gray-400 mt-2">
+        Posted on {new Date(post.date).toLocaleDateString()}
+      </Text>
+      <View className="flex-row justify-between mt-4">
+        <CallMessageButton
+          image={icons.call}
+          title='Call'
+          handlePress={makePhoneCall}
+        />
+
+        <CallMessageButton
+          image={icons.message}
+          title='Message'
+          handlePress={sendMessage}
+        />
+      </View>
     </View>
+    </ScrollView>
+    </SafeAreaView>
   );
 };
 
-export default ItemDetail;
+export default PostDetail;
