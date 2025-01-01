@@ -95,9 +95,36 @@ router.delete('/removeboardingpost/:postId',AuthToken, async (req, res) => {
 });
 
 
-router.put('/editbordingpost', async(req, res)=>{
+router.put('/editbordingpost/:postId', AuthToken, async (req, res) => {
+    const user = req.user; 
+    const { postId } = req.params;
+    const updates = req.body; 
 
-})
+    if (!postId) {
+        return res.status(400).json({ error: 'Please enter a valid postId' });
+    }
+
+    try {
+        const boardingPost = await BoardingPosts.findByIdAndUpdate(
+            postId, 
+            { $set: updates }, 
+            { new: true, runValidators: true }
+        );
+
+        if (!boardingPost) {
+            return res.status(404).json({ error: 'Boarding Post not found' });
+        }
+
+        return res.status(200).json({
+            message: 'Successfully edited boarding post',
+            boardingPost,
+        });
+    } catch (error) {
+        console.error('Error while updating boarding post:', error);
+        return res.status(500).json({ error: 'Internal server error: ' + error.message });
+    }
+});
+
 
 
 module.exports = router;
