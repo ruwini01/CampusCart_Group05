@@ -15,7 +15,7 @@ const userRoute = require('./routes/userRoute');
 const verifyRoute = require('./routes/verifyRoute');
 const boardingPostsRoute = require('./routes/bordingPostsRoute');
 const sellpostsRoute = require('./routes/sellPostsRoute');
-const allpostsRoute = require('./routes/allPostsRoute');
+const allpostsRoute = require('./routes/allPostRoute');
 
 app.use(express.json());
 app.use(cors({
