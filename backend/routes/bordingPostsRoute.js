@@ -76,10 +76,23 @@ router.get('/listbordingposts', async(req, res)=>{
 
 
 
-router.delete('/removebordingpost', async(req, res)=>{
-    
+router.delete('/removeboardingpost/:postId', async (req, res) => {
+    try {
+        const { postId } = req.params;
 
-})
+        const deletedPost = await BoardingPosts.findByIdAndDelete({_id:postId});
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Boarding post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'boarding' });
+
+        res.status(200).json({ success: true, message: 'Boarding post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while removing the boarding post.'+error });
+    }
+});
 
 
 router.put('/editbordingpost', async(req, res)=>{
