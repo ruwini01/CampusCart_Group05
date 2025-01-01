@@ -63,7 +63,7 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
 
 
 
-router.get('/listbordingposts', async(req, res)=>{
+router.get('/listbordingposts',AuthToken, async(req, res)=>{
     try {
         const boardingPosts = await BoardingPosts.find();
         res.status(200).json({ success: true, data: boardingPosts });
@@ -76,7 +76,7 @@ router.get('/listbordingposts', async(req, res)=>{
 
 
 
-router.delete('/removeboardingpost/:postId', async (req, res) => {
+router.delete('/removeboardingpost/:postId',AuthToken, async (req, res) => {
     try {
         const { postId } = req.params;
 
