@@ -64,12 +64,20 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
 
 
 router.get('/listbordingposts', async(req, res)=>{
+    try {
+        const boardingPosts = await BoardingPosts.find();
+        res.status(200).json({ success: true, data: boardingPosts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while retrieving boarding posts.' });
+    }
 
 })
 
 
 
 router.delete('/removebordingpost', async(req, res)=>{
+    
 
 })
 
