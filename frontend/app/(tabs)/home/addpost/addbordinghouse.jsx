@@ -79,6 +79,53 @@ const AddBordingHouse = () => {
     });
   };
 
+  const handleImageUpload = async (uri, index) => {
+    try {
+      const formData = new FormData();
+      formData.append('post', {
+        uri: uri,
+        type: 'image/jpeg',
+        name: `image${index + 1}.jpg`,
+      });
+
+  const uploadResponse = await axios.post(
+    `${apiUrl}/upload`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+
+  if (uploadResponse.data.success) {
+    setImages(prevImages => {
+      const newImages = [...prevImages];
+      newImages[index] = uploadResponse.data.image_url;
+      return newImages;
+    });
+
+    setForm(prevForm => ({
+      ...prevForm,
+      images: [
+        ...prevForm.images.slice(0, index),
+        uploadResponse.data.image_url,
+        ...prevForm.images.slice(index + 1)
+      ],
+    }));
+
+    return uploadResponse.data.image_url;
+  } else {
+    Alert.alert('Error', 'Failed to upload image');
+    return null;
+  }
+} catch (error) {
+  console.error('Image upload error:', error);
+  Alert.alert('Error', 'Failed to upload image');
+  return null;
+}
+};
+
 
   const handleImageSelect = (index, uri) => {
     const newImages = [...images];
