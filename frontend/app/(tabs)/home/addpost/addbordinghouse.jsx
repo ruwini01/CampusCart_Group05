@@ -177,6 +177,54 @@ const fetchUserData = async () => {
   }
 };
 
+const submit = async () => {
+  try {
+    if (!form.location || !form.facilities || !form.capacity || !form.distance || !form.description || !form.rentprice || !form.contact.telephone) {
+      Alert.alert('Error', 'Please fill all the required fields.');
+      return;
+     }
+
+    setIsSubmitting(true);
+    const validImages = images.filter(img => img !== null);
+    const token = await AsyncStorage.getItem('token');
+
+    const updatedForm = {
+      ...form,
+      images: validImages,
+      negotiable: negotiable,
+      hidephoneno: hidephoneno,
+    };
+
+  
+    console.log('Updated Form Details:', updatedForm);
+
+
+    const response = await axios.post(
+     `${apiUrl}/boardingposts/addbordingpost`,
+      updatedForm
+      ,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.data.success) {
+      Alert.alert('Success', 'Post Added Successfully');
+      router.replace('/home');
+    }
+    else{
+      Alert.alert('Error', 'Something went wrong');
+    }
+   
+  } catch (error) {
+    console.error('Submit error:', error);
+    Alert.alert('Error', 'Failed to submit form');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
 
   const facilities = [
