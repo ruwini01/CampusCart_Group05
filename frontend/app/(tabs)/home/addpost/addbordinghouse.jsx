@@ -14,16 +14,18 @@ import { Alert } from 'react-native';
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const AddBordingHouse = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [customCategory, setCustomCategory] = useState('');
   const [checkedItems, setCheckedItems] = useState({});
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
-  const [hidephoneno , setHidephoneno] = useState(false);z
-
+  const [hidephoneno , setHidephoneno] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [images, setImages] = useState([null, null, null, null, null, null]);
   const [customFacility, setCustomFacility] = useState('');
 
   const [form, setForm] = useState({
+    category: '',
     location: '',
     facilities: [],
     capacity: '',
@@ -36,6 +38,22 @@ const AddBordingHouse = () => {
     hidephoneno: false,
   });
   
+  const handleCategorySelect = (category) => {
+    if (selectedCategory === category) {
+      setSelectedCategory(null);
+      setForm(prev => ({ ...prev, category: '' }));
+    } else {
+      setSelectedCategory(category);
+      setForm(prev => ({ ...prev, category: category }));
+    }
+  };
+
+  const handleCustomCategoryChange = (text) => {
+    setCustomCategory(text);
+    setForm(prev => ({ ...prev, category: text }));
+  };
+
+
   const toggleCheckbox = (item) => {
     setCheckedItems((prev) => ({
       ...prev,
@@ -177,6 +195,7 @@ const fetchUserData = async () => {
   }
 };
 
+
 const submit = async () => {
   try {
     if (!form.location || !form.facilities || !form.capacity || !form.distance || !form.description || !form.rentprice || !form.contact.telephone) {
@@ -226,7 +245,6 @@ const submit = async () => {
   }
 };
 
-
   const facilities = [
     'Water',
     'Electricity',
@@ -236,10 +254,51 @@ const submit = async () => {
     'Other',
   ];
 
+
+  const categories = [
+    'Single Room',
+    'Double Room',
+    'Triple Room',
+    'Annex Room',
+    'House',
+    'Domitory',
+    'Other',
+  ];
+
   return (
     <SafeAreaView>
-      <Text className="mx-6 font-semibold text-xl">Post about a Boarding House</Text>
+      <Text className="mx-6 font-semibold text-xl">Post a Boarding House</Text>
       <ScrollView>
+        <View className="mx-6 mt-6">
+      <Text className="font-normal text-base">Select Bording Type</Text>
+          <View className="flex-row flex-wrap justify-between mt-6 pl-6">
+            {categories.map((category, index) => (
+              <View
+                key={index}
+                className="w-[48%] flex-row items-center gap-5 mb-4"
+              >
+                <Checkbox
+                  value={selectedCategory === category}
+                  onValueChange={() => handleCategorySelect(category)}
+                  color={selectedCategory === category ? '#0D7C66' : '#0D7C66'}
+                />
+                <Text>{category}</Text>
+              </View>
+            ))}
+          </View>
+
+          {selectedCategory === 'Other' && (
+            <View className="mt-4">
+              <Text className="font-normal text-base pb-1">Specify Other Type</Text>
+              <FromField
+                otherStyles="w-full"
+                value={customCategory}
+                handleChangeText={handleCustomCategoryChange}
+              />
+            </View>
+          )}
+          </View>
+
         <View className="mx-6">
           <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
           <FromField
