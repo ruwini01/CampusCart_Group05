@@ -241,13 +241,16 @@ const submit = async () => {
       <Text className="mx-6 font-semibold text-xl">Post about a Boarding House</Text>
       <ScrollView>
         <View className="mx-6">
+          <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
+          <FromField
+            otherStyles="w-full"
+            value={form.location}
+            handleChangeText={(text) => setForm((prev) => ({ ...prev, location: text }))}
+          />
 
-        <Text className="font-normal text-base mt-6 pb-1">Add Location</Text>
-        <FromField otherStyles="w-full" />
-
-        <Text className="font-normal text-base mt-6">Facilities</Text>
-        <View className="flex-row flex-wrap justify-between mt-6 pl-6">
-        {facilities.map((category, index) => (
+          <Text className="font-normal text-base mt-6">Facilities</Text>
+          <View className="flex-row flex-wrap justify-between mt-6 pl-6">
+            {facilities.map((category, index) => (
               <View
                 key={index}
                 className="w-[48%] flex-row items-center gap-5 mb-4"
@@ -258,84 +261,150 @@ const submit = async () => {
                   color={checkedItems[category] ? '#0D7C66' : '#0D7C66'}
                 />
                 <Text>{category}</Text>
-        </View>
-        ))}
-        </View>
+              </View>
+            ))}
+          </View>
 
-        
+          {checkedItems['Other'] && (
+            <View className="mt-4">
+              <Text className="font-normal text-base pb-1">Specify Other Facility</Text>
+              <FromField
+                otherStyles="w-full"
+                value={customFacility}
+                handleChangeText={handleCustomFacilityChange}
+              />
+            </View>
+          )}
 
-        <Text className="font-normal text-base mt-6 pb-1">Capacity</Text>
-        <FromField otherStyles="w-full" />
+          <Text className="font-normal text-base mt-6 pb-1">Capacity</Text>
+          <FromField 
+            otherStyles="w-full"
+            value={form.capacity}
+            handleChangeText={(text) => setForm((prev) => ({ ...prev, capacity: text }))}
+          />
 
-        <Text className="font-normal text-base mt-6 pb-1">Distance to Vavuniya University</Text>
-        <FromField otherStyles="w-full" />
+          <Text className="font-normal text-base mt-6 pb-1">Distance to Vavuniya University</Text>
+          <FromField 
+            otherStyles="w-full"
+            value={form.distance}
+            handleChangeText={(text) => setForm((prev) => ({ ...prev, distance: text }))}
+          />
 
-        <Text className="font-normal text-base mt-6 pb-1">Description</Text>
-        <TextAreaField otherStyles="w-full" />
+          <Text className="font-normal text-base mt-6 pb-1">Description</Text>
+          <TextAreaField 
+            otherStyles="w-full"
+            value={form.description}
+            handleChangeText={(text) => setForm((prev) => ({ ...prev, description: text }))}
+          />
 
           <Text className="font-normal text-base mt-6 pb-1">Rent Price</Text>
-          <FromField otherStyles="w-full" />
+          <FromField 
+            otherStyles="w-full"
+            value={form.rentprice}
+            handleChangeText={(text) => setForm((prev) => ({ ...prev, rentprice: text }))}
+          />
 
           <View className="flex-row items-center gap-5 mt-2 mx-1">
             <Checkbox
               value={negotiable}
-              onValueChange={() => setNegotiable(!negotiable)}
+              onValueChange={() => {
+                setNegotiable(!negotiable);
+                setForm(prev => ({ ...prev, negotiable: !negotiable }));
+              }}
               color={negotiable ? '#0D7C66' : '#0D7C66'}
             />
             <Text>Negotiable</Text>
           </View>
-          
 
           <Text className="font-normal text-base mt-6 pb-1">Add up to 6 Photos</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', marginTop: 10 }}>
             {images.map((imageUri, index) => (
-              <ImageUploadBox
-                key={index}
-                index={index}
-                imageUri={imageUri}
-                onImageSelect={handleImageSelect}
-              />
-            ))}
+                <ImageUploadBoxNew
+                  key={index}
+                  imageUri={imageUri}
+                  onImageSelect={(uri) => handleImageSelect(index, uri)}
+                />
+              ))}
           </View>
 
-
           <Text className="font-semibold text-lg pb-6">Contact Details</Text>
-
+          
           <View className="flex-row items-center gap-5 mt-2 mx-1">
-            <Checkbox
+          <Checkbox
               value={sap}
-              onValueChange={() => setSap(!sap)}
+              onValueChange={(checked) => {
+                setSap(checked);
+                if (checked) {
+                  fetchUserData(); // Fetch data when checked
+                } else {
+                  // Reset contact fields when unchecked
+                  setForm((prev) => ({
+                    ...prev,
+                    contact: {
+                      name: '',
+                      address: '',
+                      telephone: '',
+                    },
+                  }));
+                }
+              }}
               color={sap ? '#0D7C66' : '#0D7C66'}
             />
             <Text>Same as My Profile</Text>
           </View>
 
           <Text className="font-normal text-base mt-6 pb-1">Name</Text>
-          <FromField otherStyles="w-full" />
+          <FromField 
+            otherStyles="w-full"
+            value={form.contact.name}
+            handleChangeText={(text) => setForm(prev => ({
+              ...prev, 
+              contact: {...prev.contact, name: text}
+            }))}
+          />
 
-          <Text className="font-normal text-base mt-6 pb-1">Email</Text>
-          <FromField otherStyles="w-full" />
+          <Text className="font-normal text-base mt-6 pb-1">Address</Text>
+          <FromField 
+            otherStyles="w-full"
+            value={form.contact.address}
+            handleChangeText={(text) => setForm(prev => ({
+              ...prev, 
+              contact: {...prev.contact, address: text}
+            }))}
+          />
 
           <Text className="font-normal text-base mt-6 pb-1">Telephone</Text>
-          <FromField otherStyles="w-full" />
+          <FromField 
+            otherStyles="w-full"
+            value={form.contact.telephone}
+            handleChangeText={(text) => setForm(prev => ({
+              ...prev, 
+              contact: {...prev.contact, telephone: text}
+            }))}
+          />
+
+
 
           <View className="flex-row items-center gap-5 mt-2 mx-1">
             <Checkbox
               value={hidephoneno}
-              onValueChange={() => setHidephoneno(!hidephoneno)}
+              onValueChange={() => {
+                setHidephoneno(!hidephoneno);
+                setForm(prev => ({ ...prev, hidephoneno: !hidephoneno }));
+              }}
               color={hidephoneno ? '#0D7C66' : '#0D7C66'}
             />
             <Text>Hide Phone Number</Text>
           </View>
 
-          <View className='items-center'>
-          <AddButton
-            handlePress={submit}
-            containerStyles="mt-15"
-            fontStyle="Montserrat_600SemiBold"
-            isLoading={isSubmitting}
-          />
-        </View>
+          <View className="items-center">
+            <AddButton
+              handlePress={submit}
+              containerStyles="mt-15"
+              fontStyle="Montserrat_600SemiBold"
+              isLoading={isSubmitting}
+            />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
