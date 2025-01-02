@@ -20,12 +20,22 @@ const AddBordingHouse = () => {
   const [hidephoneno , setHidephoneno] = useState(false);z
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [images, setImages] = useState(Array(6).fill(null)); // Array to hold up to 6 images
+  const [images, setImages] = useState([null, null, null, null, null, null]);
+  const [customFacility, setCustomFacility] = useState('');
 
-  const submit = ()=>{
-    router.replace('/home')
-  }
-
+  const [form, setForm] = useState({
+    location: '',
+    facilities: [],
+    capacity: '',
+    distance: '',
+    description: '',
+    rentprice: '',
+    negotiable: false,
+    images: [],
+    contact: {},
+    hidephoneno: false,
+  });
+  
   const toggleCheckbox = (item) => {
     setCheckedItems((prev) => ({
       ...prev,
