@@ -127,11 +127,21 @@ const AddBordingHouse = () => {
 };
 
 
-  const handleImageSelect = (index, uri) => {
-    const newImages = [...images];
-    newImages[index] = uri; // Set the selected image URI at the specific index
-    setImages(newImages);
-  };
+const handleImageSelect = async (index, uri) => {
+  try {
+    const uploadedImageUrl = await handleImageUpload(uri, index);
+    if (uploadedImageUrl) {
+      setImages(prevImages => {
+        const newImages = [...prevImages];
+        newImages[index] = uploadedImageUrl;
+        return newImages;
+      });
+    }
+  } catch (error) {
+    console.error('Error handling image selection:', error);
+    Alert.alert('Error', 'Failed to process image');
+  }
+};
 
   const facilities = [
     'Water',
