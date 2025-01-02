@@ -41,6 +41,22 @@ const AddBordingHouse = () => {
       ...prev,
       [item]: !prev[item],
     }));
+
+    setForm((prev) => {
+      if (item === 'Other') {
+        return prev;
+      }
+
+      const isAlreadySelected = prev.facilities.includes(item);
+      const updatedFacilities = isAlreadySelected
+        ? prev.facilities.filter((facility) => facility !== item)
+        : [...prev.facilities, item];
+
+      return {
+        ...prev,
+        facilities: updatedFacilities,
+      };
+    });
   };
 
   const handleImageSelect = (index, uri) => {
