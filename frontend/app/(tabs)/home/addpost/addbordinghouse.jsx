@@ -59,6 +59,27 @@ const AddBordingHouse = () => {
     });
   };
 
+  const handleCustomFacilityChange = (text) => {
+    setCustomFacility(text);
+    
+    setForm((prev) => {
+      const facilities = prev.facilities.filter(facility => 
+        facility !== prev.customFacility
+      );
+      
+      if (text.trim()) {
+        facilities.push(text.trim());
+      }
+
+      return {
+        ...prev,
+        facilities,
+        customFacility: text
+      };
+    });
+  };
+
+
   const handleImageSelect = (index, uri) => {
     const newImages = [...images];
     newImages[index] = uri; // Set the selected image URI at the specific index
