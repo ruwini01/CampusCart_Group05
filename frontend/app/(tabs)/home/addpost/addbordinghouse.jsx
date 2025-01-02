@@ -3,19 +3,21 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Checkbox from 'expo-checkbox';
 import FromField from '../../../../components/FromField';
-import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
-import {Divider} from 'react-native-paper'
 import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
-import ImageUploadBox from '../../../../components/ImageUploadBox'; // Import the new component
-import TextAreaField from '../../../../components/TextAreaField'; 
+import ImageUploadBoxNew from '../../../../components/ImageUploadBoxNew';
+import TextAreaField from '../../../../components/TextAreaField';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from 'react-native';
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const AddBordingHouse = () => {
   const [checkedItems, setCheckedItems] = useState({});
-  const [current, setCurrent] = useState("used");
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
-  const [hidephoneno , setHidephoneno] = useState(false);
+  const [hidephoneno , setHidephoneno] = useState(false);z
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [images, setImages] = useState(Array(6).fill(null)); // Array to hold up to 6 images
