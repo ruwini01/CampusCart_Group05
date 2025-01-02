@@ -13,6 +13,7 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
     const user=req.user;
 
         const boardingPostData = {
+            category: req.body.category,
             location: req.body.location,
             facilities: req.body.facilities,
             capacity: req.body.capacity,
