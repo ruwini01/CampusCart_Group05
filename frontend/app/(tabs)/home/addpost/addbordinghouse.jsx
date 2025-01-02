@@ -143,6 +143,42 @@ const handleImageSelect = async (index, uri) => {
   }
 };
 
+const fetchUserData = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await axios.post(
+      `${apiUrl}/users/userdata`,
+      { token },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    if (response.data.success) {
+      const { name, telephone, address } = response.data.data;
+
+      setForm((prev) => ({
+        ...prev,
+        contact: {
+          name: name || '',
+          telephone: telephone ? String(telephone) : '',
+          address: address || '',
+        },
+      }));
+
+    } else {
+      Alert.alert('Error', response.data.errors || 'Failed to fetch user data.');
+    }
+  } catch (error) {
+    Alert.alert('Error', 'An error occurred while fetching user data.');
+    console.error(error);
+  }
+};
+
+
+
   const facilities = [
     'Water',
     'Electricity',
