@@ -1,8 +1,8 @@
 import React,{useEffect,useState} from "react";
 import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/HomeScreen.js';
-import OnboardingScreen from "../screens/OnboardingScreen.js";
+import HomeScreen from '../components/HomeScreen.js';
+import OnboardingScreen from "../components/OnboardingScreen.js";
 
 const Stack=createNativeStackNavigator();
 
