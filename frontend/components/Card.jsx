@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text , Image } from 'react-native'
 import React from 'react'
 
 const Card = ({image, name, price, days}) => {
   return (
     
-      <View className='w-44 h-56 rounded-lg bg-white shadow-inner'>
+    <View className="w-44 h-56 rounded-lg bg-white shadow-inner relative">
 
         <View>
         <Image
@@ -18,9 +18,7 @@ const Card = ({image, name, price, days}) => {
           <Text className='font-semibold text-sm'>Rs.{price}</Text>
         </View>
 
-        <View className='items-end p-1 pt-10'>
-          <Text className='font-extralight text-sm'>{days}</Text>
-        </View>
+          <Text className="font-extralight text-sm absolute bottom-1 right-1">{days}</Text>
 
       </View>
  
