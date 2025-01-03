@@ -1,40 +1,70 @@
-import { View, Text, Image } from 'react-native';
-import React from 'react';
-import { useGlobalSearchParams } from 'expo-router';
-import { images } from '../../../../constants';
+import { View, Text, ScrollView, Button, TouchableOpacity, Image } from 'react-native'
+import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { useRouter } from 'expo-router'
+import SearchInput from '../../../components/SearchInput'
+import IconButton from '../../../components/IconButton'
+import { icons } from '../../../constants'
+import RecentPosts from '../../../components/RecentPosts'
 
-const ItemDetail = () => {
-  const { id } = useGlobalSearchParams();
+const Home = () => {
 
-  const posts = {
-    '1': { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    '2': { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    '3': { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    '4': { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-    '5': { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    '6': { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    '7': { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    '8': { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-  };
-
-  const item = posts[id] || {};
-
-  if (!item.name) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Item not found</Text>
-      </View>
-    );
-  }
+  const router = useRouter();
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Image source={item.image} style={{ width: '100%', height: 200, marginBottom: 16 }} />
-      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 8 }}>{item.name}</Text>
-      <Text style={{ fontSize: 18, color: 'gray', marginBottom: 8 }}>Price: {item.price}</Text>
-      <Text style={{ fontSize: 16 }}>Posted {item.days} days ago</Text>
-    </View>
-  );
-};
+    <SafeAreaView className='h-full'>
+      <View className='w-full h-full px-4'>
+        <View className='px-6'>
+          <SearchInput />
+        </View>
 
-export default ItemDetail;
+        <View className="flex-1 flex-row flex-wrap gap-12 py-10 mb-6 items-center justify-center">
+          <IconButton
+            image={icons.sell}
+            title="Buy an Item"
+            handlePress={() => router.push('/(tabs)/home/buyandsellhome')}
+            otherStyle="w-36"
+          />
+          <IconButton
+            image={icons.lost}
+            title="Lost Items"
+            handlePress={() => router.push('/(tabs)/home/losthome')}
+            otherStyle="w-36"
+          />
+
+          <IconButton
+            image={icons.found}
+            title="Found Items"
+            handlePress={() => router.push('/(tabs)/home/foundhome')}
+            otherStyle="w-36"
+          />
+
+          <IconButton
+            image={icons.house}
+            title="Bording Accommocation"
+            handlePress={() => router.push('/(tabs)/home/bordinghouseshome')}
+            otherStyle="w-36"
+          />
+        </View>
+
+        <Text className='font-semibold text-xl ml-6 mt-6'>Recent Posts</Text>
+        <RecentPosts />
+      </View>
+
+      <View className='justify-center items-center'>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => router.push('/(tabs)/home/addpost')}
+        >
+          <Image
+            source={icons.plus}
+            className='w-14 h-14 mt-[-14]'
+            resizeMode='contain'
+          />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+export default Home

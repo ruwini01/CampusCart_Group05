@@ -19,6 +19,7 @@ const Card = ({image, name, price, days}) => {
         </View>
 
           <Text className="font-extralight text-sm absolute bottom-1 right-1">{days}</Text>
+
       </View>
  
   )

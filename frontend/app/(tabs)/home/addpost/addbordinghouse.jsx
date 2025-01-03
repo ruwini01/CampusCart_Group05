@@ -19,7 +19,7 @@ const AddBordingHouse = () => {
   const [checkedItems, setCheckedItems] = useState({});
   const [negotiable, setNegotiable] = useState(false);
   const [sap, setSap] = useState(false);
-  const [hidephoneno , setHidephoneno] = useState(false);
+  const [hidephoneno, setHidephoneno] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [images, setImages] = useState([null, null, null, null, null, null]);
   const [customFacility, setCustomFacility] = useState('');
@@ -37,7 +37,7 @@ const AddBordingHouse = () => {
     contact: {},
     hidephoneno: false,
   });
-  
+
   const handleCategorySelect = (category) => {
     if (selectedCategory === category) {
       setSelectedCategory(null);
@@ -106,144 +106,144 @@ const AddBordingHouse = () => {
         name: `image${index + 1}.jpg`,
       });
 
-  const uploadResponse = await axios.post(
-    `${apiUrl}/upload`,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
-  );
+      const uploadResponse = await axios.post(
+        `${apiUrl}/upload`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
-  if (uploadResponse.data.success) {
-    setImages(prevImages => {
-      const newImages = [...prevImages];
-      newImages[index] = uploadResponse.data.image_url;
-      return newImages;
-    });
+      if (uploadResponse.data.success) {
+        setImages(prevImages => {
+          const newImages = [...prevImages];
+          newImages[index] = uploadResponse.data.image_url;
+          return newImages;
+        });
 
-    setForm(prevForm => ({
-      ...prevForm,
-      images: [
-        ...prevForm.images.slice(0, index),
-        uploadResponse.data.image_url,
-        ...prevForm.images.slice(index + 1)
-      ],
-    }));
+        setForm(prevForm => ({
+          ...prevForm,
+          images: [
+            ...prevForm.images.slice(0, index),
+            uploadResponse.data.image_url,
+            ...prevForm.images.slice(index + 1)
+          ],
+        }));
 
-    return uploadResponse.data.image_url;
-  } else {
-    Alert.alert('Error', 'Failed to upload image');
-    return null;
-  }
-} catch (error) {
-  console.error('Image upload error:', error);
-  Alert.alert('Error', 'Failed to upload image');
-  return null;
-}
-};
-
-
-const handleImageSelect = async (index, uri) => {
-  try {
-    const uploadedImageUrl = await handleImageUpload(uri, index);
-    if (uploadedImageUrl) {
-      setImages(prevImages => {
-        const newImages = [...prevImages];
-        newImages[index] = uploadedImageUrl;
-        return newImages;
-      });
-    }
-  } catch (error) {
-    console.error('Error handling image selection:', error);
-    Alert.alert('Error', 'Failed to process image');
-  }
-};
-
-const fetchUserData = async () => {
-  try {
-    const token = await AsyncStorage.getItem('token');
-    const response = await axios.post(
-      `${apiUrl}/users/userdata`,
-      { token },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        return uploadResponse.data.image_url;
+      } else {
+        Alert.alert('Error', 'Failed to upload image');
+        return null;
       }
-    );
-
-    if (response.data.success) {
-      const { name, telephone, address } = response.data.data;
-
-      setForm((prev) => ({
-        ...prev,
-        contact: {
-          name: name || '',
-          telephone: telephone ? String(telephone) : '',
-          address: address || '',
-        },
-      }));
-
-    } else {
-      Alert.alert('Error', response.data.errors || 'Failed to fetch user data.');
+    } catch (error) {
+      console.error('Image upload error:', error);
+      Alert.alert('Error', 'Failed to upload image');
+      return null;
     }
-  } catch (error) {
-    Alert.alert('Error', 'An error occurred while fetching user data.');
-    console.error(error);
-  }
-};
+  };
+
+  const handleImageSelect = async (index, uri) => {
+    try {
+      const uploadedImageUrl = await handleImageUpload(uri, index);
+      if (uploadedImageUrl) {
+        setImages(prevImages => {
+          const newImages = [...prevImages];
+          newImages[index] = uploadedImageUrl;
+          return newImages;
+        });
+      }
+    } catch (error) {
+      console.error('Error handling image selection:', error);
+      Alert.alert('Error', 'Failed to process image');
+    }
+  };
 
 
-const submit = async () => {
-  try {
-    if (!form.location || !form.facilities || !form.capacity || !form.distance || !form.description || !form.rentprice || !form.contact.telephone) {
-      Alert.alert('Error', 'Please fill all the required fields.');
-      return;
-     }
+  const fetchUserData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await axios.post(
+        `${apiUrl}/users/userdata`,
+        { token },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-    setIsSubmitting(true);
-    const validImages = images.filter(img => img !== null);
-    const token = await AsyncStorage.getItem('token');
+      if (response.data.success) {
+        const { name, telephone, address } = response.data.data;
 
-    const updatedForm = {
-      ...form,
-      images: validImages,
-      negotiable: negotiable,
-      hidephoneno: hidephoneno,
-    };
+        setForm((prev) => ({
+          ...prev,
+          contact: {
+            name: name || '',
+            telephone: telephone ? String(telephone) : '',
+            address: address || '',
+          },
+        }));
 
+      } else {
+        Alert.alert('Error', response.data.errors || 'Failed to fetch user data.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'An error occurred while fetching user data.');
+      console.error(error);
+    }
+  };
+
+
+  const submit = async () => {
+    try {
+      if (!form.location || !form.facilities || !form.capacity || !form.distance || !form.description || !form.rentprice || !form.contact.telephone) {
+        Alert.alert('Error', 'Please fill all the required fields.');
+        return;
+       }
   
-    console.log('Updated Form Details:', updatedForm);
+      setIsSubmitting(true);
+      const validImages = images.filter(img => img !== null);
+      const token = await AsyncStorage.getItem('token');
+  
+      const updatedForm = {
+        ...form,
+        images: validImages,
+        negotiable: negotiable,
+        hidephoneno: hidephoneno,
+      };
+
+    
+      console.log('Updated Form Details:', updatedForm);
 
 
-    const response = await axios.post(
-     `${apiUrl}/boardingposts/addbordingpost`,
-      updatedForm
-      ,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await axios.post(
+       `${apiUrl}/boardingposts/addbordingpost`,
+        updatedForm
+        ,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.data.success) {
+        Alert.alert('Success', 'Post Added Successfully');
+        router.replace('/home');
       }
-    );
-
-    if (response.data.success) {
-      Alert.alert('Success', 'Post Added Successfully');
-      router.replace('/home');
+      else{
+        Alert.alert('Error', 'Something went wrong');
+      }
+     
+    } catch (error) {
+      console.error('Submit error:', error);
+      Alert.alert('Error', 'Failed to submit form');
+    } finally {
+      setIsSubmitting(false);
     }
-    else{
-      Alert.alert('Error', 'Something went wrong');
-    }
-   
-  } catch (error) {
-    console.error('Submit error:', error);
-    Alert.alert('Error', 'Failed to submit form');
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const facilities = [
     'Water',
@@ -467,7 +467,7 @@ const submit = async () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default AddBordingHouse
+export default AddBordingHouse;

@@ -7,6 +7,8 @@ import CustomButton from '../../components/CustomButton';
 import { Alert } from 'react-native';
 import axios from 'axios';
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const SignUp = () => {
   const [form, setForm] = useState({
     email: '',
@@ -34,7 +36,7 @@ const SignUp = () => {
 
       // Check if registration number exists
       const regnocheckResponse = await axios.post(
-        'http://172.20.10.2:8080/users/signup/regnocheck',
+        `${apiUrl}/users/signup/regnocheck`,
         {
           regno: form.regno,
         },
@@ -77,7 +79,7 @@ const SignUp = () => {
         </Text>
         <View className="py-8 items-center">
           <FromField
-            value={form.regno}
+            value={form.regno.toUpperCase()}
             handleChangeText={(e) =>
               setForm({
                 ...form,
