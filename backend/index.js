@@ -15,6 +15,7 @@ const userRoute = require('./routes/userRoute');
 const verifyRoute = require('./routes/verifyRoute');
 const boardingPostsRoute = require('./routes/bordingPostsRoute');
 const sellpostsRoute = require('./routes/sellPostsRoute');
+const lostPostsRoute = require('./routes/lostPostsRoute');
 
 
 app.use(express.json());
@@ -28,6 +29,8 @@ app.use('/users', userRoute);
 app.use('/verify', verifyRoute);
 app.use('/boardingposts',boardingPostsRoute);
 app.use('/sellposts', sellpostsRoute);
+app.use('/lostposts', lostPostsRoute);
+
 
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
