@@ -64,7 +64,7 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
 
 
 
-router.get('/listbordingposts',AuthToken, async(req, res)=>{
+router.get('/listbordingposts', async(req, res)=>{
     try {
         const boardingPosts = await BoardingPosts.find();
         res.status(200).json({ success: true, data: boardingPosts });
