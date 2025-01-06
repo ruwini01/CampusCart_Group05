@@ -15,7 +15,7 @@ const BordingAccommodationPosts = () => {
     const fetchPostData = async () => {
       try {
         const response = await axios.get(`${apiUrl}/boardingposts/listbordingposts`);
-
+        
         if (response.data.success) {
           setPosts(response.data.data);
         } else {
@@ -54,7 +54,6 @@ const BordingAccommodationPosts = () => {
 
   return (
     <View className="flex-1 flex-grow items-center pb-4">
-      <Text>Hi</Text>
       <FlatList
         data={posts}
         keyExtractor={(item) => item._id}
