@@ -12,14 +12,24 @@ const JWT_SECRET = '#campusCartGroup05*';
 
 router.get('/listposts', async(req, res)=>{
     try {
-        const sellPosts = await Posts.find();
-        res.status(200).json({ success: true, sellPosts });
+        const allPosts = await Posts.find();
+        res.status(200).json({ success: true, allPosts });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'An error occurred while fetching sell posts.' });
+        res.status(500).json({ error: 'An error occurred while fetching all posts.' });
     }
-
 });
+
+
+router.get('/listposts/:id', async(req, res)=>{
+    try {
+        const allPosts = await Posts.find({postId: req.params.id});
+        res.status(200).json({ success: true, allPosts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching all posts.' });
+    }
+})
 
 
 router.get('/getAllPosts', async (req, res) => {
