@@ -13,6 +13,7 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
     const user=req.user;
 
         const boardingPostData = {
+            category: req.body.category,
             location: req.body.location,
             facilities: req.body.facilities,
             capacity: req.body.capacity,
@@ -64,19 +65,67 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
 
 
 router.get('/listbordingposts', async(req, res)=>{
+    try {
+        const boardingPosts = await BoardingPosts.find();
+        res.status(200).json({ success: true, data: boardingPosts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while retrieving boarding posts.' });
+    }
 
 })
 
 
 
-router.delete('/removebordingpost', async(req, res)=>{
+router.delete('/removeboardingpost/:postId',AuthToken, async (req, res) => {
+    try {
+        const { postId } = req.params;
 
-})
+        const deletedPost = await BoardingPosts.findByIdAndDelete({_id:postId});
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Boarding post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'boarding' });
+
+        res.status(200).json({ success: true, message: 'Boarding post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while removing the boarding post.'+error });
+    }
+});
 
 
-router.put('/editbordingpost', async(req, res)=>{
+router.put('/editbordingpost/:postId', AuthToken, async (req, res) => {
+    const user = req.user; 
+    const { postId } = req.params;
+    const updates = req.body; 
 
-})
+    if (!postId) {
+        return res.status(400).json({ error: 'Please enter a valid postId' });
+    }
+
+    try {
+        const boardingPost = await BoardingPosts.findByIdAndUpdate(
+            postId, 
+            { $set: updates }, 
+            { new: true, runValidators: true }
+        );
+
+        if (!boardingPost) {
+            return res.status(404).json({ error: 'Boarding Post not found' });
+        }
+
+        return res.status(200).json({
+            message: 'Successfully edited boarding post',
+            boardingPost,
+        });
+    } catch (error) {
+        console.error('Error while updating boarding post:', error);
+        return res.status(500).json({ error: 'Internal server error: ' + error.message });
+    }
+});
+
 
 
 module.exports = router;

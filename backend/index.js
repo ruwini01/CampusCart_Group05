@@ -16,7 +16,8 @@ const verifyRoute = require('./routes/verifyRoute');
 const boardingPostsRoute = require('./routes/bordingPostsRoute');
 const sellpostsRoute = require('./routes/sellPostsRoute');
 const lostPostsRoute = require('./routes/lostPostsRoute');
-
+const allpostsRoute = require('./routes/allPostRoute');
+const foundPostsRoute = require('./routes/foundPostsRoute');
 
 app.use(express.json());
 app.use(cors({
@@ -30,8 +31,8 @@ app.use('/verify', verifyRoute);
 app.use('/boardingposts',boardingPostsRoute);
 app.use('/sellposts', sellpostsRoute);
 app.use('/lostposts', lostPostsRoute);
-
-
+app.use('/allposts', allpostsRoute);
+app.use('/foundposts',foundPostsRoute);
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
     .then(() => {
