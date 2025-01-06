@@ -51,6 +51,13 @@ router.post('/addfoundpost',AuthToken, async(req, res)=>{
 
 
 router.get('/listfoundposts', async(req, res)=>{
+    try {
+        const foundPosts = await FoundPosts.find();
+        res.status(200).json({ success: true, foundPosts });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching found posts.' });
+    }
 
 })
 
