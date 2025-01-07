@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const {default: mongoose, Model} = require('mongoose');
+const FoundPosts = require('../models/foundPosts');
+const AuthToken = require('../middleware/authToken');
+const Posts = require('../models/posts');
 
 router.post('/addfoundpost',AuthToken, async(req, res)=>{
     const user=req.user;
