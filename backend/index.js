@@ -34,7 +34,7 @@ app.use('/sellposts', sellpostsRoute);
 app.use('/lostposts', lostPostsRoute);
 app.use('/allposts', allpostsRoute);
 app.use('/foundposts',foundPostsRoute);
-app.use('/api', myPostsRoute);
+app.use('/posts', myPostsRoute);
 
 mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
     .then(() => {
