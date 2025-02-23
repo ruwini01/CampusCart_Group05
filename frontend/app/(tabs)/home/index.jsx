@@ -21,7 +21,7 @@ const Home = () => {
           
           {/* handlePress={() => router.push('/(tabs)/home/bordinghouseshome')} */}
           {/* Flex container for the grid */}
-        <View className="flex-1 flex-row flex-wrap gap-12 py-10 mb-6 items-center justify-center">
+        <View className="flex-1 flex-row flex-wrap gap-4 py-4 mb-6 items-center justify-center">
           <IconButton
             image={icons.sell}
             title="Buy an Item"
@@ -50,7 +50,7 @@ const Home = () => {
           />
         </View>
  
-          <Text className='font-semibold text-xl ml-6 mt-6'>Recent Posts</Text>
+          <Text className='font-semibold text-xl ml-12 mt-24'>Recent Posts</Text>
           <RecentPosts/>
         
 
@@ -61,7 +61,7 @@ const Home = () => {
           >
             <Image
               source={icons.plus}
-              className='w-14 h-14 mt-[-14]'
+              className='w-12 h-12 mt-[-14]'
               resizeMode='contain'
             />
           </TouchableOpacity>
