@@ -1,5 +1,5 @@
 import { View, FlatList, TouchableOpacity ,Text} from 'react-native';
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import Card from './Card';
 import { images } from '../constants';
 import { useRouter } from 'expo-router';
