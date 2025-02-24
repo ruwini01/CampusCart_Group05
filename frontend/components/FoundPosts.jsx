@@ -9,6 +9,7 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 const FoundPosts = () => {
   const router = useRouter();
 
+   const [posts, setPosts] = useState([]);
   const posts = [
     { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
     { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
