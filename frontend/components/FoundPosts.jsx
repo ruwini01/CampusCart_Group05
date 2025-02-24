@@ -2,6 +2,7 @@ import { View, FlatList, TouchableOpacity ,Text} from 'react-native';
 import React,{useEffect,useState} from 'react';
 import Card from './Card';
 import { useRouter } from 'expo-router';
+import axios from 'axios';
 
 const FoundPosts = () => {
   const router = useRouter();
