@@ -70,9 +70,23 @@ router.get('/listlostposts', async(req, res)=>{
 
 
 
-router.delete('/removelostpost', async(req, res)=>{
+router.delete('/removelostpost/:postId',AuthToken, async (req, res) => {
+    try {
+        const { postId } = req.params;
 
-})
+        const deletedPost = await LostPosts.findByIdAndDelete({_id:postId});
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Lost post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'found' });
+
+        res.status(200).json({ success: true, message: 'Lost post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while removing the lost post.'+error });
+    }
+});
 
 
 router.put('/editlostpost', async(req, res)=>{
