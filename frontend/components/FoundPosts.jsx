@@ -77,4 +77,5 @@ const FoundPosts = () => {
   );
 };
 
+
 export default FoundPosts;
