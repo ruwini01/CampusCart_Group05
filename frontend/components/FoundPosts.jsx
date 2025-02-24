@@ -1,7 +1,6 @@
 import { View, FlatList, TouchableOpacity ,Text} from 'react-native';
 import React,{useEffect,useState} from 'react';
 import Card from './Card';
-import { images } from '../constants';
 import { useRouter } from 'expo-router';
 
 const FoundPosts = () => {
