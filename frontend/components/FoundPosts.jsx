@@ -4,6 +4,8 @@ import Card from './Card';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
+
 const FoundPosts = () => {
   const router = useRouter();
 
