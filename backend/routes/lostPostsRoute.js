@@ -5,6 +5,7 @@ const LostPosts = require('../models/lostPosts');
 const AuthToken = require('../middleware/authToken');
 const Posts = require('../models/posts');
 
+
 router.post('/addlostpost',AuthToken, async(req, res)=>{
     const user=req.user;
 
@@ -69,7 +70,6 @@ router.get('/listlostposts', async(req, res)=>{
 })
 
 
-
 router.delete('/removelostpost/:postId',AuthToken, async (req, res) => {
     try {
         const { postId } = req.params;
@@ -86,7 +86,6 @@ router.delete('/removelostpost/:postId',AuthToken, async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while removing the lost post.'+error });
     }
-
 });
 
 
@@ -119,7 +118,6 @@ router.put('/editlostpost/:postId', AuthToken, async (req, res) => {
         console.error('Error while updating lost post:', error);
         return res.status(500).json({ error: 'Internal server error: ' + error.message });
     }
-
 });
 
 
