@@ -11,6 +11,23 @@ const FoundPosts = () => {
 
    const [posts, setPosts] = useState([]);
  
+   useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/foundposts/listfoundposts`);
+        
+        if (response.data.success) {
+          setPosts(response.data.foundPosts);
+        } else {
+          Alert.alert('Error', 'Error occurred');
+        }
+      } catch (error) {
+        Alert.alert('Error', error.message);
+      }
+    };
+    fetchPostData();
+  }, []);
+  
   return (
     <View className="flex-1 flex-grow items-center pb-4">
       <FlatList
