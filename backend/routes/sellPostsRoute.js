@@ -89,7 +89,7 @@ router.get('/listsellposts/:id', async(req, res)=>{
 
 
 
-router.delete('/removesellpost/:postId',AuthToken, async(req, res)=>{
+router.delete('/removesellpost/:postId',AuthToken, async (req, res) => {
     try {
         const { postId } = req.params;
 
@@ -106,7 +106,6 @@ router.delete('/removesellpost/:postId',AuthToken, async(req, res)=>{
         res.status(500).json({ error: 'An error occurred while removing the sell post.'+error });
     }
 });
-
 
 router.put('/editsellpost/:postId', AuthToken, async (req, res) => {
     const user = req.user; 
@@ -137,7 +136,6 @@ router.put('/editsellpost/:postId', AuthToken, async (req, res) => {
         console.error('Error while updating sell post:', error);
         return res.status(500).json({ error: 'Internal server error: ' + error.message });
     }
-
 });
 
 
