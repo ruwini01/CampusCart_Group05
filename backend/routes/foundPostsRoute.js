@@ -66,7 +66,7 @@ router.get('/listfoundposts', async(req, res)=>{
 
 
 
-router.delete('/removefoundpost', async(req, res)=>{
+router.delete('/removefoundpost/:postId',AuthToken, async (req, res) => {
     try {
         const { postId } = req.params;
 
@@ -86,7 +86,7 @@ router.delete('/removefoundpost', async(req, res)=>{
 });
 
 
-router.put('/editfoundpost', async(req, res)=>{
+router.put('/editfoundpost/:postId', AuthToken, async (req, res) => {
     const user = req.user; 
     const { postId } = req.params;
     const updates = req.body;
