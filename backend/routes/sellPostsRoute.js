@@ -5,6 +5,7 @@ const SellPosts = require('../models/SellPosts');
 const Posts = require('../models/posts');
 const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
+const AuthToken = require('../middleware/authToken');
 
 const JWT_SECRET = '#campusCartGroup05*';
 
