@@ -1,0 +1,24 @@
+const express = require('express');
+const router = express.Router();
+const {default: mongoose, Model} = require('mongoose');
+const AuthToken = require('../middleware/authToken');
+const Posts = require('../models/posts');
+const SellPosts = require('../models/SellPosts');
+const LostPosts = require('../models/lostPosts');
+const FoundPosts = require('../models/foundPosts');
+const BoardingPosts = require('../models/boardingPosts');
+
+router.get('/myposts', AuthToken, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const myPosts = await Posts.find({ userId: userId });
+
+        res.status(200).json({
+            success: true,
+            posts: myPosts
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while fetching your posts.' });
+    }
+});
