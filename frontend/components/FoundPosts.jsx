@@ -10,17 +10,7 @@ const FoundPosts = () => {
   const router = useRouter();
 
    const [posts, setPosts] = useState([]);
-  const posts = [
-    { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-    { id: '5', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    { id: '6', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    { id: '7', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    { id: '8', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-  ];
-
+ 
   return (
     <View className="flex-1 flex-grow items-center pb-4">
       <FlatList
