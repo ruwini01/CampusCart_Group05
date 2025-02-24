@@ -27,7 +27,31 @@ const FoundPosts = () => {
     };
     fetchPostData();
   }, []);
-  
+
+   const calculateTimeAgo = (dateString) => {
+    const postedDate = new Date(dateString);
+    const now = new Date();
+    const differenceInMs = now - postedDate;
+
+    const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
+    
+    if (differenceInMinutes < 1) {
+        return 'just now';
+    }
+    
+    if (differenceInMinutes < 60) {
+        return `${differenceInMinutes} min${differenceInMinutes > 1 ? 's' : ''} ago`;
+    }
+
+    const differenceInHours = Math.floor(differenceInMinutes / 60);
+    if (differenceInHours < 24) {
+        return `${differenceInHours} hour${differenceInHours > 1 ? 's' : ''} ago`;
+    }
+
+    const differenceInDays = Math.floor(differenceInHours / 24);
+    return `${differenceInDays} day${differenceInDays > 1 ? 's' : ''} ago`;
+};
+
   return (
     <View className="flex-1 flex-grow items-center pb-4">
       <FlatList
