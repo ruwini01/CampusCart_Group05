@@ -89,7 +89,7 @@ router.get('/listsellposts/:id', async(req, res)=>{
 
 
 
-router.delete('/removesellpost', async(req, res)=>{
+router.delete('/removesellpost/:postId',AuthToken, async(req, res)=>{
     try {
         const { postId } = req.params;
 
