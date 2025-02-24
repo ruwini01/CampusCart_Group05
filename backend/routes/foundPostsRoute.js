@@ -65,7 +65,6 @@ router.get('/listfoundposts', async(req, res)=>{
 })
 
 
-
 router.delete('/removefoundpost/:postId',AuthToken, async (req, res) => {
     try {
         const { postId } = req.params;
@@ -82,9 +81,7 @@ router.delete('/removefoundpost/:postId',AuthToken, async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while removing the found post.'+error });
     }
-
 });
-
 
 router.put('/editfoundpost/:postId', AuthToken, async (req, res) => {
     const user = req.user; 
@@ -118,7 +115,6 @@ router.put('/editfoundpost/:postId', AuthToken, async (req, res) => {
         console.error('Error while updating found post:', error);
         return res.status(500).json({ error: 'Internal server error: ' + error.message });
     }
-
 });
 
 
