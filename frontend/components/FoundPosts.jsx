@@ -56,15 +56,20 @@ const FoundPosts = () => {
     <View className="flex-1 flex-grow items-center pb-4">
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         numColumns={2}
         renderItem={({ item }) => (
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-4"
-            onPress={() => router.push(`/(tabs)/home/${item.id}`)}
+            onPress={() => router.push(`/(tabs)/home/${item._id}`)}
           >
-            <Card image={item.image} name={item.name} price={item.price} days={item.days} />
+            <Card
+              image={item.images[0]}
+              name={item.itemname+' found at '+item.location+' on '+ (item.founddate).slice(0,10)}
+              //price={item.rentprice}
+              days={calculateTimeAgo(item.date)} // Pass calculated time
+            />
           </TouchableOpacity>
         )}
       />
