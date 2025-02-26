@@ -1,5 +1,5 @@
-import { View, FlatList, TouchableOpacity, Text, ActivityIndicator, Alert } from 'react-native';
-import React, { useState } from 'react';
+import { View, FlatList, TouchableOpacity, Text, ActivityIndicator, Alert, RefreshControl } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
 import TrackCard from './TrackCard';
 import { useRouter, useFocusEffect } from 'expo-router';
 import axios from 'axios';
@@ -8,9 +8,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const Bookmark = () => {
-    const router = useRouter()
+    const router = useRouter();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     const fetchPostData = async () => {
         try {
@@ -41,9 +42,22 @@ const Bookmark = () => {
             }
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
+    // Refresh when screen comes into focus
+    useFocusEffect(
+        useCallback(() => {
+            fetchPostData();
+        }, [])
+    );
+
+    // Handle pull-to-refresh
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        fetchPostData();
+    }, []);
 
     const calculateTimeAgo = (dateString) => {
         // ... existing calculateTimeAgo function ...
@@ -63,6 +77,12 @@ const Bookmark = () => {
                 data={posts}
                 keyExtractor={(item) => item._id}
                 numColumns={2}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                }
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         activeOpacity={0.7}
