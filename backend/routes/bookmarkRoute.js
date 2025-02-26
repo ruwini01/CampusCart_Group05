@@ -80,7 +80,33 @@ router.get('/bookmarkedList', AuthToken, async (req, res) => {
     }
 });
 
+router.delete('/removebookmark/:postId', AuthToken, async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const postId = req.params.postId;
 
+        // Find the user and update the savedposts array
+        const user = await User.findByIdAndUpdate(
+            userId,
+            { $pull: { savedposts: postId } },
+            { new: true } // Return the updated document
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Post removed from bookmarks',
+            updatedBookmarks: user.savedposts
+        });
+
+    } catch (error) {
+        console.error('Error removing bookmarked post:', error);
+        return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
 
 
 
