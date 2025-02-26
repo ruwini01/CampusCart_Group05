@@ -202,6 +202,7 @@ const PostDetail = () => {
     
   };
 
+
   const RenderContent = ContentComponent[category.toLowerCase()] || ContentComponent.sell;
 
 return (
