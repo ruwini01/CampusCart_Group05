@@ -204,4 +204,24 @@ router.post('/bookmark', async (req, res) => {
     }
 });
 
+
+router.post('/unbookmark', async (req, res) => {
+    try {
+        const { token, postId } = req.body;
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await Users.findOne({ regno: decoded.regno });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        user.savedposts = user.savedposts.filter(id => id.toString() !== postId);
+        await user.save();
+
+        res.status(200).json({ success: true, savedposts: user.savedposts });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 module.exports = router;
