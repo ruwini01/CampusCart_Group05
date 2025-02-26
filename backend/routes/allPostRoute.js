@@ -25,43 +25,52 @@ router.get('/listposts', async(req, res)=>{
 router.get('/getAllPosts', async (req, res) => {
     try {
         const allPosts = await Posts.find();
-
+        let recentPosts;
         let detailedPosts = [];
 
         for (const post of allPosts) {
             let postDetails;
-            
+            let categoryName = '';
+
             switch (post.category) {
                 case 'sell':
                     postDetails = await SellPosts.findById(post.postId);
+                    categoryName = 'sell';
                     break;
                 case 'lost':
                     postDetails = await LostPosts.findById(post.postId);
+                    categoryName = 'lost';
                     break;
                 case 'found':
                     postDetails = await FoundPosts.findById(post.postId);
+                    categoryName = 'found';
                     break;
                 case 'boarding':
                     postDetails = await BoardingPosts.findById(post.postId);
+                    categoryName = 'boarding';
                     break;
                 default:
                     continue;
             }
 
             if (postDetails) {
-                // Combine post details with user info
+                // Combine post details with user info and category name
                 const formattedPost = {
                     _id: postDetails._id,
                     date: post.date,
+                    cat: categoryName, // Add category name
                     ...postDetails.toObject(), // Spread all other details from specific post
                 };
                 detailedPosts.push(formattedPost);
             }
         }
 
+        recentPosts = detailedPosts.slice(-6).reverse();
+
         res.status(200).json({
             success: true,
-            posts: detailedPosts
+            posts: detailedPosts,
+            recentPosts: recentPosts
         });
 
     } catch (error) {
