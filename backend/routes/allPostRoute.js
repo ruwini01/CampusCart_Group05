@@ -22,7 +22,7 @@ router.get('/listposts', async(req, res)=>{
 });
 
 
-router.get('/getAllPosts', async (req, res) => {
+router.get('/getAllPosts', async (req, res) => {//
     try {
         const allPosts = await Posts.find();
         let recentPosts;
