@@ -252,7 +252,7 @@ const EditProfile = () => {
           </View>
 
           <View className="flex-row justify-between">
-            <EditButton handlePress={handledelete} fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
+            <EditButton handlePress={handledelete} text='Delete Account' fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
             <SaveButton handlePress={handleSave} fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
           </View>
         </View>
