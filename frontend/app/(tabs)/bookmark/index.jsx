@@ -1,28 +1,15 @@
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import TrackCard from '../../../components/TrackCard'
-import { router } from 'expo-router'
+import { Text } from 'react-native';
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Bookmark from '../../../components/Bookmark';
 
 const Home = () => {
-
-  const navigatePage = 
-      () => 
-    { 
-        router.push('/(tabs)/bookmark/trackpost');
-    }
-
   return (
-    <SafeAreaView>
-      <Text className="mx-6 font-semibold text-xl mb-6">Saved Posts</Text>
-    <ScrollView>
-      <View className='mx-6'>
-        <TrackCard handlePress={navigatePage}/>
-      </View>
-    </ScrollView>
-  </SafeAreaView>
+    <SafeAreaView className="flex-1">
+      <Text className="font-semibold text-xl mb-6 px-6">Bookmarked Posts</Text>
+      <Bookmark />
+    </SafeAreaView>
+  );
+};
 
-  )
-}
-
-export default Home
+export default Home;
