@@ -117,6 +117,7 @@ router.put('/editbordingpost/:postId', AuthToken, async (req, res) => {
         }
 
         return res.status(200).json({
+            success: true,
             message: 'Successfully edited boarding post',
             boardingPost,
         });
