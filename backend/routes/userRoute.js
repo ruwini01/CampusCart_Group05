@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {default: mongoose, Model} = require('mongoose');
+const { default: mongoose, Model } = require('mongoose');
 const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
 
@@ -32,17 +32,17 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/userdata', async (req, res) => {
-    const {token} = req.body;
-    try{
+    const { token } = req.body;
+    try {
         const user = jwt.verify(token, JWT_SECRET);
         const userRegno = user.regno;
-        const userData = await Users.findOne({regno: userRegno});
+        const userData = await Users.findOne({ regno: userRegno });
         return res.status(200).json({
             success: true,
             data: userData
         });
     }
-    catch(error){
+    catch (error) {
         console.error(error);
         return res.status(500).json({
             success: false,
@@ -52,12 +52,12 @@ router.post('/userdata', async (req, res) => {
 });
 
 
-router.post('/signup/regnocheck', async(req, res)=>{
+router.post('/signup/regnocheck', async (req, res) => {
     try {
-        let check = await Users.findOne({regno: req.body.regno});
-        if(check) {
+        let check = await Users.findOne({ regno: req.body.regno });
+        if (check) {
             return res.status(400).json({
-                success: false, 
+                success: false,
                 errors: "Existing user found with same Registration Number"
             });
         }
@@ -65,7 +65,7 @@ router.post('/signup/regnocheck', async(req, res)=>{
             success: true,
             message: "No user found with same Registration Number"
         });
-       
+
 
     } catch (error) {
         console.error("Regno checking error:", error);
@@ -90,7 +90,7 @@ router.post('/signup', async (req, res) => {
 
         //save user in the database
         await user.save();
-        
+
         // Send success response
         res.status(201).json({
             success: true,
@@ -109,16 +109,16 @@ router.post('/signup', async (req, res) => {
 
 router.post('/updateuser', async (req, res) => {
     try {
-        const {token, name, telephone, address, profilepic} = req.body;
-  
+        const { token, name, telephone, address, profilepic } = req.body;
+
         // Verify token
         const decodedToken = jwt.verify(token, JWT_SECRET);
-        
+
         // Find user by regno since that's what we stored in token
         const user = await Users.findOne({ regno: decodedToken.regno });
         console.log(user);
-        
-        
+
+
         if (!user) {
             return res.status(404).json({
                 success: false,
@@ -145,7 +145,7 @@ router.post('/updateuser', async (req, res) => {
             message: 'Profile updated successfully',
             data: updatedUser
         });
-  
+
     } catch (error) {
         console.error('Update profile error:', error);
         res.status(500).json({
@@ -159,7 +159,7 @@ router.post('/updateuser', async (req, res) => {
 
 router.post('/deleteuser', async (req, res) => {
     try {
-        const {token} = req.body;
+        const { token } = req.body;
         const decodedToken = jwt.verify(token, JWT_SECRET);
         const user = await Users.findOne({ regno: decodedToken.regno });
         if (!user) {
@@ -183,5 +183,45 @@ router.post('/deleteuser', async (req, res) => {
     }
 });
 
+router.post('/bookmark', async (req, res) => {
+    try {
+        const { token, postId } = req.body;
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await Users.findOne({ regno: decoded.regno });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        if (!user.savedposts.includes(postId)) {
+            user.savedposts.push(postId);
+            await user.save();
+        }
+
+        res.status(200).json({ success: true, savedposts: user.savedposts });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+
+router.post('/unbookmark', async (req, res) => {
+    try {
+        const { token, postId } = req.body;
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await Users.findOne({ regno: decoded.regno });
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        user.savedposts = user.savedposts.filter(id => id.toString() !== postId);
+        await user.save();
+
+        res.status(200).json({ success: true, savedposts: user.savedposts });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 
 module.exports = router;
