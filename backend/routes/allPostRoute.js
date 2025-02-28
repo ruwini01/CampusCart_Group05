@@ -32,57 +32,65 @@ router.get('/listposts/:id', async(req, res)=>{
 })
 
 
-router.get('/getAllPosts', async (req, res) => {
+router.get('/getAllPosts', AuthToken, async (req, res) => {
     try {
-        const allPosts = await Posts.find();
+        const userId = req.user._id;
+        const allPosts = await Posts.find({ userId: userId });
 
         let detailedPosts = [];
 
         for (const post of allPosts) {
             let postDetails;
-            
+            let categoryName = '';
+
             switch (post.category) {
                 case 'sell':
                     postDetails = await SellPosts.findById(post.postId);
+                    categoryName = 'sell';
                     break;
                 case 'lost':
                     postDetails = await LostPosts.findById(post.postId);
+                    categoryName = 'lost';
                     break;
                 case 'found':
                     postDetails = await FoundPosts.findById(post.postId);
+                    categoryName = 'found';
                     break;
                 case 'boarding':
                     postDetails = await BoardingPosts.findById(post.postId);
+                    categoryName = 'boarding';
                     break;
                 default:
                     continue;
             }
 
             if (postDetails) {
-                // Combine post details with user info
-                const formattedPost = {
+                
+                detailedPosts.push({
                     _id: postDetails._id,
                     date: post.date,
-                    ...postDetails.toObject(), // Spread all other details from specific post
-                };
-                detailedPosts.push(formattedPost);
+                    cat: categoryName,
+                    ...postDetails.toObject(),
+                });
             }
         }
 
         res.status(200).json({
             success: true,
             posts: detailedPosts
+            
         });
 
     } catch (error) {
-        console.error('Error fetching posts:', error);
+        console.error('Error fetching user posts:', error);
         res.status(500).json({
             success: false,
-            message: 'Error fetching posts',
+            message: 'Error fetching user posts',
             error: error.message
         });
     }
 });
+
 
 
 router.get('/getAllPosts/:id', async (req, res) => {
