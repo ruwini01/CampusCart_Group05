@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const bordingPostsSchema = new Schema({
-    postId:{
-        type:String,
-        required:true
+const boardingPostsSchema = new Schema({
+    category:{
+        type: String,
     },
     location: {
         type: String,
@@ -32,6 +31,7 @@ const bordingPostsSchema = new Schema({
     },
     negotiable:{
         type:Boolean,
+        default:false
     },
     images:{
         type: Array,
@@ -53,6 +53,6 @@ const bordingPostsSchema = new Schema({
     }
 });
 
-const BordingPosts = mongoose.model('bordingPosts', bordingPostsSchema);
+const BoardingPosts = mongoose.model('boardingposts', boardingPostsSchema);
 
-module.exports = BordingPosts;
+module.exports = BoardingPosts;

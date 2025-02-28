@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const foundPostsSchema = new Schema({
-    postId:{
-        type:String,
-        required:true
-    },
     itemname: {
         type: String,
         required: true
@@ -42,6 +38,6 @@ const foundPostsSchema = new Schema({
     }
 });
 
-const FoundPosts = mongoose.model('foundPosts', foundPostsSchema);
+const FoundPosts = mongoose.model('foundposts', foundPostsSchema);
 
 module.exports = FoundPosts;

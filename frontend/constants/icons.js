@@ -19,8 +19,15 @@ import lost from "../assets/icons/lost.png"
 import user from  '../assets/icons/user-avatar.png'
 import settings from '../assets/icons/settings.png'
 import posts from '../assets/icons/poster.png'
+import language from '../assets/icons/language.png'
+import theme from '../assets/icons/theme.png'
+import call from '../assets/icons/call.png'
+import message from '../assets/icons/chat.png'
+
 
 export default {
+  message,
+  call,
   lost,
   play,
   bookmark,
@@ -41,5 +48,7 @@ export default {
   sell,
   user,
   settings,
-  posts
+  posts,
+  language,
+  theme
 };

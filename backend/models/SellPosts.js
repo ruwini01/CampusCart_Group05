@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const sellPostsSchema = new Schema({
-    postId:{
-        type:Number,
-        required:true
-    },
     category: {
         type: String,
         required: true
@@ -30,11 +26,11 @@ const sellPostsSchema = new Schema({
         required: true
     },
     price: {
-        type: Number,
+        type: String,
         required: true
     },
     originalprice: {
-        type: Number,
+        type: String,
     },
     isnagotiable:{
         type:Boolean,
@@ -58,14 +54,5 @@ const sellPostsSchema = new Schema({
 });
 
 const SellPosts = mongoose.model('sellposts', sellPostsSchema);
-
-
-usersSchema.pre('save', async function(next) {
-    if (this.isNew) {
-        const lastUser = await Users.findOne().sort({ userId: -1 });
-        this.userId = lastUser ? lastUser.userId + 1 : 1;
-    }
-    next();
-});
 
 module.exports = SellPosts;

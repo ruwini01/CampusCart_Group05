@@ -18,9 +18,6 @@ const Home = () => {
           <SearchInput/>
           </View>
           
-          
-          {/* handlePress={() => router.push('/(tabs)/home/bordinghouseshome')} */}
-          {/* Flex container for the grid */}
         <View className="flex-1 flex-row flex-wrap gap-12 py-10 mb-6 items-center justify-center">
           <IconButton
             image={icons.sell}
@@ -52,9 +49,9 @@ const Home = () => {
  
           <Text className='font-semibold text-xl ml-6 mt-6'>Recent Posts</Text>
           <RecentPosts/>
-        
+          </View>
 
-        <View className='justify-center items-center'>
+          <View className='justify-center items-center'>
         <TouchableOpacity 
           activeOpacity={0.7}
           onPress={()=> router.push('/(tabs)/home/addpost')}
@@ -65,7 +62,6 @@ const Home = () => {
               resizeMode='contain'
             />
           </TouchableOpacity>
-          </View>
           </View>
     </SafeAreaView>
   )

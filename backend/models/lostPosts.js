@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const lostPostsSchema = new Schema({
-    // postId:{
-    //     type:String,
-    //     required:true
-    // },
     itemname: {
         type: String,
         required: true
@@ -42,6 +38,6 @@ const lostPostsSchema = new Schema({
     }
 });
 
-const LostPosts = mongoose.model('lostPosts', lostPostsSchema);
+const LostPosts = mongoose.model('lostposts', lostPostsSchema);
 
 module.exports = LostPosts;
