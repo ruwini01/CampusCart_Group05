@@ -6,10 +6,11 @@ import axios from 'axios';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-const BuyAndSellPosts = () => {
-  const router = useRouter();
+const BuyAndSellPosts = ({ searchQuery }) => {
 
+  const router = useRouter();
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
     const fetchPostData = async () => {
@@ -18,6 +19,7 @@ const BuyAndSellPosts = () => {
 
         if (response.data.success) {
           setPosts(response.data.sellPosts);
+          setFilteredPosts(response.data.sellPosts);
         } else {
           Alert.alert('Error', 'Error occurred');
         }
@@ -27,6 +29,18 @@ const BuyAndSellPosts = () => {
     };
     fetchPostData();
   }, []);
+
+
+  useEffect(() => {
+      if (searchQuery) {
+        const filtered = posts.filter((post) =>
+          post.itemname.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredPosts(filtered);
+      } else {
+        setFilteredPosts(posts);
+      }
+    }, [searchQuery, posts]);
 
   const calculateTimeAgo = (dateString) => {
     const postedDate = new Date(dateString);
@@ -55,7 +69,7 @@ const BuyAndSellPosts = () => {
 return (
   <View className="flex-1 flex-grow items-center pb-4">
     <FlatList
-      data={posts}
+      data={filteredPosts}
       keyExtractor={(item) => item._id}
       numColumns={2}
       renderItem={({ item }) => (
@@ -67,7 +81,7 @@ return (
           <Card
             image={item.images[0]}
             name={item.itemname}
-            price={item.price}
+            price={'Rs.'+item.price}
             days={calculateTimeAgo(item.date)} // Pass calculated time
           />
         </TouchableOpacity>
