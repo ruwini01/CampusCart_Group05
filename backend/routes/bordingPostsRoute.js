@@ -66,7 +66,10 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
 
 router.get('/listbordingposts', async(req, res)=>{
     try {
-        const boardingPosts = await BoardingPosts.find();
+        const searchQuery = req.query.search || "";
+        const boardingPosts = await BoardingPosts.find({
+            category: { $regex: searchQuery, $options: "i" }
+        });
         res.status(200).json({ success: true, data: boardingPosts });
     } catch (error) {
         console.error(error);

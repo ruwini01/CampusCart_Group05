@@ -55,7 +55,10 @@ router.post('/addfoundpost',AuthToken, async(req, res)=>{
 
 router.get('/listfoundposts', async(req, res)=>{
     try {
-        const foundPosts = await FoundPosts.find();
+        const searchQuery = req.query.search || "";
+        const foundPosts = await FoundPosts.find({
+            itemname: { $regex: searchQuery, $options: "i" } // Case-insensitive search
+        });
         res.status(200).json({ success: true, foundPosts });
     } catch (error) {
         console.error(error);
