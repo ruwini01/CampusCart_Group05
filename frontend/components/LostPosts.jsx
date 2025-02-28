@@ -1,36 +1,75 @@
-import { View, FlatList, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { View, FlatList, TouchableOpacity, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import Card from './Card';
-import { images } from '../constants';
 import { useRouter } from 'expo-router';
+import axios from 'axios';
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const LostPosts = () => {
   const router = useRouter();
 
-  const posts = [
-    { id: '1', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    { id: '2', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    { id: '3', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    { id: '4', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-    { id: '5', image: images.bed, name: 'Double Bed Set', price: '3000', days: '3' },
-    { id: '6', image: images.bed, name: 'Sofa Set', price: '2500', days: '5' },
-    { id: '7', image: images.bed, name: 'Dining Table', price: '4000', days: '2' },
-    { id: '8', image: images.bed, name: 'Office Chair', price: '1500', days: '7' },
-  ];
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/lostposts/listlostposts`);
+        
+        if (response.data.success) {
+          setPosts(response.data.lostPosts);
+        } else {
+          Alert.alert('Error', 'Error occurred');
+        }
+      } catch (error) {
+        Alert.alert('Error', error.message);
+      }
+    };
+    fetchPostData();
+  }, []);
+
+  const calculateTimeAgo = (dateString) => {
+    const postedDate = new Date(dateString);
+    const now = new Date();
+    const differenceInMs = now - postedDate;
+
+    const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
+    
+    if (differenceInMinutes < 1) {
+        return 'just now';
+    }
+    
+    if (differenceInMinutes < 60) {
+        return `${differenceInMinutes} min${differenceInMinutes > 1 ? 's' : ''} ago`;
+    }
+
+    const differenceInHours = Math.floor(differenceInMinutes / 60);
+    if (differenceInHours < 24) {
+        return `${differenceInHours} hour${differenceInHours > 1 ? 's' : ''} ago`;
+    }
+
+    const differenceInDays = Math.floor(differenceInHours / 24);
+    return `${differenceInDays} day${differenceInDays > 1 ? 's' : ''} ago`;
+};
 
   return (
     <View className="flex-1 flex-grow items-center pb-4">
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         numColumns={2}
         renderItem={({ item }) => (
           <TouchableOpacity
             activeOpacity={0.7}
             className="p-4"
-            onPress={() => router.push(`/(tabs)/home/${item.id}`)}
+            onPress={() => router.push(`/(tabs)/home/${item._id}`)}
           >
-            <Card image={item.image} name={item.name} price={item.price} days={item.days} />
+            <Card
+              image={item.images[0]}
+              name={item.itemname+' lost at '+item.location+' on ' }
+              price={(item.lostdate)}
+              days={calculateTimeAgo(item.date)} // Pass calculated time
+            />
           </TouchableOpacity>
         )}
       />
@@ -38,4 +77,4 @@ const LostPosts = () => {
   );
 };
 
-export default LostPosts;
+export default LostPosts
