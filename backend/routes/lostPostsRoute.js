@@ -53,21 +53,19 @@ router.post('/addlostpost',AuthToken, async(req, res)=>{
 })
 
 
-
-
-router.get('/listlostposts', async(req, res)=>{
+router.get('/listlostposts', async (req, res) => {
     try {
-        const lostPosts = await LostPosts.find();
-        res.status(200).json({ success: true, lostPosts });
+        const searchQuery = req.query.search || "";
+        const lostPosts = await LostPosts.find({
+            itemname: { $regex: searchQuery, $options: "i" }
+        });
 
+        res.status(200).json({ success: true, lostPosts });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while fetching lost posts.' });
-
     }
-
-})
-
+});
 
 
 router.delete('/removelostpost/:postId',AuthToken, async (req, res) => {
