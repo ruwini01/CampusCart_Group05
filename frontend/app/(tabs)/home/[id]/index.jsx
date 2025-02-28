@@ -105,7 +105,12 @@ const PostDetail = () => {
   };
 
   const removeBookmark = async () => {
-    
+    try {
+      await axios.post(`${apiUrl}/users/unbookmark`, { token, postId: post._id });
+      setIsBookmarked(false);
+    } catch (error) {
+      console.error("Error removing bookmark:", error);
+    }
   };
 
   const toggleBookmark = () => {
