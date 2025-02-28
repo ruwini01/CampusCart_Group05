@@ -1,30 +1,34 @@
-import { View, FlatList, TouchableOpacity, Text, ActivityIndicator, Alert } from 'react-native';
+import { View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
+import { useLocalSearchParams } from 'expo-router';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-const RecentPosts = () => {
+const SimilarPosts = ({ onPostClick }) => {
   const router = useRouter();
-
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true); // State for loading indicator
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { id } = useLocalSearchParams();
 
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/allposts/getAllPosts`);
+        setLoading(true);
+        const response = await axios.get(`${apiUrl}/allposts/getAllPosts/${id}`);
+
         if (response.data.success) {
-          setPosts(response.data.recentPosts);
+          setPosts(response.data.similarItems || []); // Ensure posts is always an array
         } else {
-          Alert.alert('Error', 'Error occurred');
+          setError('Failed to load similar posts');
         }
       } catch (error) {
-        Alert.alert('Error', error.message);
+        setError(error.message);
       } finally {
-        setLoading(false); // Stop loading after fetching data
+        setLoading(false);
       }
     };
     fetchPostData();
@@ -36,9 +40,11 @@ const RecentPosts = () => {
     const differenceInMs = now - postedDate;
 
     const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
+
     if (differenceInMinutes < 1) {
       return 'just now';
     }
+
     if (differenceInMinutes < 60) {
       return `${differenceInMinutes} min${differenceInMinutes > 1 ? 's' : ''} ago`;
     }
@@ -54,23 +60,39 @@ const RecentPosts = () => {
 
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center">
+      <View className="p-4 items-center justify-center">
         <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
 
+  if (error) {
+    return (
+      <View className="p-4">
+        <Text className="text-red-500 text-center">{error}</Text>
+      </View>
+    );
+  }
+
+  if (!posts.length) {
+    return (
+      <View className="p-4">
+        <Text className="text-gray-500 text-center">No similar posts found</Text>
+      </View>
+    );
+  }
+
   return (
-    <View className="flex-1 flex-grow items-center pb-4">
-      <FlatList
-        data={posts}
-        keyExtractor={(item) => item._id}
-        numColumns={2}
-        renderItem={({ item }) => (
+    <View className="px-4 p-6">
+      <View className="flex-row flex-wrap justify-between ml-6">
+        {posts.map((item) => (
           <TouchableOpacity
-            activeOpacity={0.7}
-            className="p-4"
-            onPress={() => router.push(`/(tabs)/home/${item._id}`)}
+            key={item._id}
+            className="w-[48%] mb-4"
+            onPress={() => {
+              onPostClick();
+              router.push(`/(tabs)/home/${item._id}`);
+            }}
           >
             <Card
               image={item.images[0]}
@@ -84,10 +106,10 @@ const RecentPosts = () => {
               days={calculateTimeAgo(item.date)} // Pass calculated time
             />
           </TouchableOpacity>
-        )}
-      />
+        ))}
+      </View>
     </View>
   );
 };
 
-export default RecentPosts;
+export default SimilarPosts;
