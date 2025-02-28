@@ -7,6 +7,7 @@ const LostPosts = require('../models/lostPosts');
 const BoardingPosts = require('../models/boardingPosts');
 const FoundPosts = require('../models/foundPosts');
 const jwt = require('jsonwebtoken');
+const axios = require("axios");
 
 const JWT_SECRET = '#campusCartGroup05*';
 
@@ -19,7 +20,6 @@ router.get('/listposts', async(req, res)=>{
         res.status(500).json({ error: 'An error occurred while fetching all posts.' });
     }
 });
-
 
 
 router.get('/listposts/:id', async(req, res)=>{
@@ -35,8 +35,8 @@ router.get('/listposts/:id', async(req, res)=>{
 
 router.get('/getAllPosts', async (req, res) => {
     try {
+        const searchQuery = req.query.search || ""; // Get search query from request
         const allPosts = await Posts.find();
-        let recentPosts;
         let detailedPosts = [];
 
         for (const post of allPosts) {
@@ -65,18 +65,37 @@ router.get('/getAllPosts', async (req, res) => {
             }
 
             if (postDetails) {
-                // Combine post details with user info and category name
                 const formattedPost = {
                     _id: postDetails._id,
                     date: post.date,
-                    cat: categoryName, // Add category name
-                    ...postDetails.toObject(), // Spread all other details from specific post
+                    cat: categoryName,
+                    ...postDetails.toObject(),
                 };
                 detailedPosts.push(formattedPost);
             }
         }
 
-        recentPosts = detailedPosts.slice(-6).reverse();
+        // Filter all posts based on searchQuery (match itemname or category)
+        let filteredPosts = detailedPosts;
+        if (searchQuery) {
+            filteredPosts = detailedPosts.filter(post =>
+                (post.itemname && post.itemname.toLowerCase().includes(searchQuery.toLowerCase())) ||
+                (post.category && post.category.toLowerCase().includes(searchQuery.toLowerCase()))
+            );
+        }
+
+        // Limit to only 6 results
+        const recentPosts = filteredPosts.slice(-6).reverse();
+
+        // Return response with filtered results or message if no match
+        if (recentPosts.length === 0) {
+            return res.status(200).json({
+                success: true,
+                message: "No matching items found in recent posts",
+                posts: detailedPosts,
+                recentPosts: []
+            });
+        }
 
         res.status(200).json({
             success: true,
@@ -94,7 +113,10 @@ router.get('/getAllPosts', async (req, res) => {
     }
 });
 
-//--find similar posts 
+
+
+
+
 router.get('/getAllPosts/:id', async (req, res) => {
     try {
         const currentPost = await Posts.findOne({ postId: req.params.id });
@@ -388,55 +410,6 @@ async function findSimilarLostOrFoundPosts(currentPost, postDetails) {
 
     return similarItems;
 }
-
-//--
-
-
-router.get('/getAllPosts/:id', async (req, res) => {
-    try {
-        const allPosts = await Posts.find({postId: req.params.id})
-            .populate('postId')
-            .sort({ date: -1 });
-
-        let postDetails;
-
-        for (const post of allPosts) {
-            
-            
-            switch (post.category) {
-                case 'sell':
-                    postDetails = await SellPosts.findById(post.postId);
-                    break;
-                case 'lost':
-                    postDetails = await LostPosts.findById(post.postId);
-                    break;
-                case 'found':
-                    postDetails = await FoundPosts.findById(post.postId);
-                    break;
-                case 'boarding':
-                    postDetails = await BoardingPosts.findById(post.postId);
-                    break;
-                default:
-                    continue;
-            }
-        }
-
-        res.status(200).json({
-            success: true,
-            post: postDetails
-        });
-
-
-
-    } catch (error) {
-        console.error('Error fetching posts:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error fetching posts',
-            error: error.message
-        });
-    }
-});
 
 
 
