@@ -20,6 +20,8 @@ const allpostsRoute = require('./routes/allPostRoute');
 const foundPostsRoute = require('./routes/foundPostsRoute');
 const myPostsRoute= require('./routes/myPostsRoute');
 
+const bookmarkRoute = require('./routes/bookmarkRoute');
+
 app.use(express.json());
 app.use(cors({
     origin: '*', // Be more specific in production
@@ -36,7 +38,9 @@ app.use('/allposts', allpostsRoute);
 app.use('/foundposts',foundPostsRoute);
 app.use('/posts',myPostsRoute);
 
-mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
+app.use('/bookmark',bookmarkRoute);
+
+mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("DB Connected to MongoBD Successfully");
     })
