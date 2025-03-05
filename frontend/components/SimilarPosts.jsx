@@ -2,7 +2,7 @@ import { View, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { useRouter } from 'expo-router';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import { useLocalSearchParams } from 'expo-router';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;

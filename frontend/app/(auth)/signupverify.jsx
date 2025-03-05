@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router, useLocalSearchParams } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
 import ImageUploadBox from '../../components/ImageUploadBox';
-import axios from 'axios';
+import axios from 'react-native-axios';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 

@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useLocalSearchParams } from "expo-router";
-import axios from "axios";
+import axios from "react-native-axios";
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import { Divider } from "react-native-paper";
 import CallMessageButton from "../../../../components/CallMessageButton";
