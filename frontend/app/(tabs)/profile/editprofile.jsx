@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 import EditButton from '../../../components/EditButton';
 import ProfileImageUpload from '../../../components/ProfileImageUpload';
 import { router } from 'expo-router';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 

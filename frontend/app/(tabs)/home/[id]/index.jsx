@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState, useRef } from "react";
 import { useLocalSearchParams } from "expo-router";
-import axios from "axios";
+import axios from "react-native-axios";
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import { Divider } from "react-native-paper";
 import CallMessageButton from "../../../../components/CallMessageButton";
@@ -95,12 +95,22 @@ const PostDetail = () => {
     ]);
   };
 
-  const addBookmark = async () => {
-    
+   const addBookmark = async () => {
+    try {
+      await axios.post(`${apiUrl}/users/bookmark`, { token, postId: post._id });
+      setIsBookmarked(true);
+    } catch (error) {
+      console.error("Error adding bookmark:", error);
+    }
   };
 
   const removeBookmark = async () => {
-    
+    try {
+      await axios.post(`${apiUrl}/users/unbookmark`, { token, postId: post._id });
+      setIsBookmarked(false);
+    } catch (error) {
+      console.error("Error removing bookmark:", error);
+    }
   };
 
   const toggleBookmark = () => {

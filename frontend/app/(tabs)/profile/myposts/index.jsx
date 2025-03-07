@@ -2,7 +2,7 @@ import { View, FlatList, TouchableOpacity, Text, SafeAreaView, ActivityIndicator
 import React, { useEffect, useState } from 'react';
 import Card from '../../../../components/Card';
 import { useRouter } from 'expo-router';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
