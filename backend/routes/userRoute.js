@@ -87,6 +87,12 @@ router.post(
       .withMessage("Password must contain at least one number"),
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
     try {
       const user = new Users({
         email: req.body.email,
