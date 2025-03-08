@@ -4,6 +4,7 @@ const { default: mongoose, Model } = require("mongoose");
 const Users = require("../models/Users");
 const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
 const JWT_SECRET = "#campusCartGroup05*";
 
@@ -92,28 +93,33 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, errors: errors.array() });
     }
-
     try {
-      const user = new Users({
-        email: req.body.email,
-        regno: req.body.regno,
-        password: req.body.password,
-      });
+      const { email, regno, password } = req.body;
+      let existingUser = await Users.findOne({ email });
+      if (existingUser) {
+        return res
+          .status(400)
+          .json({ success: false, errors: "Email already exists" });
+      }
 
-      //save user in the database
-      await user.save();
+      let checkReg = await Users.findOne({ regno });
+      if (checkReg) {
+        return res.status(400).json({
+          success: false,
+          errors: "Registration number already in use",
+        });
+      }
 
-      // Send success response
-      res.status(201).json({
-        success: true,
-        message: "User created successfully",
-      });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = new Users({ email, regno, password: hashedPassword });
+
+      await newUser.save();
+      res
+        .status(201)
+        .json({ success: true, message: "User created successfully" });
     } catch (error) {
       console.error("Signup error:", error);
-      res.status(500).json({
-        success: false,
-        errors: "Internal server error",
-      });
+      res.status(500).json({ success: false, errors: "Internal server error" });
     }
   }
 );
