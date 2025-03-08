@@ -84,6 +84,8 @@ router.post(
     body("password")
       .isLength({ min: 6 })
       .withMessage("Password must be at least 6 characters long")
+      .matches(/[A-Za-z]/)
+      .withMessage("Password must contain at least one letter")
       .matches(/\d/)
       .withMessage("Password must contain at least one number"),
   ],
