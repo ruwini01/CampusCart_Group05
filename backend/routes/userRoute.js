@@ -102,14 +102,6 @@ router.post(
           .json({ success: false, errors: "Email already exists" });
       }
 
-      let checkReg = await Users.findOne({ regno });
-      if (checkReg) {
-        return res.status(400).json({
-          success: false,
-          errors: "Registration number already in use",
-        });
-      }
-
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new Users({ email, regno, password: hashedPassword });
 
