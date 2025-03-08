@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
   try {
     let user = await Users.findOne({ regno: req.body.regno });
     if (user) {
-      const password = req.body.password === user.password;
+      const password = await bcrypt.compare(req.body.password, user.password);
       if (password) {
         const token = jwt.sign({ regno: user.regno }, JWT_SECRET);
         return res.status(200).json({
