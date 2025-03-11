@@ -51,7 +51,7 @@ This project uses npm for dependency management. To install the required depende
 npm install
 ```
 
-## Run Backend
+## Run (Admin-Frontend)
 
 #### Select backend folder and open in Integrated Terminal. Run code below.
 ```bash
