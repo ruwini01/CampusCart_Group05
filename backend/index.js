@@ -19,6 +19,7 @@ const lostPostsRoute = require('./routes/lostPostsRoute');
 const allpostsRoute = require('./routes/allPostRoute');
 const foundPostsRoute = require('./routes/foundPostsRoute');
 const myPostsRoute= require('./routes/myPostsRoute');
+const adminRoute = require('./routes/adminAuth')
 
 const bookmarkRoute = require('./routes/bookmarkRoute');
 
@@ -37,6 +38,7 @@ app.use('/lostposts', lostPostsRoute);
 app.use('/allposts', allpostsRoute);
 app.use('/foundposts',foundPostsRoute);
 app.use('/posts',myPostsRoute);
+app.use('/admin',adminRoute);
 
 app.use('/bookmark',bookmarkRoute);
 
@@ -83,7 +85,7 @@ app.use('/images', express.static('upload/images'));
 app.post('/upload', upload.single('post'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://172.20.10.2:${port}/images/${req.file.filename}`
+        image_url: `http://192.168.99.211:${port}/images/${req.file.filename}`
     });
 });
 
