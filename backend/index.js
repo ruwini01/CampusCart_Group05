@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require("path");
 const cors = require('cors');
 const port = process.env.PORT;
+const apiUrl = process.env.APIURL;
 const bodyParser = require('body-parser');
 
 
@@ -85,7 +86,7 @@ app.use('/images', express.static('upload/images'));
 app.post('/upload', upload.single('post'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://192.168.99.211:${port}/images/${req.file.filename}`
+        image_url: `${apiUrl}:${port}/images/${req.file.filename}`
     });
 });
 
