@@ -17,7 +17,7 @@ const GlobalProvider = ({children}) => {
                 
                 if (token) {
                     const response = await axios.post(
-                        'http://172.20.10.2:8080/admin/admindata',
+                        'http://192.168.246.26:8080/admin/admindata',
                         { token },
                         {
                             headers: {

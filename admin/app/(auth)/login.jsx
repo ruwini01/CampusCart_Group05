@@ -39,7 +39,7 @@ const Login = () => {
       if (data.success) {
         await AsyncStorage.setItem('adminToken', data.token);
         Alert.alert('Success', 'Login successful!');
-        router.push('(tabs)/home'); // Redirect to admin dashboard
+        router.replace('(tabs)/home'); // Redirect to admin dashboard
       } else {
         Alert.alert('Error', data.message);
       }
