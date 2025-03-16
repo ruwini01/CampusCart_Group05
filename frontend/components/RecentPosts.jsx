@@ -8,19 +8,20 @@ const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const RecentPosts = ({ searchQuery }) => {
   const router = useRouter();
-  const [posts, setPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/allposts/getAllPosts`);
+        const response = await axios.get(`${apiUrl}/allposts/recentPosts`, {
+          params: { search: searchQuery },
+        });
+        
         if (response.data.success) {
-          setPosts(response.data.posts); // Store all posts, not just recent ones
-          setFilteredPosts(response.data.recentPosts); // Default to showing last 6 posts
+          setFilteredPosts(response.data.recentPosts);
         } else {
-          Alert.alert('Error', 'Error occurred');
+          Alert.alert('Error', 'Error occurred while fetching posts');
         }
       } catch (error) {
         Alert.alert('Error', error.message);
@@ -29,22 +30,7 @@ const RecentPosts = ({ searchQuery }) => {
       }
     };
     fetchPostData();
-  }, []);
-
-  // Search filtering
-  useEffect(() => {
-    if (searchQuery.trim() !== '') {
-      const searchLower = searchQuery.toLowerCase();
-      const filtered = posts.filter(post =>
-        (post.itemname && post.itemname.toLowerCase().includes(searchLower)) || // Match itemname (sell, lost, found)
-        (post.cat === 'boarding' && post.cat.toLowerCase().includes(searchLower)) // Match category (boarding)
-      );
-
-      setFilteredPosts(filtered.slice(0, 6)); // Show top 6 matching results
-    } else {
-      setFilteredPosts(posts.slice(-6).reverse()); // Default: last 6 posts
-    }
-  }, [searchQuery, posts]);
+  }, [searchQuery]);
 
   const calculateTimeAgo = (dateString) => {
     const postedDate = new Date(dateString);
