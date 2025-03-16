@@ -1,9 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from 'axios'; // Add this import
+import axios from 'react-native-axios';
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const GlobalProvider = ({children}) => {
     const [isLogged, setIsLogged] = useState(false);
@@ -17,7 +19,7 @@ const GlobalProvider = ({children}) => {
                 
                 if (token) {
                     const response = await axios.post(
-                        'http://172.20.10.2:8080/users/userdata',
+                        `${apiUrl}/users/userdata`,
                         { token },
                         {
                             headers: {
