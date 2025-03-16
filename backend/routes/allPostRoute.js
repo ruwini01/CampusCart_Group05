@@ -115,6 +115,101 @@ router.get('/getAllPosts', async (req, res) => {
 
 
 
+router.get('/recentPosts', async (req, res) => {
+    try {
+        const searchQuery = req.query.search?.trim() || ""; 
+        const limit = 6; 
+
+        let detailedPosts = [];
+
+        if (searchQuery) {
+            // Fetch posts directly from each collection based on search query
+            const categoryPromises = [
+                SellPosts.find({ itemname: { $regex: searchQuery, $options: "i" } }).lean(),
+                LostPosts.find({ itemname: { $regex: searchQuery, $options: "i" } }).lean(),
+                FoundPosts.find({ itemname: { $regex: searchQuery, $options: "i" } }).lean(),
+                BoardingPosts.find({ category: { $regex: searchQuery, $options: "i" } }).lean(),
+            ];
+
+            // Resolve all queries in parallel
+            const categoryResults = await Promise.all(categoryPromises);
+
+            // Combine all results and sort by date
+            detailedPosts = categoryResults.flat().sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        } else {
+            // Fetch recent posts (last 6) from `Posts` collection
+            const recentPosts = await Posts.find().sort({ date: -1 }).limit(limit).lean();
+
+            // If no posts found
+            if (!recentPosts.length) {
+                return res.status(200).json({
+                    success: true,
+                    message: "No recent posts found",
+                    recentPosts: []
+                });
+            }
+
+            // Map post IDs by category for efficient querying
+            const postsByCategory = { sell: [], lost: [], found: [], boarding: [] };
+            recentPosts.forEach(post => {
+                if (postsByCategory[post.category]) {
+                    postsByCategory[post.category].push(post.postId);
+                }
+            });
+
+            // Fetch details for each category in parallel
+            const categoryPromises = [
+                postsByCategory.sell.length ? SellPosts.find({ _id: { $in: postsByCategory.sell } }).lean() : [],
+                postsByCategory.lost.length ? LostPosts.find({ _id: { $in: postsByCategory.lost } }).lean() : [],
+                postsByCategory.found.length ? FoundPosts.find({ _id: { $in: postsByCategory.found } }).lean() : [],
+                postsByCategory.boarding.length ? BoardingPosts.find({ _id: { $in: postsByCategory.boarding } }).lean() : [],
+            ];
+
+            const categoryResults = await Promise.all(categoryPromises);
+
+            // Create a map of all posts keyed by category and ID
+            const allPostsMap = {};
+            ['sell', 'lost', 'found', 'boarding'].forEach((category, index) => {
+                allPostsMap[category] = (categoryResults[index] || []).reduce((map, post) => {
+                    map[post._id.toString()] = post;
+                    return map;
+                }, {});
+            });
+
+            // Combine posts with their details
+            recentPosts.forEach(post => {
+                const postDetails = allPostsMap[post.category]?.[post.postId.toString()];
+                if (postDetails) {
+                    detailedPosts.push({
+                        _id: postDetails._id,
+                        date: post.date,
+                        cat: post.category,
+                        ...postDetails
+                    });
+                }
+            });
+        }
+
+        // Return results (limit to 6)
+        res.status(200).json({
+            success: true,
+            recentPosts: detailedPosts.slice(0, limit)
+        });
+
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching posts',
+            error: error.message
+        });
+    }
+});
+
+
+
+
 
 
 router.get('/getAllPosts/:id', async (req, res) => {
