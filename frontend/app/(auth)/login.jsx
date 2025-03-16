@@ -5,7 +5,7 @@ import { Link, router } from 'expo-router'
 import FromField from '../../components/FromField'
 import { useState } from 'react'
 import CustomButton from '../../components/CustomButton'
-import axios from 'axios'
+import axios from 'react-native-axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;

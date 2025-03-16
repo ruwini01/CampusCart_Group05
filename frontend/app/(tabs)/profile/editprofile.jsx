@@ -6,7 +6,7 @@ import SaveButton from '../../../components/SaveButton';
 import EditButton from '../../../components/EditButton';
 import ProfileImageUpload from '../../../components/ProfileImageUpload';
 import { router } from 'expo-router';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 
@@ -252,7 +252,7 @@ const EditProfile = () => {
           </View>
 
           <View className="flex-row justify-between">
-            <EditButton handlePress={handledelete} fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
+            <EditButton handlePress={handledelete} text='Delete Account' fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
             <SaveButton handlePress={handleSave} fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
           </View>
         </View>

@@ -4,6 +4,7 @@ const {default: mongoose, Model} = require('mongoose');
 const FoundPosts = require('../models/foundPosts');
 const AuthToken = require('../middleware/authToken');
 const Posts = require('../models/posts');
+const adminAuth = require('../middleware/adminAuth');
 
 router.post('/addfoundpost',AuthToken, async(req, res)=>{
     const user=req.user;
@@ -55,7 +56,10 @@ router.post('/addfoundpost',AuthToken, async(req, res)=>{
 
 router.get('/listfoundposts', async(req, res)=>{
     try {
-        const foundPosts = await FoundPosts.find();
+        const searchQuery = req.query.search || "";
+        const foundPosts = await FoundPosts.find({
+            itemname: { $regex: searchQuery, $options: "i" } // Case-insensitive search
+        });
         res.status(200).json({ success: true, foundPosts });
     } catch (error) {
         console.error(error);
@@ -67,6 +71,46 @@ router.get('/listfoundposts', async(req, res)=>{
 
 
 router.delete('/removefoundpost/:postId',AuthToken, async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const deletedPost = await FoundPosts.findByIdAndDelete({_id:postId});
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Found post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'found' });
+
+        res.status(200).json({ success: true, message: 'Found post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while removing the found post.'+error });
+    }
+});
+
+
+
+router.delete('/removefoundpost/:postId',adminAuth, async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const deletedPost = await FoundPosts.findByIdAndDelete({_id:postId});
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Found post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'found' });
+
+        res.status(200).json({ success: true, message: 'Found post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while removing the found post.'+error });
+    }
+});
+
+
+
+router.delete('/removefoundpost/:postId',adminAuth, async (req, res) => {
     try {
         const { postId } = req.params;
 
