@@ -30,22 +30,22 @@ const Home = () => {
     <SafeAreaView className="flex-1 p-4">
       <Text className="font-semibold text-xl mb-6">Emails</Text>
 
-      <Text className="text-lg">From: campuscart05@gmail.com (Admin)</Text>
+      <Text className="font-semibold text-xl mb-6">From: campuscart05@gmail.com (Admin)</Text>
 
-      <Text className="text-lg">To:</Text>
+      <Text className="font-semibold text-xl mb-6">To:</Text>
       <FormField
         value={userEmail}
         editable={true}
       />
 
-      <Text className="text-lg">Subject:</Text>
+      <Text className="font-semibold text-xl mb-6">Subject:</Text>
       <FormField
         placeholder="Enter subject"
         value={subject}
         onChangeText={setSubject}
       />
 
-      <Text className="text-lg">Message:</Text>
+      <Text className="font-semibold text-xl mb-6">Message:</Text>
       <FormField
         placeholder="Enter your message"
         value={message}
@@ -53,7 +53,8 @@ const Home = () => {
         multiline
       />
 
-      <Button title="Send Email" onPress={sendEmail} />
+      <Button title="Send Email"  className="flex-row justify-between" onPress={sendEmail} fontStyle="Montserrat_600SemiBold" textStyles="text-white" />
+   
     </SafeAreaView>
   );
 };
