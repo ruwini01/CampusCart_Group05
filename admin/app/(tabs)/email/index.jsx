@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams } from "expo-router";
 import FormField from "../../../components/FormField";
 import MessageBox from "../../../components/MessageBox";
+import SendMail from "../../../components/SendMail";
 import * as MailComposer from "expo-mail-composer";
 
 const Home = () => {
@@ -86,15 +87,11 @@ const Home = () => {
             multiline={true}
             numberOfLines={4}
           />
-
-          <TouchableOpacity
-            onPress={sendEmail}
-            className="bg-blue-500 p-4 rounded-lg mt-4"
-          >
-            <Text className="text-white text-center font-semibold">
-              Send Email
-            </Text>
-          </TouchableOpacity>
+          <SendMail
+            handlePress={sendEmail}
+            fontStyle="Montserrat_600SemiBold"
+            textStyles="text-white"
+          />
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
