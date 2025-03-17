@@ -16,7 +16,7 @@ const FormField = ({
 
   return (
     <View
-      className={`flex-row items-left border-2 w-11/12 h-60 px-4 rounded-2xl bg-[#e4e4e4] 
+      className={`flex-row items-left justify-start border-2 w-11/12 h-60 px-4 rounded-2xl bg-[#e4e4e4] 
       ${!editable ? 'border-[#0D7C66]' : isFocused ? 'border-[#0D7C66]' : 'border-[#bababa]'} ${otherStyles}`}
     >
       <TextInput
