@@ -5,7 +5,7 @@ import { Link, router } from 'expo-router';
 import FromField from '../../components/FromField';
 import CustomButton from '../../components/CustomButton';
 import { Alert } from 'react-native';
-import axios from 'axios';
+import axios from 'react-native-axios';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 

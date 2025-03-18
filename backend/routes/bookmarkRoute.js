@@ -17,8 +17,9 @@ router.get('/bookmarkedList', AuthToken, async (req, res) => {
         const user = await User.findById(userId);
 
         if (!user || !user.savedposts || user.savedposts.length === 0) {
-            return res.status(404).json({ message: 'No bookmarked posts found' });
+            return res.json({ message: 'No bookmarked posts found' });
         }
+        
 
         // Add debug logging
         console.log("User's saved posts:", user.savedposts);

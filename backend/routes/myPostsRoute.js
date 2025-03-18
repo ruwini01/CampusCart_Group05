@@ -7,6 +7,7 @@ const SellPosts = require('../models/SellPosts');
 const LostPosts = require('../models/lostPosts');
 const FoundPosts = require('../models/foundPosts');
 const BoardingPosts = require('../models/boardingPosts');
+const Users = require('../models/Users');
 
 router.get('/myposts', AuthToken, async (req, res) => {
     try {
@@ -23,6 +24,39 @@ router.get('/myposts', AuthToken, async (req, res) => {
     }
 });
 
+
+router.get('/userbypost/:postId', async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        // First, find the post reference in the Posts collection
+        const postReference = await Posts.findOne({ postId: postId }).populate('userId');
+
+        if (!postReference || !postReference.userId) {
+            return res.status(404).json({ message: 'Post or User not found' });
+        }
+
+        const user = postReference.userId;
+        const userData = {
+            name: user.name,
+            telephone: user.telephone,
+            profilepic: user.profilepic,
+            regno: user.regno,
+            email: user.email,
+            address: user.address
+        };
+
+        res.json(userData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
+
+
+
 router.get('/getAllPosts', AuthToken, async (req, res) => {
     try {
         const userId = req.user._id;
@@ -32,19 +66,24 @@ router.get('/getAllPosts', AuthToken, async (req, res) => {
 
         for (const post of allPosts) {
             let postDetails;
+            let categoryName = '';
 
             switch (post.category) {
                 case 'sell':
                     postDetails = await SellPosts.findById(post.postId);
+                    categoryName = 'sell';
                     break;
                 case 'lost':
                     postDetails = await LostPosts.findById(post.postId);
+                    categoryName = 'lost';
                     break;
                 case 'found':
                     postDetails = await FoundPosts.findById(post.postId);
+                    categoryName = 'found';
                     break;
                 case 'boarding':
                     postDetails = await BoardingPosts.findById(post.postId);
+                    categoryName = 'boarding';
                     break;
                 default:
                     continue;
@@ -55,6 +94,7 @@ router.get('/getAllPosts', AuthToken, async (req, res) => {
                 detailedPosts.push({
                     _id: postDetails._id,
                     date: post.date,
+                    cat: categoryName,
                     ...postDetails.toObject(),
                 });
             }

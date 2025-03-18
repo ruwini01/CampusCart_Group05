@@ -8,6 +8,7 @@ const multer = require('multer');
 const path = require("path");
 const cors = require('cors');
 const port = process.env.PORT;
+const apiUrl = process.env.APIURL;
 const bodyParser = require('body-parser');
 
 
@@ -19,6 +20,9 @@ const lostPostsRoute = require('./routes/lostPostsRoute');
 const allpostsRoute = require('./routes/allPostRoute');
 const foundPostsRoute = require('./routes/foundPostsRoute');
 const myPostsRoute= require('./routes/myPostsRoute');
+const adminRoute = require('./routes/adminAuth')
+
+const bookmarkRoute = require('./routes/bookmarkRoute');
 
 app.use(express.json());
 app.use(cors({
@@ -35,8 +39,11 @@ app.use('/lostposts', lostPostsRoute);
 app.use('/allposts', allpostsRoute);
 app.use('/foundposts',foundPostsRoute);
 app.use('/posts',myPostsRoute);
+app.use('/admin',adminRoute);
 
-mongoose.connect(process.env.DB_PATH/*, { useNewUrlParser: true, useUnifiedTopology: true }*/)
+app.use('/bookmark',bookmarkRoute);
+
+mongoose.connect(process.env.DB_PATH, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("DB Connected to MongoBD Successfully");
     })
@@ -79,7 +86,7 @@ app.use('/images', express.static('upload/images'));
 app.post('/upload', upload.single('post'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://172.20.10.2:${port}/images/${req.file.filename}`
+        image_url: `${apiUrl}:${port}/images/${req.file.filename}`
     });
 });
 

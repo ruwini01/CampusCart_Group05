@@ -8,8 +8,11 @@ import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
 import ImageUploadBoxNew from '../../../../components/ImageUploadBoxNew';
 import TextAreaField from '../../../../components/TextAreaField';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const AddSellItem = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -62,7 +65,7 @@ const AddSellItem = () => {
       });
 
       const uploadResponse = await axios.post(
-        'http://172.20.10.2:8080/upload',
+        `${apiUrl}/upload`,
         formData,
         {
           headers: {
@@ -120,7 +123,7 @@ const AddSellItem = () => {
     try {
       const token = await AsyncStorage.getItem('token');
       const response = await axios.post(
-        'http://172.20.10.2:8080/users/userdata',
+        `${apiUrl}/users/userdata`,
         { token },
         {
           headers: {
@@ -184,7 +187,7 @@ const AddSellItem = () => {
      
 
       const response = await axios.post(
-        'http://172.20.10.2:8080/sellposts/addsellpost',
+        `${apiUrl}/sellposts/addsellpost`,
         updatedForm
         ,
         {

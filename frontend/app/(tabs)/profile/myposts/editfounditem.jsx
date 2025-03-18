@@ -8,7 +8,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import ImageUploadBoxNew from '../../../../components/ImageUploadBoxNew';
 import DatePickerField from '../../../../components/DatePickerField';
 import TextAreaField from '../../../../components/TextAreaField';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EditButton from '../../../../components/EditButton';

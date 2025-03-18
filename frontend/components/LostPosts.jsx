@@ -1,61 +1,46 @@
-import { View, FlatList, TouchableOpacity, Text } from 'react-native';
+import { View, FlatList, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import { useRouter } from 'expo-router';
-import axios from 'axios';
+import axios from 'react-native-axios';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-const LostPosts = () => {
+const LostPosts = ({ searchQuery }) => {
   const router = useRouter();
-
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
     const fetchPostData = async () => {
       try {
         const response = await axios.get(`${apiUrl}/lostposts/listlostposts`);
-        
         if (response.data.success) {
           setPosts(response.data.lostPosts);
-        } else {
-          Alert.alert('Error', 'Error occurred');
+          setFilteredPosts(response.data.lostPosts);
         }
       } catch (error) {
-        Alert.alert('Error', error.message);
+        console.error('Error fetching lost posts:', error);
       }
     };
     fetchPostData();
   }, []);
 
-  const calculateTimeAgo = (dateString) => {
-    const postedDate = new Date(dateString);
-    const now = new Date();
-    const differenceInMs = now - postedDate;
-
-    const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
-    
-    if (differenceInMinutes < 1) {
-        return 'just now';
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = posts.filter((post) =>
+        post.itemname.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredPosts(filtered);
+    } else {
+      setFilteredPosts(posts);
     }
-    
-    if (differenceInMinutes < 60) {
-        return `${differenceInMinutes} min${differenceInMinutes > 1 ? 's' : ''} ago`;
-    }
-
-    const differenceInHours = Math.floor(differenceInMinutes / 60);
-    if (differenceInHours < 24) {
-        return `${differenceInHours} hour${differenceInHours > 1 ? 's' : ''} ago`;
-    }
-
-    const differenceInDays = Math.floor(differenceInHours / 24);
-    return `${differenceInDays} day${differenceInDays > 1 ? 's' : ''} ago`;
-};
+  }, [searchQuery, posts]);
 
   return (
     <View className="flex-1 flex-grow items-center pb-4">
       <FlatList
-        data={posts}
+        data={filteredPosts}
         keyExtractor={(item) => item._id}
         numColumns={2}
         renderItem={({ item }) => (
@@ -66,9 +51,9 @@ const LostPosts = () => {
           >
             <Card
               image={item.images[0]}
-              name={item.itemname+' lost at '+item.location+' on ' }
-              price={(item.lostdate)}
-              days={calculateTimeAgo(item.date)} // Pass calculated time
+              name={`${item.itemname} lost at ${item.location}`}
+              price={item.lostdate}
+              days={item.date}
             />
           </TouchableOpacity>
         )}
@@ -77,4 +62,4 @@ const LostPosts = () => {
   );
 };
 
-export default LostPosts
+export default LostPosts;

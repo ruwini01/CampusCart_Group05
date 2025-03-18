@@ -23,9 +23,11 @@ import language from '../assets/icons/language.png'
 import theme from '../assets/icons/theme.png'
 import call from '../assets/icons/call.png'
 import message from '../assets/icons/chat.png'
+import email from '../assets/icons/email.png'
 
 
 export default {
+  email,
   message,
   call,
   lost,

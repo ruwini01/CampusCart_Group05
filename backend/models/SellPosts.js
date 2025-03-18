@@ -47,6 +47,9 @@ const sellPostsSchema = new Schema({
         type:Boolean,
         default:false
     },
+    status:{
+        type:String,
+    },
     date:{
         type:Date,
         default:Date.now,

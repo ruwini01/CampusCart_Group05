@@ -6,6 +6,7 @@ const Posts = require('../models/posts');
 const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const AuthToken = require('../middleware/authToken');
+const adminAuth = require('../middleware/adminAuth');
 
 const JWT_SECRET = '#campusCartGroup05*';
 
@@ -61,17 +62,18 @@ router.post('/addsellpost', async(req, res)=>{
 
 
 
-
 router.get('/listsellposts', async(req, res)=>{
     try {
-        const sellPosts = await SellPosts.find();
+        const searchQuery = req.query.search || "";
+        const sellPosts = await SellPosts.find({
+            itemname: { $regex: searchQuery, $options: "i" } 
+        });
         res.status(200).json({ success: true, sellPosts });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'An error occurred while fetching sell posts.' });
     }
-
-})
+});
 
 
 router.get('/listsellposts/:id', async(req, res)=>{
@@ -91,6 +93,26 @@ router.get('/listsellposts/:id', async(req, res)=>{
 
 
 router.delete('/removesellpost/:postId',AuthToken, async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const deletedPost = await SellPosts.findByIdAndDelete({_id:postId});
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Sell post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'found' });
+
+        res.status(200).json({ success: true, message: 'Sell post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'An error occurred while removing the sell post.'+error });
+    }
+});
+
+
+
+router.delete('/removesellpost/:postId',adminAuth, async (req, res) => {
     try {
         const { postId } = req.params;
 
