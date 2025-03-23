@@ -32,22 +32,30 @@ router.post('/login', async (req, res) => {
 
 
 router.post('/userdata', async (req, res) => {
-    const { token } = req.body;
     try {
-        const user = jwt.verify(token, JWT_SECRET);
-        const userRegno = user.regno;
-        const userData = await Users.findOne({ regno: userRegno });
-        return res.status(200).json({
-            success: true,
-            data: userData
-        });
-    }
-    catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            success: false,
-            errors: "Server error"
-        });
+        const { token } = req.body;
+        
+        if (!token) {
+            return res.status(400).json({ success: false, message: 'Token is required' });
+        }
+        
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            
+            const user = await Users.findOne({ regno: decoded.regno });
+            
+            if (!user) {
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
+            
+            res.status(200).json({ success: true, data: user });
+        } catch (tokenError) {
+            console.error('Token verification error:', tokenError);
+            return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+        }
+    } catch (error) {
+        console.error('User data error:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
 
@@ -186,21 +194,32 @@ router.post('/deleteuser', async (req, res) => {
 router.post('/bookmark', async (req, res) => {
     try {
         const { token, postId } = req.body;
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const user = await Users.findOne({ regno: decoded.regno });
-
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+        
+        if (!token || !postId) {
+            return res.status(400).json({ success: false, message: 'Token and postId are required' });
         }
+        
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            
+            const updatedUser = await Users.findOneAndUpdate(
+                { regno: decoded.regno },
+                { $addToSet: { savedposts: postId } }, // $addToSet adds only if not already present
+                { new: true, runValidators: false }
+            );
 
-        if (!user.savedposts.includes(postId)) {
-            user.savedposts.push(postId);
-            await user.save();
+            if (!updatedUser) {
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
+
+            res.status(200).json({ success: true, savedposts: updatedUser.savedposts });
+        } catch (tokenError) {
+            console.error('Token verification error:', tokenError);
+            return res.status(401).json({ success: false, message: 'Invalid or expired token' });
         }
-
-        res.status(200).json({ success: true, savedposts: user.savedposts });
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        console.error('Bookmark error:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
 
@@ -208,19 +227,32 @@ router.post('/bookmark', async (req, res) => {
 router.post('/unbookmark', async (req, res) => {
     try {
         const { token, postId } = req.body;
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const user = await Users.findOne({ regno: decoded.regno });
-
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found' });
+        
+        if (!token || !postId) {
+            return res.status(400).json({ success: false, message: 'Token and postId are required' });
         }
+        
+        try {
+            const decoded = jwt.verify(token, JWT_SECRET);
+            
+            const updatedUser = await Users.findOneAndUpdate(
+                { regno: decoded.regno },
+                { $pull: { savedposts: postId.toString() } }, // $pull removes the matching element
+                { new: true, runValidators: false }
+            );
 
-        user.savedposts = user.savedposts.filter(id => id.toString() !== postId);
-        await user.save();
+            if (!updatedUser) {
+                return res.status(404).json({ success: false, message: 'User not found' });
+            }
 
-        res.status(200).json({ success: true, savedposts: user.savedposts });
+            res.status(200).json({ success: true, savedposts: updatedUser.savedposts });
+        } catch (tokenError) {
+            console.error('Token verification error:', tokenError);
+            return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+        }
     } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        console.error('Unbookmark error:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
 
