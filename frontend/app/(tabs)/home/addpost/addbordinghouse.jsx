@@ -7,7 +7,7 @@ import AddButton from '../../../../components/AddButton';
 import { router } from 'expo-router';
 import ImageUploadBoxNew from '../../../../components/ImageUploadBoxNew';
 import TextAreaField from '../../../../components/TextAreaField';
-import axios from 'axios';
+import axios from 'react-native-axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 

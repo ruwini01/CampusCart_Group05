@@ -6,6 +6,7 @@ const BoardingPosts = require('../models/boardingPosts');
 const Posts = require('../models/posts');
 const Users = require('../models/Users');
 const AuthToken = require('../middleware/authToken');
+const adminAuth = require('../middleware/adminAuth');
 
 const JWT_SECRET = '#campusCartGroup05*';
 
@@ -66,7 +67,10 @@ router.post('/addbordingpost',AuthToken, async(req, res)=>{
 
 router.get('/listbordingposts', async(req, res)=>{
     try {
-        const boardingPosts = await BoardingPosts.find();
+        const searchQuery = req.query.search || "";
+        const boardingPosts = await BoardingPosts.find({
+            category: { $regex: searchQuery, $options: "i" }
+        });
         res.status(200).json({ success: true, data: boardingPosts });
     } catch (error) {
         console.error(error);
@@ -96,6 +100,26 @@ router.delete('/removeboardingpost/:postId',AuthToken, async (req, res) => {
 });
 
 
+
+router.delete('/removeboardingpost/:postId', adminAuth, async (req, res) => {
+    try {
+        const { postId } = req.params;
+
+        const deletedPost = await BoardingPosts.findByIdAndDelete({ _id: postId });
+        if (!deletedPost) {
+            return res.status(400).json({ success: false, message: 'Boarding post not found.' });
+        }
+
+        await Posts.findOneAndDelete({ postId, category: 'boarding' });
+
+        res.status(200).json({ success: true, message: 'Boarding post removed successfully.' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'An error occurred while removing the post.' });
+    }
+});
+
+
 router.put('/editbordingpost/:postId', AuthToken, async (req, res) => {
     const user = req.user; 
     const { postId } = req.params;
@@ -117,6 +141,7 @@ router.put('/editbordingpost/:postId', AuthToken, async (req, res) => {
         }
 
         return res.status(200).json({
+            success: true,
             message: 'Successfully edited boarding post',
             boardingPost,
         });
