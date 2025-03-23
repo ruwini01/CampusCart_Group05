@@ -72,7 +72,8 @@ const PostDetail = () => {
 
       try {
         const userData = await axios.post(`${apiUrl}/users/userdata`, { token });
-        setIsBookmarked(userData.data.data.savedposts.includes(post._id));
+        const savedPosts = userData.data.data.savedposts || [];
+        setIsBookmarked(savedPosts.includes(post._id.toString()));
       } catch (error) {
         console.error("Error checking bookmarks:", error);
       }
@@ -95,21 +96,53 @@ const PostDetail = () => {
     ]);
   };
 
-   const addBookmark = async () => {
+  const addBookmark = async () => {
     try {
-      await axios.post(`${apiUrl}/users/bookmark`, { token, postId: post._id });
-      setIsBookmarked(true);
+      const response = await axios.post(`${apiUrl}/users/bookmark`, { 
+        token, 
+        postId: post._id.toString() // Ensure it's a string
+      });
+      
+      if (response.data.success) {
+        setIsBookmarked(true);
+      } else {
+        console.log("Bookmark failed:", response.data.message);
+        Alert.alert("Error", response.data.message || "Failed to bookmark post");
+      }
     } catch (error) {
       console.error("Error adding bookmark:", error);
+      
+      if (error.response) {
+        console.log("Error response data:", error.response.data);
+        console.log("Error status:", error.response.status);
+      }
+      
+      Alert.alert("Error", "Failed to add bookmark. Please try again.");
     }
   };
 
   const removeBookmark = async () => {
     try {
-      await axios.post(`${apiUrl}/users/unbookmark`, { token, postId: post._id });
-      setIsBookmarked(false);
+      const response = await axios.post(`${apiUrl}/users/unbookmark`, { 
+        token, 
+        postId: post._id.toString() // Ensure it's a string
+      });
+      
+      if (response.data.success) {
+        setIsBookmarked(false);
+      } else {
+        console.log("Unbookmark failed:", response.data.message);
+        Alert.alert("Error", response.data.message || "Failed to remove bookmark");
+      }
     } catch (error) {
       console.error("Error removing bookmark:", error);
+      
+      if (error.response) {
+        console.log("Error response data:", error.response.data);
+        console.log("Error status:", error.response.status);
+      }
+      
+      Alert.alert("Error", "Failed to remove bookmark. Please try again.");
     }
   };
 
@@ -128,6 +161,7 @@ const PostDetail = () => {
   if (loading) return <ActivityIndicator size="large" color="#000" />;
   if (!post || !category) return <Text>Post not found.</Text>;
 
+
   const ContentComponent = {
     sell: ({ post }) => (
       <View>
@@ -145,8 +179,7 @@ const PostDetail = () => {
         <Text className="text-lg text-gray-700 mt-8">Description</Text>
         <Text className="text-base text-gray-500">{post.description}</Text>
       </View>
-    )
-    ,
+    ),
     boarding: ({ post }) => (
       <View>
         <View className="flex-row justify-between items-center mt-4">
@@ -169,7 +202,7 @@ const PostDetail = () => {
         <Text className="text-base text-gray-500">{post.description}</Text>
       </View>
     ),
-    lost: ({ post}) => (
+    lost: ({ post }) => (
       <View>
         <View className="flex-row justify-between items-center mt-4">
           <Text className="text-2xl font-semibold">{post.itemname}</Text>
@@ -208,39 +241,35 @@ const PostDetail = () => {
         <Text className="text-base text-gray-500">{post.contact?.phone}</Text>
       </View>
     )
-    
-    
   };
-
 
   const RenderContent = ContentComponent[category.toLowerCase()] || ContentComponent.sell;
 
-return (
-  <SafeAreaView>
-    <ScrollView ref={scrollViewRef}>
-      <View className="flex-1 p-4">
-        {post.images?.length > 0 && (
-          <View className="relative">
-            <Image source={{ uri: post.images[0] }} className="w-full h-64 rounded-lg mb-5" resizeMode="cover" />
+  return (
+    <SafeAreaView>
+      <ScrollView ref={scrollViewRef}>
+        <View className="flex-1 p-4">
+          {post.images?.length > 0 && (
+            <View className="relative">
+              <Image source={{ uri: post.images[0] }} className="w-full h-64 rounded-lg mb-5" resizeMode="cover" />
+            </View>
+          )}
+
+          <RenderContent post={post} />
+
+          <Text className="text-sm text-gray-400 mt-2">Posted on {new Date(post.date).toLocaleDateString()}</Text>
+
+          <View className="flex-row justify-between mt-4">
+            <CallMessageButton image={icons.call} title="Call" handlePress={makePhoneCall} />
+            <CallMessageButton image={icons.message} title="Message" handlePress={sendMessage} />
           </View>
-        )}
-
-        <RenderContent post={post} />
-
-        <Text className="text-sm text-gray-400 mt-2">Posted on {new Date(post.date).toLocaleDateString()}</Text>
-
-        <View className="flex-row justify-between mt-4">
-          <CallMessageButton image={icons.call} title="Call" handlePress={makePhoneCall} />
-          <CallMessageButton image={icons.message} title="Message" handlePress={sendMessage} />
         </View>
-      </View>
 
-      <Text className="font-semibold text-xl ml-6 mt-6">Similar Posts</Text>
-      <SimilarPosts onPostClick={handlePostClick} />
-    </ScrollView>
-  </SafeAreaView>
-);
-
+        <Text className="font-semibold text-xl ml-6 mt-6">Similar Posts</Text>
+        <SimilarPosts onPostClick={handlePostClick} />
+      </ScrollView>
+    </SafeAreaView>
+  );
 };
 
 export default PostDetail;
