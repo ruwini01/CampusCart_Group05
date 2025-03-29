@@ -1,10 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { default: mongoose, Model } = require('mongoose');
-const Users = require('../models/Users');
-const jwt = require('jsonwebtoken');
+const { default: mongoose, Model } = require("mongoose");
+const Users = require("../models/Users");
+const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
+const bcrypt = require("bcrypt");
 
-const JWT_SECRET = '#campusCartGroup05*';
+const JWT_SECRET = "#campusCartGroup05*";
 
 router.post('/login', async (req, res) => {
     try {
@@ -30,8 +32,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-
-router.post('/userdata', async (req, res) => {
+router.post("/userdata", async (req, res) => {
     try {
         const { token } = req.body;
         
@@ -59,63 +60,70 @@ router.post('/userdata', async (req, res) => {
     }
 });
 
-
-router.post('/signup/regnocheck', async (req, res) => {
+router.post("/signup/regnocheck", async (req, res) => {
     try {
         let check = await Users.findOne({ regno: req.body.regno });
         if (check) {
             return res.status(400).json({
                 success: false,
-                errors: "Existing user found with same Registration Number"
+                errors: "Existing user found with same Registration Number",
             });
         }
         res.status(201).json({
             success: true,
-            message: "No user found with same Registration Number"
+            message: "No user found with same Registration Number",
         });
-
-
     } catch (error) {
         console.error("Regno checking error:", error);
         res.status(500).json({
             success: false,
-            errors: "Internal server error"
-        });
-    }
-
-})
-
-
-
-
-router.post('/signup', async (req, res) => {
-    try {
-        const user = new Users({
-            email: req.body.email,
-            regno: req.body.regno,
-            password: req.body.password,
-        });
-
-        //save user in the database
-        await user.save();
-
-        // Send success response
-        res.status(201).json({
-            success: true,
-            message: "User created successfully"
-        });
-    } catch (error) {
-        console.error("Signup error:", error);
-        res.status(500).json({
-            success: false,
-            errors: "Internal server error"
+            errors: "Internal server error",
         });
     }
 });
 
+router.post(
+    "/signup",
+    [
+        body("email").isEmail().withMessage("Invalid email format"),
+        body("password")
+            .isLength({ min: 6 })
+            .withMessage("Password must be at least 6 characters long")
+            .matches(/[A-Za-z]/)
+            .withMessage("Password must contain at least one letter")
+            .matches(/\d/)
+            .withMessage("Password must contain at least one number"),
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
 
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, errors: errors.array() });
+        }
+        try {
+            const { email, regno, password } = req.body;
+            let existingUser = await Users.findOne({ email });
+            if (existingUser) {
+                return res
+                    .status(400)
+                    .json({ success: false, errors: "Email already exists" });
+            }
 
-router.post('/updateuser', async (req, res) => {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            const newUser = new Users({ email, regno, password: hashedPassword });
+
+            await newUser.save();
+            res
+                .status(201)
+                .json({ success: true, message: "User created successfully" });
+        } catch (error) {
+            console.error("Signup error:", error);
+            res.status(500).json({ success: false, errors: "Internal server error" });
+        }
+    }
+);
+
+router.post("/updateuser", async (req, res) => {
     try {
         const { token, name, telephone, address, profilepic } = req.body;
 
@@ -126,11 +134,10 @@ router.post('/updateuser', async (req, res) => {
         const user = await Users.findOne({ regno: decodedToken.regno });
         console.log(user);
 
-
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'User not found'
+                message: "User not found",
             });
         }
 
@@ -142,30 +149,28 @@ router.post('/updateuser', async (req, res) => {
                     name: name,
                     telephone: telephone,
                     address: address,
-                    profilepic: profilepic
-                }
+                    profilepic: profilepic,
+                },
             },
             { new: true }
         );
 
         res.json({
             success: true,
-            message: 'Profile updated successfully',
-            data: updatedUser
+            message: "Profile updated successfully",
+            data: updatedUser,
         });
-
     } catch (error) {
-        console.error('Update profile error:', error);
+        console.error("Update profile error:", error);
         res.status(500).json({
             success: false,
-            message: 'Error updating profile',
-            error: error.message
+            message: "Error updating profile",
+            error: error.message,
         });
     }
 });
 
-
-router.post('/deleteuser', async (req, res) => {
+router.post("/deleteuser", async (req, res) => {
     try {
         const { token } = req.body;
         const decodedToken = jwt.verify(token, JWT_SECRET);
@@ -173,20 +178,20 @@ router.post('/deleteuser', async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'User not found'
+                message: "User not found",
             });
         }
         await Users.findByIdAndDelete(user._id);
         res.json({
             success: true,
-            message: 'User deleted successfully'
+            message: "User deleted successfully",
         });
     } catch (error) {
-        console.error('Delete user error:', error);
+        console.error("Delete user error:", error);
         res.status(500).json({
             success: false,
-            message: 'Error deleting user',
-            error: error.message
+            message: "Error deleting user",
+            error: error.message,
         });
     }
 });
@@ -222,7 +227,6 @@ router.post('/bookmark', async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 });
-
 
 router.post('/unbookmark', async (req, res) => {
     try {
