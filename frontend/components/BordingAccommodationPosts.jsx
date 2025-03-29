@@ -1,42 +1,97 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, TouchableOpacity, Text, Image } from 'react-native';
-import axios from 'axios';
+import { View, FlatList, TouchableOpacity, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import Card from './Card';
+import { useRouter } from 'expo-router';
+import axios from 'react-native-axios';
 
-const BordingAccommodationPosts = () => {
-    const [posts, setPosts] = useState([]);
-    const BASE_URL = 'http://localhost:8080'; // Replace with your IP address
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
-    useEffect(() => {
-      const fetchPosts = async () => {
-        try {
-            const response = await axios.get(`${BASE_URL}/api/boardingPost/list`);
-            setPosts(response.data.posts);
-            console.log(posts)
-        } catch (error) {
-            console.error("Error fetching posts:", error.response ? error.response.data : error.message);
+const BordingAccommodationPosts = ({ searchQuery }) => {
+
+  const router = useRouter();
+  const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/boardingposts/listbordingposts`);
+
+        if (response.data.success) {
+          setPosts(response.data.data);
+          setFilteredPosts(response.data.data);
+
+        } else {
+          Alert.alert('Error', 'Error occurred');
         }
+      } catch (error) {
+        Alert.alert('Error', error.message);
+      }
     };
-    
-        fetchPosts();
-    }, []);
+    fetchPostData();
+  }, []);
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity>
-            <Image source={{ uri: `${item.images[0]}` }} style={{ width: 100, height: 100 }} />
-            <Text>{item.location}</Text>
-            <Text>{item.rentprice}</Text>
-        </TouchableOpacity>
-    );
 
-    return (
-        <View>
-            <FlatList
-                data={posts}
-                keyExtractor={item => item._id}
-                renderItem={renderItem}
+  useEffect(() => {
+        if (searchQuery) {
+          const filtered = posts.filter((post) =>
+            post.category.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+          setFilteredPosts(filtered);
+        } else {
+          setFilteredPosts(posts);
+        }
+      }, [searchQuery, posts]);
+      
+
+  const calculateTimeAgo = (dateString) => {
+    const postedDate = new Date(dateString);
+    const now = new Date();
+    const differenceInMs = now - postedDate;
+
+    const differenceInMinutes = Math.floor(differenceInMs / (1000 * 60));
+
+    if (differenceInMinutes < 1) {
+      return 'just now';
+    }
+
+    if (differenceInMinutes < 60) {
+      return `${differenceInMinutes} min${differenceInMinutes > 1 ? 's' : ''} ago`;
+    }
+
+    const differenceInHours = Math.floor(differenceInMinutes / 60);
+    if (differenceInHours < 24) {
+      return `${differenceInHours} hour${differenceInHours > 1 ? 's' : ''} ago`;
+    }
+
+    const differenceInDays = Math.floor(differenceInHours / 24);
+    return `${differenceInDays} day${differenceInDays > 1 ? 's' : ''} ago`;
+  };
+
+  return (
+    <View className="flex-1 flex-grow items-center pb-4">
+      <FlatList
+        data={filteredPosts}
+        keyExtractor={(item) => item._id}
+        numColumns={2}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            activeOpacity={0.7}
+            className="p-4"
+            onPress={() => router.push(`/(tabs)/home/${item._id}`)}
+          >
+            <Card
+              image={item.images[0]}
+              name={item.category}
+              price={'Rs.' + item.rentprice}
+              days={calculateTimeAgo(item.date)} // Pass calculated time
             />
-        </View>
-    );
+          </TouchableOpacity>
+        )}
+      />
+    </View>
+  );
 };
 
-export default BordingAccommodationPosts;
+export default BordingAccommodationPosts
+

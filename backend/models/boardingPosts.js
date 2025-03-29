@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const boardingPostsSchema = new Schema({
+    category:{
+        type: String,
+    },
     location: {
         type: String,
         required: true
@@ -28,6 +31,7 @@ const boardingPostsSchema = new Schema({
     },
     negotiable:{
         type:Boolean,
+        default:false
     },
     images:{
         type: Array,

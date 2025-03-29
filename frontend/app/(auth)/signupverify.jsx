@@ -1,10 +1,12 @@
-import { View, Text, Alert } from 'react-native';
+import { View, Text, Alert, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Link, router, useLocalSearchParams } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
 import ImageUploadBox from '../../components/ImageUploadBox';
-import axios from 'axios';
+import axios from 'react-native-axios';
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const SignUpVerify = () => {
   const params = useLocalSearchParams();
@@ -52,7 +54,7 @@ const SignUpVerify = () => {
       });
 
       const response = await axios.post(
-        'http://172.20.10.2:8080/verify/signupverify',
+        `${apiUrl}/verify/signupverify`,
         formData1,
         {
           headers: {
@@ -70,7 +72,7 @@ const SignUpVerify = () => {
           // Second request - User signup
           try {
             const signupResponse = await axios.post(
-              'http://172.20.10.2:8080/users/signup',
+              `${apiUrl}/users/signup`,
               {
                 email: formData.email,
                 regno: formData.regno,
@@ -105,8 +107,8 @@ const SignUpVerify = () => {
       }
 
     } catch (error) {
-      console.error('Error uploading image:', error.response ? error.response.data : error.message);
-      Alert.alert('Error', 'Error uploading image. Please try again later.');
+      //console.error('Error uploading image:', error.response ? error.response.data : error.message);
+      Alert.alert('Error', error.response?.data?.message || 'Failed to upload image. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -127,16 +129,18 @@ const SignUpVerify = () => {
             className="px-5 text-center"
           >
             Upload front side image of your University ID.
-            <Link href="/signup" className="text-[#0D7C66]">
-              <Text style={{ fontFamily: 'Montserrat_600SemiBold' }}>
+            <TouchableOpacity
+              onPress={() => router.back()}
+            >
+              <Text style={{ fontFamily: 'Montserrat_600SemiBold' }}  className="text-[#0D7C66]">
                 {' '}
                 Change Registration Number
               </Text>
-            </Link>
+            </TouchableOpacity>
           </Text>
 
           <View className="flex-row my-20 gap-8">
-            <ImageUploadBox imageUri={imageUri} onImageSelect={handleImageSelect} />
+            <ImageUploadBox imageUri={imageUri} onImageSelect={handleImageSelect} width={300} height={150} />
           </View>
 
           <CustomButton

@@ -5,9 +5,10 @@ import { Link, router } from 'expo-router'
 import FromField from '../../components/FromField'
 import { useState } from 'react'
 import CustomButton from '../../components/CustomButton'
-import axios from 'axios'
+import axios from 'react-native-axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -28,7 +29,7 @@ const Login = () => {
       setIsSubmitting(true);
 
       const response = await axios.post(
-        'http://172.20.10.2:8080/users/login',
+        `${apiUrl}/users/login`,
         {
           regno: form.regno,
           password: form.password
@@ -42,6 +43,8 @@ const Login = () => {
 
       if (response.data.success) {
         //Alert.alert('Success', response.data.message);
+        console.log('API URL:', apiUrl);
+        
 
         AsyncStorage.setItem('token', response.data.token);
         console.log('Token:', response.data.token);
@@ -74,7 +77,7 @@ const Login = () => {
         </Text>
         <View className='py-20 items-center'>
           <FromField
-            value={form.regno}
+            value={form.regno.toUpperCase()}
             handleChangeText={(e) =>
               setForm({
                 ...form,

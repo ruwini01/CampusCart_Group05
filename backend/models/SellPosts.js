@@ -26,11 +26,11 @@ const sellPostsSchema = new Schema({
         required: true
     },
     price: {
-        type: Number,
+        type: String,
         required: true
     },
     originalprice: {
-        type: Number,
+        type: String,
     },
     isnagotiable:{
         type:Boolean,
@@ -46,6 +46,9 @@ const sellPostsSchema = new Schema({
     hidephoneno:{
         type:Boolean,
         default:false
+    },
+    status:{
+        type:String,
     },
     date:{
         type:Date,

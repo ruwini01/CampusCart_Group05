@@ -43,6 +43,23 @@ npx expo start -c
 ```
 
 
+## Installation (Admin-Frontend)
+
+This project uses npm for dependency management. To install the required dependencies for Backend , run the following command in terminal:
+
+```bash
+npm install
+```
+
+## Run (Admin-Frontend)
+
+#### Select backend folder and open in Integrated Terminal. Run code below.
+```bash
+ npx expo start -c
+```
+
+
+
 ## Installation (Python-Back-End)
 
 This project have University ID card validation page, to extract Entrollment Number from ID Card we are using 'tesseract-ocr'.
