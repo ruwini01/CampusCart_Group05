@@ -40,6 +40,13 @@ const SignUp = () => {
     confirmpassword: '',
   });
 
+  const [touched, setTouched] = useState({
+    email: false,
+    regno: false,
+    password: false,
+    confirmpassword: false,
+  });
+
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
