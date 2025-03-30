@@ -89,6 +89,15 @@ useEffect(() => {
 
 }, [form, touched]);
 
+// Field change handlers with touch state
+const handleFieldChange = (field, value) => {
+  setForm(prev => ({ ...prev, [field]: value }));
+  if (!touched[field]) {
+    setTouched(prev => ({ ...prev, [field]: true }));
+  }
+};
+
+
   const submit = async () => {
     try {
       // Input validation
