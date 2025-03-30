@@ -115,10 +115,12 @@ const handleFieldChange = (field, value) => {
         return;
       }
       
-      if (form.password !== form.confirmpassword) {
-        Alert.alert('Error', 'Password and Confirm Password Do Not Match');
+       // Check if there are any validation errors
+       if (errors.email || errors.regno || errors.password || errors.confirmpassword) {
+        Alert.alert('Error', 'Please correct all validation errors');
         return;
       }
+
 
       setIsSubmitting(true);
 
