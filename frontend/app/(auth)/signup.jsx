@@ -79,7 +79,13 @@ useEffect(() => {
     }
   }
 
-
+  if (touched.confirmpassword && form.confirmpassword) {
+    if (form.confirmpassword !== form.password) {
+      setErrors(prev => ({ ...prev, confirmpassword: 'Passwords do not match' }));
+    } else {
+      setErrors(prev => ({ ...prev, confirmpassword: '' }));
+    }
+  }
 
 }, [form, touched]);
 
