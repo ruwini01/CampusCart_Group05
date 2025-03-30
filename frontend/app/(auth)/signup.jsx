@@ -47,8 +47,22 @@ const SignUp = () => {
     confirmpassword: false,
   });
 
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+// Real-time validation
+useEffect(() => { 
+   // Only validate if field has been touched
+   if (touched.email && form.email) {
+    if (!validateEmail(form.email)) {
+      setErrors(prev => ({ ...prev, email: 'Please enter a valid email address' }));
+    } else {
+      setErrors(prev => ({ ...prev, email: '' }));
+    }
+  }
+
+
+
+}, [form, touched]);
 
   const submit = async () => {
     try {
