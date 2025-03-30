@@ -9,6 +9,13 @@ import axios from 'react-native-axios';
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
+// Validation helper functions
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+
 const SignUp = () => {
   const [form, setForm] = useState({
     email: '',
