@@ -100,6 +100,15 @@ const handleFieldChange = (field, value) => {
 
   const submit = async () => {
     try {
+       // Mark all fields as touched to show validation errors
+       setTouched({
+        email: true,
+        regno: true,
+        password: true,
+        confirmpassword: true,
+      });
+
+
       // Input validation
       if (!form.email || !form.regno || !form.password || !form.confirmpassword) {
         Alert.alert('Error', 'Please Fill All the Fields');
