@@ -15,6 +15,11 @@ const validateEmail = (email) => {
   return emailRegex.test(email);
 };
 
+const validateRegNo = (regno) => {
+  // Format: "2020/ICT/01"
+  const regnoRegex = /^\d{4}\/[A-Z]{2,4}\/\d{2,3}$/;
+  return regnoRegex.test(regno);
+};
 
 const SignUp = () => {
   const [form, setForm] = useState({
