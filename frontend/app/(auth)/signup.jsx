@@ -181,53 +181,47 @@ const handleFieldChange = (field, value) => {
         <View className="py-8 items-center">
           <FromField
             value={form.regno.toUpperCase()}
-            handleChangeText={(e) =>
-              setForm({
-                ...form,
-                regno: e,
-              })
-            }
+            handleChangeText={(e) => handleFieldChange('regno', e)}
             otherStyles="mt-7"
             placeholder="Registration No (Ex: 2020/ICT/01)"
           />
+          <ValidationMessage message={errors.regno} />
+
 
           <FromField
             value={form.email}
             handleChangeText={(e) =>
-              setForm({
-                ...form,
-                email: e,
-              })
+              handleFieldChange('email', e)
             }
             otherStyles="mt-7"
             placeholder="Email"
           />
+          <ValidationMessage message={errors.email} />
           
           <FromField
             value={form.password}
             handleChangeText={(e) =>
-              setForm({
-                ...form,
-                password: e,
-              })
+              handleFieldChange('password', e)
             }
             otherStyles="mt-7"
             placeholder="Password"
             secureTextEntry={true} 
           />
+          <ValidationMessage message={errors.password} />
+
+
 
           <FromField
             value={form.confirmpassword}
             handleChangeText={(e) =>
-              setForm({
-                ...form,
-                confirmpassword: e,
-              })
+              handleFieldChange('confirmpassword', e)
             }
             otherStyles="mt-7"
             placeholder="Confirm Password"
             secureTextEntry={true} 
           />
+          <ValidationMessage message={errors.confirmpassword} />
+
 
           <Text
             className="text-sm mt-2 mb-10 pr-10 px-6"
