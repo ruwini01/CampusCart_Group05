@@ -20,7 +20,8 @@ const lostPostsRoute = require('./routes/lostPostsRoute');
 const allpostsRoute = require('./routes/allPostRoute');
 const foundPostsRoute = require('./routes/foundPostsRoute');
 const myPostsRoute= require('./routes/myPostsRoute');
-const adminRoute = require('./routes/adminAuth')
+const adminRoute = require('./routes/adminAuth');
+const notificationRoute = require('./routes/notifications');
 
 const bookmarkRoute = require('./routes/bookmarkRoute');
 
@@ -40,6 +41,7 @@ app.use('/allposts', allpostsRoute);
 app.use('/foundposts',foundPostsRoute);
 app.use('/posts',myPostsRoute);
 app.use('/admin',adminRoute);
+app.use('/notifications',notificationRoute);
 
 app.use('/bookmark',bookmarkRoute);
 
