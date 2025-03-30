@@ -158,6 +158,17 @@ const handleFieldChange = (field, value) => {
     }
   };
 
+   // Validation message component
+   const ValidationMessage = ({ message, type = 'error' }) => {
+    if (!message) return null;
+    
+    return (
+      <Text className={`text-xs px-2 mt-1 ${type === 'error' ? 'text-red-500' : 'text-green-500'}`}>
+        {message}
+      </Text>
+    );
+  };
+
   return (
     <SafeAreaView className="h-full">
       <View className="w-full h-full px-4">
