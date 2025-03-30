@@ -21,6 +21,11 @@ const validateRegNo = (regno) => {
   return regnoRegex.test(regno);
 };
 
+const validatePassword = (password) => {
+  return password.length >= 6 && /[A-Za-z]/.test(password) && /\d/.test(password);
+};
+
+
 const SignUp = () => {
   const [form, setForm] = useState({
     email: '',
