@@ -68,6 +68,18 @@ useEffect(() => {
     }
   }
 
+  if (touched.password && form.password) {
+    if (!validatePassword(form.password)) {
+      setErrors(prev => ({ 
+        ...prev, 
+        password: 'Password must be at least 6 characters with one letter and one number' 
+      }));
+    } else {
+      setErrors(prev => ({ ...prev, password: '' }));
+    }
+  }
+
+
 
 }, [form, touched]);
 
