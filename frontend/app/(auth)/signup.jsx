@@ -60,6 +60,13 @@ useEffect(() => {
     }
   }
 
+  if (touched.regno && form.regno) {
+    if (!validateRegNo(form.regno.toUpperCase())) {
+      setErrors(prev => ({ ...prev, regno: 'Registration number format should be like 2020/ICT/01' }));
+    } else {
+      setErrors(prev => ({ ...prev, regno: '' }));
+    }
+  }
 
 
 }, [form, touched]);
