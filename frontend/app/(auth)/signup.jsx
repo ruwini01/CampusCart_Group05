@@ -25,7 +25,6 @@ const validatePassword = (password) => {
   return password.length >= 6 && /[A-Za-z]/.test(password) && /\d/.test(password);
 };
 
-
 const SignUp = () => {
   const [form, setForm] = useState({
     email: '',
@@ -33,6 +32,14 @@ const SignUp = () => {
     password: '',
     confirmpassword: '',
   });
+
+  const [errors, setErrors] = useState({
+    email: '',
+    regno: '',
+    password: '',
+    confirmpassword: '',
+  });
+
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
