@@ -11,25 +11,31 @@ const JWT_SECRET = "#campusCartGroup05*";
 router.post("/login", async (req, res) => {
   try {
     let user = await Users.findOne({ regno: req.body.regno });
-    if (user) {
-      const password = req.body.password === user.password;
-      if (password) {
-        const token = jwt.sign({ regno: user.regno }, JWT_SECRET);
-        return res.status(200).json({
-          success: true,
-          token,
-          message: `User found with Registration Number ${req.body.regno}`,
-        });
-      } else {
-        return res
-          .status(401)
-          .json({ success: false, errors: "Incorrect Password" });
-      }
-    } else {
+    if (!user) {
       return res
         .status(404)
         .json({ success: false, errors: "User Doesn't Exist" });
     }
+
+    const passwordMatch = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ success: false, errors: "Incorrect Password" });
+    }
+
+    const token = jwt.sign({ regno: user.regno }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    return res.status(200).json({
+      success: true,
+      token,
+      message: `User found with Registration Number ${req.body.regno}`,
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, errors: "Server error" });
