@@ -304,6 +304,25 @@ router.post("/changepassword", async (req, res) => {
         .status(404)
         .json({ success: false, message: "User not found" });
     }
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect old password" });
+    }
+
+    if (
+      newPassword.length < 6 ||
+      !/\d/.test(newPassword) ||
+      !/[A-Za-z]/.test(newPassword)
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Password must be at least 6 characters long, contain one letter and one number.",
+      });
+    }
   } catch (error) {
     console.error("Change password error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
