@@ -6,7 +6,6 @@ import CustomButton from '../../components/CustomButton';
 import ImageUploadBox from '../../components/ImageUploadBox';
 import axios from 'react-native-axios';
 import FromField from '../../components/FromField';
-import { Alert } from 'react-native';
 
 
 
