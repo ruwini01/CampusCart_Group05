@@ -323,6 +323,14 @@ router.post("/changepassword", async (req, res) => {
           "Password must be at least 6 characters long, contain one letter and one number.",
       });
     }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await Users.findByIdAndUpdate(user._id, { password: hashedPassword });
+
+    res
+      .status(200)
+      .json({ success: true, message: "Password changed successfully" });
   } catch (error) {
     console.error("Change password error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
