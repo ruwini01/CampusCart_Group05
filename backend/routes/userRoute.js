@@ -288,6 +288,22 @@ router.post("/unbookmark", async (req, res) => {
 
 router.post("/changepassword", async (req, res) => {
   try {
+    const { token, oldPassword, newPassword } = req.body;
+
+    if (!token || !oldPassword || !newPassword) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await Users.findOne({ regno: decoded.regno });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
   } catch (error) {
     console.error("Change password error:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
