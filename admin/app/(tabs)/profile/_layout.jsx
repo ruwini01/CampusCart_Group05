@@ -10,8 +10,7 @@ export default function ProfileLayout() {
     >
       <Stack.Screen name="index" options={{ title: '' }} />
       <Stack.Screen name="settings" options={{ title: '' }} />
-
-  
+      <Stack.Screen name="editprofile" options={{ title: '' }} />
     </Stack>
   );
 }

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from 'axios'; // Add this import
+import axios from 'axios';
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -13,11 +13,11 @@ const GlobalProvider = ({children}) => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const token = await AsyncStorage.getItem('token');
+                const token = await AsyncStorage.getItem('adminToken');
                 
                 if (token) {
                     const response = await axios.post(
-                        'http://192.168.246.26:8080/admin/admindata',
+                        'http://172.20.10.2:8080/admin/admindata',
                         { token },
                         {
                             headers: {
