@@ -41,30 +41,31 @@ router.post('/signup', async (req, res) => {
 });
 
 // Admin login route
-router.post('/login', (req, res) => {
+// Admin login route
+router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
-    // Check if the admin exists in the database
-    const admin = await Admin.findOne({ username });
+    try {
+        // Check if the admin exists in the database
+        const admin = await Admin.findOne({ username });
 
-    if (!admin) {
-        return res.status(401).json({ success: false, message: 'Invalid username or password' });
+        if (!admin) {
+            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+        }
+
+        // Compare hashed password
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+        }
+
+        // Generate JWT token for authenticated admin
+        const token = jwt.sign({ role: 'admin', id: admin._id }, JWT_SECRET, { expiresIn: '2h' });
+
+        res.json({ success: true, token });
+    } catch (error) {
+        console.error('Login Error:', error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
     }
-
-    // Compare hashed password
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) {
-        return res.status(401).json({ success: false, message: 'Invalid username or password' });
-    }
-
-    // Generate admin token
-    const token = jwt.sign(
-        { role: 'admin' }, 
-        JWT_SECRET, 
-        { expiresIn: '2h' } // Token expires in 2 hours
-    );
-
-    res.json({ success: true, token });
 });
-
 module.exports = router;
