@@ -25,11 +25,11 @@ const ChangePassword = () => {
     }
 
     try {
-      const token = await AsyncStorage.getItem("token");
+      const token = await AsyncStorage.getItem("adminToken");
 
-      const response = await axios.post(
+      const response = await axios.put(
         `${apiUrl}/admin/changepassword`,
-        { currentPassword, newPassword },
+        { currentPassword, newPassword, confirmNewPassword },
         {
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         }
@@ -44,8 +44,7 @@ const ChangePassword = () => {
         Alert.alert("Error", response.data.message || "Password change failed.");
       }
     } catch (error) {
-      Alert.alert("Error", "An error occurred while changing the password.");
-      console.error(error);
+      Alert.alert("Error", "Current password is incorrect.");
     }
   };
 
