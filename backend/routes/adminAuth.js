@@ -6,9 +6,7 @@ const bcrypt = require('bcryptjs'); // Import bcrypt for password comparison
 const router = express.Router();
 const JWT_SECRET = '#campusCartGroup05*'; // Use the same secret as users
 
-// Hardcoded Admin Credentials
-const ADMIN_USERNAME = 'CCADMIN';
-const ADMIN_PASSWORD = 'admin123';
+
 
 // Signup API for Admin
 router.post('/signup', async (req, res) => {
