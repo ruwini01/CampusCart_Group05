@@ -5,6 +5,9 @@ import { Link, router, useLocalSearchParams } from 'expo-router';
 import CustomButton from '../../components/CustomButton';
 import ImageUploadBox from '../../components/ImageUploadBox';
 import axios from 'react-native-axios';
+import FromField from '../../components/FromField';
+
+
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
 
