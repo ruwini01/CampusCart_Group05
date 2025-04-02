@@ -40,7 +40,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Admin login route
+
 // Admin login route
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -66,6 +66,45 @@ router.post('/login', async (req, res) => {
     } catch (error) {
         console.error('Login Error:', error);
         res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
+// Change password route
+router.put('/changepassword', async (req, res) => {
+    const { currentPassword, newPassword, confirmNewPassword } = req.body;
+
+    // Validate input
+    if (!currentPassword || !newPassword || !confirmNewPassword) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+    if (newPassword !== confirmNewPassword) {
+        return res.status(400).json({ message: 'New passwords do not match' });
+    }
+
+    try {
+        // Retrieve admin from database
+        const admin = await Admin.findById(req.admin.id);
+        if (!admin) {
+            return res.status(404).json({ message: 'Admin not found' });
+        }
+
+        // Verify current password
+        const isMatch = await bcrypt.compare(currentPassword, admin.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Current password is incorrect' });
+        }
+
+        // Hash new password
+        const salt = await bcrypt.genSalt(10);
+        admin.password = await bcrypt.hash(newPassword, salt);
+
+        // Save updated admin
+        await admin.save();
+
+        res.status(200).json({ success: true, message: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Change Password Error:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 });
 module.exports = router;
