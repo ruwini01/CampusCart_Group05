@@ -10,31 +10,45 @@ const JWT_SECRET = "#campusCartGroup05*";
 
 router.post("/login", async (req, res) => {
   try {
-    let user = await Users.findOne({ regno: req.body.regno });
+    const { regno, password } = req.body;
+
+    //console.log("Login request body:", req.body);
+
+    if (!regno || !password) {
+      return res.status(400).json({
+        success: false,
+        errors: "Registration number and password are required",
+      });
+    }
+
+    const user = await Users.findOne({ regno });
     if (!user) {
       return res
         .status(404)
         .json({ success: false, errors: "User Doesn't Exist" });
     }
 
-    const passwordMatch = await bcrypt.compare(
-      req.body.password,
-      user.password
-    );
+    //console.log("User found:", user);
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
       return res
         .status(401)
         .json({ success: false, errors: "Incorrect Password" });
     }
 
-    const token = jwt.sign({ regno: user.regno }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { regno: user.regno, email: user.email, id: user._id },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     return res.status(200).json({
       success: true,
       token,
-      message: `User found with Registration Number ${req.body.regno}`,
+      message: `User found with Registration Number ${regno}`,
     });
   } catch (error) {
     console.error(error);
